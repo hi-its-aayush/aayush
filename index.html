@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aayush Acharya — Central hub for all platforms." />
+  <meta name="description" content="Aayush Acharya — IT Support Professional in Progress. Computer Science student building toward full-stack development and DevOps." />
   <title>Aayush Acharya</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,15 +13,22 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* ── Hub-specific additions only — all tokens come from style.css ── */
+    .hub-banner {
+      width: 100%;
+      height: clamp(80px, 12vw, 160px);
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.7;
+    }
 
     .hub-hero {
-      padding: 3.5rem 0 2.5rem;
+      padding: 3.5rem 0 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 1.1rem;
+      gap: 1rem;
     }
 
     .hub-avatar {
@@ -40,18 +48,49 @@
       margin: 0;
     }
 
-    .hub-intro {
+    .hub-title {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+
+    .hub-bio {
       color: var(--text-muted);
       font-size: 0.95rem;
-      max-width: 520px;
-      line-height: 1.7;
+      max-width: 580px;
+      line-height: 1.75;
+      margin: 0.5rem auto 0;
+    }
+
+    .hub-bio p + p {
+      margin-top: 0.75rem;
+    }
+
+    .hub-connect {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .hub-connect:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .hub-divider {
       width: 100%;
       height: 1px;
       background: var(--border);
-      margin: 0 0 2rem;
+      margin: 2.5rem 0 2rem;
     }
 
     .hub-section-label {
@@ -81,7 +120,7 @@
       color: var(--text-main);
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.35rem;
       transition: transform 0.2s, border-color 0.2s, background 0.2s;
     }
 
@@ -94,11 +133,11 @@
 
     .hub-card-icon {
       font-size: 1.35rem;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.3rem;
     }
 
     .hub-card-label {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       color: var(--accent);
@@ -114,33 +153,33 @@
       font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.65;
-      margin-top: 0.2rem;
+      margin-top: 0.3rem;
       flex: 1;
     }
 
-    .hub-card-link {
+    .hub-card-cta {
       margin-top: 1rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
       font-size: 0.78rem;
       color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 4px;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border);
+      gap: 5px;
       transition: color 0.2s;
     }
 
-    .hub-card:hover .hub-card-link { color: var(--accent); }
+    .hub-card:hover .hub-card-cta { color: var(--accent); }
 
-    .hub-banner {
-      width: 100%;
-      height: clamp(80px, 12vw, 160px);
-      object-fit: cover;
-      display: block;
-      border-bottom: 1px solid var(--border);
-      opacity: 0.7;
+    .hub-card-url {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      margin-top: 0.15rem;
+      font-family: 'Courier New', monospace;
     }
   </style>
+
 </head>
 
 <body>
@@ -149,95 +188,127 @@
 
   <div class="container-wide">
 
-    <div class="hub-hero">
-      <img class="hub-avatar" src="assets/images/aayush.png" alt="Aayush Acharya" />
-      <h1 class="hub-name">Aayush Acharya</h1>
-      <p class="hub-intro">
-        This is a central hub linking all of Aayush's platforms — professional, academic, and operational.
-        Use the cards below to find the right space for what you're looking for.
-      </p>
-    </div>
+```
+<!-- HERO -->
+<div class="hub-hero">
+  <img class="hub-avatar" src="assets/images/aayush.png" alt="Aayush Acharya" />
+  <h1 class="hub-name">Aayush Acharya</h1>
+  <p class="hub-title">IT Support Professional in Progress &nbsp;·&nbsp; Future Full-Stack Developer &amp; DevOps Engineer</p>
+  <div class="hub-bio">
+    <p>
+      I'm a Computer Science student focused on building a strong foundation in IT Support while working toward
+      a long-term career in full-stack development and DevOps.
+    </p>
+    <p>
+      I solve practical technical problems, build systems that work in real-world environments, and continuously
+      develop my skills across software, infrastructure, and troubleshooting.
+    </p>
+    <p>
+      Currently seeking IT Support opportunities where I can contribute, learn fast, and grow into more advanced engineering roles.
+    </p>
+  </div>
+  <a class="hub-connect" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
+    Hiring for IT Support? Start with my portfolio →
+  </a>
+</div>
 
-    <div class="hub-divider" aria-hidden="true"></div>
+<div class="hub-divider" aria-hidden="true"></div>
 
-    <p class="hub-section-label">Destinations</p>
+<!-- PLATFORMS -->
+<p class="hub-section-label">My Platforms</p>
 
-    <nav class="hub-grid" aria-label="Hub destinations">
+<nav class="hub-grid" aria-label="Hub destinations">
 
-      <a class="hub-card" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🧑‍💻</span>
-        <span class="hub-card-label">Portfolio</span>
-        <span class="hub-card-title">Professional Profile</span>
-        <p class="hub-card-desc">
-          The public-facing professional portfolio. Start here if you want to learn about Aayush's
-          background, skills, work experience, and contact details.
-        </p>
-        <span class="hub-card-link">aayushacharya.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">🌐</span>
+    <span class="hub-card-label">Main Portfolio</span>
+    <span class="hub-card-title">Professional Profile</span>
+    <p class="hub-card-desc">
+      My central portfolio — resume, certifications, technical skills, and an overview of
+      everything I'm building. Start here if you want a quick understanding of who I am
+      and what I bring to a role.
+    </p>
+    <span class="hub-card-url">aayushacharya.com.au</span>
+    <span class="hub-card-cta">Start here →</span>
+  </a>
 
-      <a class="hub-card" href="https://projects.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🛠️</span>
-        <span class="hub-card-label">IT Projects</span>
-        <span class="hub-card-title">Project Hub</span>
-        <p class="hub-card-desc">
-          A showcase of hands-on IT projects — home lab builds, network setups, Active Directory, Azure,
-          and more. Go here to see the technical work in practice.
-        </p>
-        <span class="hub-card-link">projects.aayush.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://projects.aayush.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">💻</span>
+    <span class="hub-card-label">Projects</span>
+    <span class="hub-card-title">Technical Projects</span>
+    <p class="hub-card-desc">
+      A collection of hands-on technical projects — web apps, learning tools, and system-based builds.
+      These projects reflect how I think, build, and solve problems using technology.
+      Built to show capability, not just theory.
+    </p>
+    <span class="hub-card-url">projects.aayush.com.au</span>
+    <span class="hub-card-cta">See the work →</span>
+  </a>
 
-      <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">📚</span>
-        <span class="hub-card-label">Knowledge Base</span>
-        <span class="hub-card-title">KB &amp; Notes</span>
-        <p class="hub-card-desc">
-          A personal library of technical documentation, runbooks, and study notes. Useful for
-          referencing configurations, procedures, and learning resources.
-        </p>
-        <span class="hub-card-link">kb.aayush.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">🛠</span>
+    <span class="hub-card-label">Knowledge Base</span>
+    <span class="hub-card-title">IT Knowledge Base</span>
+    <p class="hub-card-desc">
+      A structured troubleshooting hub covering real-world IT issues, step-by-step fixes, and
+      support scenarios. This is where I document how I approach problems — clearly and
+      systematically. Designed for IT Support environments.
+    </p>
+    <span class="hub-card-url">kb.aayush.com.au</span>
+    <span class="hub-card-cta">Browse the KB →</span>
+  </a>
 
-      <a class="hub-card" href="https://uni.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🎓</span>
-        <span class="hub-card-label">Academic</span>
-        <span class="hub-card-title">Academic Portal</span>
-        <p class="hub-card-desc">
-          University coursework, interactive study tools, and academic resources for the BCA
-          program at Manipal University Jaipur. Built for study and revision.
-        </p>
-        <span class="hub-card-link">uni.aayush.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://uni.aayush.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">🎓</span>
+    <span class="hub-card-label">Academic</span>
+    <span class="hub-card-title">University Work</span>
+    <p class="hub-card-desc">
+      My Bachelor of Computer Applications journey — coursework, structured notes, and ongoing
+      learning from Manipal University Jaipur. Shows consistency, discipline, and technical
+      foundation built from first principles.
+    </p>
+    <span class="hub-card-url">uni.aayush.com.au</span>
+    <span class="hub-card-cta">View coursework →</span>
+  </a>
 
-      <a class="hub-card" href="https://job-prep.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🎯</span>
-        <span class="hub-card-label">Career</span>
-        <span class="hub-card-title">Career Preparation</span>
-        <p class="hub-card-desc">
-          Resume templates, cover letter tools, interview prep, and job application resources.
-          Built to streamline and track the job-hunting process end to end.
-        </p>
-        <span class="hub-card-link">job-prep.aayush.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://job-prep.aayush.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">🎯</span>
+    <span class="hub-card-label">Career</span>
+    <span class="hub-card-title">Job Preparation</span>
+    <p class="hub-card-desc">
+      A focused space for interview prep, IT scenarios, and technical revision. Demonstrates
+      how I prepare to perform in real roles — not just what I know, but how I apply it
+      under pressure.
+    </p>
+    <span class="hub-card-url">job-prep.aayush.com.au</span>
+    <span class="hub-card-cta">See prep materials →</span>
+  </a>
 
-      <a class="hub-card" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🏢</span>
-        <span class="hub-card-label">Operations</span>
-        <span class="hub-card-title">PwC Operations</span>
-        <p class="hub-card-desc">
-          Internal operational tools and dashboards used in a PwC context.
-          Not intended for general public use — access is role-specific.
-        </p>
-        <span class="hub-card-link">pwcstock.aayush.com.au &rarr;</span>
-      </a>
+  <a class="hub-card" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
+    <span class="hub-card-icon">⚙️</span>
+    <span class="hub-card-label">Project</span>
+    <span class="hub-card-title">PwC Stock Project</span>
+    <p class="hub-card-desc">
+      A practical system built around stock and inventory workflows, inspired by real
+      operational experience at PwC. Combines business process understanding with technical
+      execution — a bridge between operations and development.
+    </p>
+    <span class="hub-card-url">pwcstock.aayush.com.au</span>
+    <span class="hub-card-cta">View project →</span>
+  </a>
 
-    </nav>
+</nav>
 
-    <footer>
-      <p>
-        &copy; 2026 Aayush Acharya &mdash;
-        <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener">GitHub</a>
-      </p>
-    </footer>
+<!-- FOOTER -->
+<footer>
+  <p>
+    &copy; 2026 Aayush Acharya &mdash;
+    <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener">GitHub</a>
+    &nbsp;&middot;&nbsp;
+    <a href="https://aayushacharya.com.au" target="_blank" rel="noopener">Portfolio</a>
+  </p>
+</footer>
+```
 
   </div>
 
