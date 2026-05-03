@@ -3,424 +3,240 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aayush Acharya — Central hub for portfolio, projects, knowledge base, academic portal, career prep, and operations." />
+  <meta name="description" content="Aayush Acharya — Central hub for all platforms." />
   <title>Aayush Acharya</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* ─── DESIGN TOKENS ────────────────────────────────── */
-    :root {
-      --bg:          #0b0e14;
-      --surface:     #111520;
-      --surface-2:   #161b27;
-      --border:      #1e2638;
-      --border-h:    #2e3f5c;
-      --accent:      #4f8ef7;
-      --accent-glow: rgba(79, 142, 247, 0.18);
-      --accent-dim:  rgba(79, 142, 247, 0.08);
-      --text-1:      #e8edf5;
-      --text-2:      #8a96aa;
-      --text-3:      #505a6e;
-      --radius:      12px;
-      --radius-lg:   18px;
-      --transition:  0.22s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+    /* ── Hub-specific additions only — all tokens come from style.css ── */
 
-    /* ─── RESET ────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text-1);
-      font-family: 'Syne', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ─── NOISE GRAIN OVERLAY ──────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.35;
-    }
-
-    /* ─── AMBIENT GLOW ─────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -20vh;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 70vw;
-      height: 60vh;
-      background: radial-gradient(ellipse, rgba(79, 142, 247, 0.07) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ─── BANNER ───────────────────────────────────────── */
-    .banner-wrap {
-      position: relative;
-      width: 100%;
-      height: clamp(90px, 14vw, 180px);
-      overflow: hidden;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .banner-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      opacity: 0.75;
-    }
-
-    .banner-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, var(--bg) 100%);
-    }
-
-    /* ─── LAYOUT ───────────────────────────────────────── */
-    .page {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-    }
-
-    /* ─── HERO ─────────────────────────────────────────── */
-    .hero {
+    .hub-hero {
+      padding: 3.5rem 0 2.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 40px 0 48px;
-      gap: 20px;
-      animation: fadeUp 0.6s ease both;
+      gap: 1.1rem;
     }
 
-    .avatar-ring {
-      position: relative;
-      width: 110px;
-      height: 110px;
-      flex-shrink: 0;
-    }
-
-    .avatar-ring::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
+    .hub-avatar {
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent) 0%, transparent 60%);
-      animation: spin 8s linear infinite;
-    }
-
-    .avatar-ring img {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
+      border: 1px solid var(--border);
       object-fit: cover;
-      border: 3px solid var(--bg);
       display: block;
     }
 
-    .hero-text h1 {
-      font-size: clamp(1.9rem, 5vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      background: linear-gradient(135deg, var(--text-1) 0%, var(--accent) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .hub-name {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+      margin: 0;
     }
 
-    .hero-text .tagline {
-      margin-top: 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--text-2);
-      letter-spacing: 0.08em;
-    }
-
-    .hero-intro {
-      font-size: 0.88rem;
-      color: var(--text-2);
-      max-width: 460px;
+    .hub-intro {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 520px;
       line-height: 1.7;
-      text-align: center;
     }
 
-    /* ─── DIVIDER ──────────────────────────────────────── */
-    .divider {
+    .hub-divider {
       width: 100%;
       height: 1px;
-      background: linear-gradient(to right, transparent, var(--border) 30%, var(--border) 70%, transparent);
-      margin-bottom: 40px;
+      background: var(--border);
+      margin: 0 0 2rem;
     }
 
-    /* ─── GRID ─────────────────────────────────────────── */
-    .grid-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--text-3);
-      letter-spacing: 0.14em;
+    .hub-section-label {
+      font-size: 0.78rem;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
     }
 
     .hub-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
-    @media (max-width: 540px) {
-      .hub-grid { grid-template-columns: 1fr; }
+    @media (min-width: 768px) {
+      .hub-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* ─── CARDS ────────────────────────────────────────── */
     .hub-card {
-      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      text-decoration: none;
+      color: var(--text-main);
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 22px 22px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      text-decoration: none;
-      color: inherit;
-      overflow: hidden;
-      transition: border-color var(--transition), background var(--transition), transform var(--transition), box-shadow var(--transition);
-      animation: fadeUp 0.5s ease both;
-    }
-
-    .hub-card:nth-child(1) { animation-delay: 0.08s; }
-    .hub-card:nth-child(2) { animation-delay: 0.14s; }
-    .hub-card:nth-child(3) { animation-delay: 0.20s; }
-    .hub-card:nth-child(4) { animation-delay: 0.26s; }
-    .hub-card:nth-child(5) { animation-delay: 0.32s; }
-    .hub-card:nth-child(6) { animation-delay: 0.38s; }
-
-    /* Hover glow layer */
-    .hub-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--accent-dim);
-      opacity: 0;
-      transition: opacity var(--transition);
-      border-radius: inherit;
+      gap: 0.4rem;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
     }
 
     .hub-card:hover {
-      border-color: var(--border-h);
-      background: var(--surface-2);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(79,142,247,0.12);
+      transform: translateY(-4px);
+      border-color: var(--text-muted);
+      background: var(--bg-hover);
+      color: var(--text-main);
     }
 
-    .hub-card:hover::before { opacity: 1; }
-
-    /* Card icon */
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(79,142,247,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      flex-shrink: 0;
-      transition: background var(--transition), transform var(--transition);
+    .hub-card-icon {
+      font-size: 1.35rem;
+      margin-bottom: 0.2rem;
     }
 
-    .hub-card:hover .card-icon {
-      background: var(--accent-glow);
-      transform: scale(1.08);
-    }
-
-    .card-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--accent);
-      letter-spacing: 0.12em;
+    .hub-card-label {
+      font-size: 0.72rem;
       text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--accent);
+      font-weight: 600;
     }
 
-    .card-title {
+    .hub-card-title {
       font-size: 1.05rem;
       font-weight: 700;
-      color: var(--text-1);
-      line-height: 1.25;
     }
 
-    .card-desc {
-      font-size: 0.8rem;
-      color: var(--text-2);
-      line-height: 1.6;
+    .hub-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-top: 0.2rem;
+      flex: 1;
     }
 
-    .card-arrow {
-      margin-top: auto;
-      padding-top: 8px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--text-3);
+    .hub-card-link {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 5px;
-      transition: color var(--transition), gap var(--transition);
-    }
-
-    .hub-card:hover .card-arrow {
-      color: var(--accent);
-      gap: 9px;
-    }
-
-    /* ─── FOOTER ───────────────────────────────────────── */
-    .footer {
-      margin-top: 60px;
-      padding-top: 28px;
+      gap: 4px;
+      padding-top: 0.75rem;
       border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--text-3);
+      transition: color 0.2s;
     }
 
-    .footer a {
-      color: var(--text-3);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-    .footer a:hover { color: var(--accent); }
+    .hub-card:hover .hub-card-link { color: var(--accent); }
 
-    /* ─── ANIMATIONS ───────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* ─── FOCUS / ACCESSIBILITY ────────────────────────── */
-    .hub-card:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 3px;
+    .hub-banner {
+      width: 100%;
+      height: clamp(80px, 12vw, 160px);
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.7;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- BANNER -->
-  <div class="banner-wrap">
-    <img src="assets/images/banner.svg" alt="" aria-hidden="true" />
-  </div>
+  <img class="hub-banner" src="assets/images/banner.svg" alt="" aria-hidden="true" />
 
-  <div class="page">
+  <div class="container-wide">
 
-    <!-- HERO -->
-    <section class="hero" aria-label="Introduction">
-      <div class="avatar-ring">
-        <img src="assets/images/aayush.png" alt="Aayush Acharya" />
-      </div>
-      <div class="hero-text">
-        <h1>Aayush Acharya</h1>
-        <p class="tagline">IT PROFESSIONAL · SYDNEY, AU</p>
-      </div>
-      <p class="hero-intro">This is a central hub linking all of Aayush's professional, academic, and operational platforms. Use the cards below to navigate to the right space.</p>
-    </section>
+    <div class="hub-hero">
+      <img class="hub-avatar" src="assets/images/aayush.png" alt="Aayush Acharya" />
+      <h1 class="hub-name">Aayush Acharya</h1>
+      <p class="hub-intro">
+        This is a central hub linking all of Aayush's platforms — professional, academic, and operational.
+        Use the cards below to find the right space for what you're looking for.
+      </p>
+    </div>
 
-    <div class="divider" aria-hidden="true"></div>
+    <div class="hub-divider" aria-hidden="true"></div>
 
-    <!-- GRID -->
-    <p class="grid-label">— Choose a destination</p>
+    <p class="hub-section-label">Destinations</p>
 
     <nav class="hub-grid" aria-label="Hub destinations">
 
       <a class="hub-card" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">🧑‍💻</div>
-        <span class="card-label">Portfolio</span>
-        <span class="card-title">Professional Profile</span>
-        <p class="card-desc">The public-facing professional portfolio. Start here if you want to learn about Aayush's background, skills, work experience, and contact details.</p>
-        <span class="card-arrow">aayushacharya.com.au →</span>
+        <span class="hub-card-icon">🧑‍💻</span>
+        <span class="hub-card-label">Portfolio</span>
+        <span class="hub-card-title">Professional Profile</span>
+        <p class="hub-card-desc">
+          The public-facing professional portfolio. Start here if you want to learn about Aayush's
+          background, skills, work experience, and contact details.
+        </p>
+        <span class="hub-card-link">aayushacharya.com.au &rarr;</span>
       </a>
 
       <a class="hub-card" href="https://projects.aayush.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">🛠️</div>
-        <span class="card-label">IT Projects</span>
-        <span class="card-title">Project Hub</span>
-        <p class="card-desc">A showcase of hands-on IT projects — home lab builds, network setups, Active Directory, Azure, and more. Go here to see the work in practice.</p>
-        <span class="card-arrow">projects.aayush.com.au →</span>
+        <span class="hub-card-icon">🛠️</span>
+        <span class="hub-card-label">IT Projects</span>
+        <span class="hub-card-title">Project Hub</span>
+        <p class="hub-card-desc">
+          A showcase of hands-on IT projects — home lab builds, network setups, Active Directory, Azure,
+          and more. Go here to see the technical work in practice.
+        </p>
+        <span class="hub-card-link">projects.aayush.com.au &rarr;</span>
       </a>
 
       <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">📚</div>
-        <span class="card-label">Knowledge Base</span>
-        <span class="card-title">KB &amp; Notes</span>
-        <p class="card-desc">A personal library of technical documentation, runbooks, and study notes. Useful for referencing configurations, procedures, and learning resources.</p>
-        <span class="card-arrow">kb.aayush.com.au →</span>
+        <span class="hub-card-icon">📚</span>
+        <span class="hub-card-label">Knowledge Base</span>
+        <span class="hub-card-title">KB &amp; Notes</span>
+        <p class="hub-card-desc">
+          A personal library of technical documentation, runbooks, and study notes. Useful for
+          referencing configurations, procedures, and learning resources.
+        </p>
+        <span class="hub-card-link">kb.aayush.com.au &rarr;</span>
       </a>
 
       <a class="hub-card" href="https://uni.aayush.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">🎓</div>
-        <span class="card-label">Academic</span>
-        <span class="card-title">Academic Portal</span>
-        <p class="card-desc">University coursework, interactive study tools, and academic resources for the BCA program at Manipal University Jaipur. For study and revision.</p>
-        <span class="card-arrow">uni.aayush.com.au →</span>
+        <span class="hub-card-icon">🎓</span>
+        <span class="hub-card-label">Academic</span>
+        <span class="hub-card-title">Academic Portal</span>
+        <p class="hub-card-desc">
+          University coursework, interactive study tools, and academic resources for the BCA
+          program at Manipal University Jaipur. Built for study and revision.
+        </p>
+        <span class="hub-card-link">uni.aayush.com.au &rarr;</span>
       </a>
 
       <a class="hub-card" href="https://job-prep.aayush.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">🎯</div>
-        <span class="card-label">Career</span>
-        <span class="card-title">Career Preparation</span>
-        <p class="card-desc">Resume templates, cover letter tools, interview prep, and job application resources. Built to streamline and track the job-hunting process.</p>
-        <span class="card-arrow">job-prep.aayush.com.au →</span>
+        <span class="hub-card-icon">🎯</span>
+        <span class="hub-card-label">Career</span>
+        <span class="hub-card-title">Career Preparation</span>
+        <p class="hub-card-desc">
+          Resume templates, cover letter tools, interview prep, and job application resources.
+          Built to streamline and track the job-hunting process end to end.
+        </p>
+        <span class="hub-card-link">job-prep.aayush.com.au &rarr;</span>
       </a>
 
       <a class="hub-card" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
-        <div class="card-icon">🏢</div>
-        <span class="card-label">Operations</span>
-        <span class="card-title">PwC Operations</span>
-        <p class="card-desc">Internal operational tools and dashboards used in a PwC context. Not intended for general public use — access is role-specific.</p>
-        <span class="card-arrow">pwcstock.aayush.com.au →</span>
+        <span class="hub-card-icon">🏢</span>
+        <span class="hub-card-label">Operations</span>
+        <span class="hub-card-title">PwC Operations</span>
+        <p class="hub-card-desc">
+          Internal operational tools and dashboards used in a PwC context.
+          Not intended for general public use — access is role-specific.
+        </p>
+        <span class="hub-card-link">pwcstock.aayush.com.au &rarr;</span>
       </a>
 
     </nav>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <span>© 2025 Aayush Acharya</span>
-      <span>
+    <footer>
+      <p>
+        &copy; 2026 Aayush Acharya &mdash;
         <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener">GitHub</a>
-        &nbsp;·&nbsp;
-        <a href="https://aayushacharya.com.au" target="_blank" rel="noopener">Portfolio</a>
-      </span>
+      </p>
     </footer>
 
   </div>
