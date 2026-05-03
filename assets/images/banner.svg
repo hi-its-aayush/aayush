@@ -1,0 +1,80 @@
+<svg width="100%" viewBox="0 0 1400 240" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>Aayush Acharya banner</title>
+  <defs>
+    <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="14" cy="14" r="1" fill="#2a2a2a"/>
+    </pattern>
+    <clipPath id="rightclip">
+      <rect x="480" y="0" width="920" height="240"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="240" fill="#0a0a0a"/>
+
+  <!-- Dot grid — right portion only -->
+  <rect x="480" y="0" width="920" height="240" fill="url(#dotgrid)"/>
+
+  <!-- Bottom border -->
+  <line x1="0" y1="239" x2="1400" y2="239" stroke="#333333" stroke-width="1"/>
+
+  <!-- Left blue accent strip -->
+  <rect x="0" y="0" width="3" height="240" fill="#3b82f6"/>
+
+  <!-- Right decorative — clipped to right zone -->
+  <g clip-path="url(#rightclip)">
+    <!-- Concentric rings -->
+    <circle cx="1150" cy="120" r="200" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+    <circle cx="1150" cy="120" r="150" fill="none" stroke="#1d1d1d" stroke-width="1"/>
+    <circle cx="1150" cy="120" r="100" fill="none" stroke="#202020" stroke-width="1"/>
+    <circle cx="1150" cy="120" r="55"  fill="none" stroke="#252525" stroke-width="1"/>
+
+    <!-- Crosshair lines -->
+    <line x1="1150" y1="0"   x2="1150" y2="240" stroke="#1a2a3e" stroke-width="0.8"/>
+    <line x1="950"  y1="120" x2="1400" y2="120" stroke="#1a2a3e" stroke-width="0.8"/>
+    <line x1="1079" y1="49"  x2="1221" y2="191" stroke="#1a2a3e" stroke-width="0.5"/>
+    <line x1="1079" y1="191" x2="1221" y2="49"  stroke="#1a2a3e" stroke-width="0.5"/>
+
+    <!-- Center node -->
+    <circle cx="1150" cy="120" r="5"  fill="#3b82f6"/>
+    <circle cx="1150" cy="120" r="10" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
+
+    <!-- Cardinal nodes -->
+    <circle cx="1150" cy="20"  r="2.5" fill="#3b82f6" opacity="0.5"/>
+    <circle cx="1150" cy="220" r="2.5" fill="#3b82f6" opacity="0.5"/>
+    <circle cx="1050" cy="120" r="2.5" fill="#3b82f6" opacity="0.5"/>
+    <circle cx="1250" cy="120" r="2.5" fill="#3b82f6" opacity="0.5"/>
+
+    <!-- Diagonal nodes -->
+    <circle cx="1095" cy="65"  r="2" fill="#3b82f6" opacity="0.35"/>
+    <circle cx="1205" cy="65"  r="2" fill="#3b82f6" opacity="0.35"/>
+    <circle cx="1095" cy="175" r="2" fill="#3b82f6" opacity="0.35"/>
+    <circle cx="1205" cy="175" r="2" fill="#3b82f6" opacity="0.35"/>
+
+    <!-- Connection lines from center -->
+    <line x1="1150" y1="20"  x2="1250" y2="120" stroke="#3b82f6" stroke-width="0.5" opacity="0.25"/>
+    <line x1="1150" y1="220" x2="1050" y2="120" stroke="#3b82f6" stroke-width="0.5" opacity="0.25"/>
+
+    <!-- Scattered left-field nodes -->
+    <circle cx="870" cy="48"  r="1.5" fill="#3b82f6" opacity="0.3"/>
+    <circle cx="920" cy="190" r="1.5" fill="#3b82f6" opacity="0.3"/>
+    <circle cx="820" cy="130" r="1.5" fill="#3b82f6" opacity="0.3"/>
+    <circle cx="960" cy="90"  r="1.5" fill="#3b82f6" opacity="0.3"/>
+    <line x1="870" y1="48"  x2="920" y2="190" stroke="#3b82f6" stroke-width="0.4" opacity="0.2"/>
+    <line x1="820" y1="130" x2="960" y2="90"  stroke="#3b82f6" stroke-width="0.4" opacity="0.2"/>
+    <line x1="870" y1="48"  x2="820" y2="130" stroke="#3b82f6" stroke-width="0.4" opacity="0.2"/>
+  </g>
+
+  <!-- Name -->
+  <text x="60" y="119"
+        font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="54" font-weight="700" fill="#ededed" letter-spacing="-1.5">Aayush Acharya</text>
+
+  <!-- Blue underline accent -->
+  <rect x="60" y="131" width="60" height="2" fill="#3b82f6"/>
+
+  <!-- Subtitle -->
+  <text x="60" y="168"
+        font-family="Inter, -apple-system, BlinkMacSystemFont, sans-serif"
+        font-size="12" font-weight="400" fill="#a1a1aa" letter-spacing="3">IT PROFESSIONAL · SYDNEY, AU</text>
+</svg>
