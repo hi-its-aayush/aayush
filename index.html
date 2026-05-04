@@ -25,43 +25,6 @@
       gap: 1rem;
     }
 
-    /* Avatar with glow ring */
-    .hub-avatar-wrap {
-      position: relative;
-      width: 100px;
-      height: 100px;
-    }
-
-    .hub-avatar-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: conic-gradient(#3b82f6, transparent 60%, #3b82f6);
-      animation: spin 6s linear infinite;
-      z-index: 0;
-    }
-
-    .hub-avatar-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      box-shadow: 0 0 24px rgba(59, 130, 246, 0.35);
-      z-index: 0;
-    }
-
-    .hub-avatar {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      border: 3px solid var(--bg-main);
-      object-fit: cover;
-      display: block;
-      z-index: 1;
-    }
-
     /* Glowing name */
     .hub-name {
       font-size: clamp(1.8rem, 5vw, 2.4rem);
@@ -277,11 +240,6 @@
       50%       { opacity: 0; }
     }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -299,10 +257,6 @@
 
     <!-- HERO -->
     <div class="hub-hero">
-
-      <div class="hub-avatar-wrap">
-        <img class="hub-avatar" src="assets/images/aayush.png" alt="Aayush Acharya" />
-      </div>
 
       <h1 class="hub-name">Aayush Acharya</h1>
 
@@ -322,21 +276,23 @@
             <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
             <span class="t-cmd"> $ cat about.txt</span>
           </span>
-          <span class="t-out">Computer Science student building a strong foundation in IT Support.</span>
-          <span class="t-out">I solve real technical problems, document everything, and build</span>
-          <span class="t-out">systems that work in actual environments — not just on paper.</span>
+          <span class="t-out">I built my work ethic in environments where things go wrong fast and</span>
+          <span class="t-out">you fix them faster. That mindset is what brought me into IT.</span>
+          <span class="t-blank"></span>
+          <span class="t-out">I'm an IT Support Officer based in Sydney — I troubleshoot, document,</span>
+          <span class="t-out">and build systems that hold up in real-world conditions.</span>
           <span class="t-blank"></span>
           <span>
             <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
             <span class="t-cmd"> $ cat goals.txt</span>
           </span>
           <span class="t-out">IT Support <span class="t-arrow">→</span> Infrastructure <span class="t-arrow">→</span> DevOps <span class="t-arrow">→</span> Full-Stack</span>
-          <span class="t-out">Currently seeking IT Support roles in Sydney, AU.</span>
+          <span class="t-out">Currently open to IT Support roles in Sydney, AU.</span>
         </div>
       </div>
 
       <a class="hub-connect" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
-        Hiring for IT Support? Start with my portfolio →
+        See how I solve real IT problems →
       </a>
 
     </div>
