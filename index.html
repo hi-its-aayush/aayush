@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aayush Acharya — IT Support Officer. CS Student building toward DevOps and Full-Stack Engineering." />
+  <meta name="description" content="Aayush Acharya — IT Support Officer based in Sydney." />
   <title>Aayush Acharya</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,39 +12,52 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    /* ── Monospace utility ── */
-    .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
-
-    /* ── Hero ── */
+    /* ── HERO ── */
     .hub-hero {
-      padding: 3rem 0 1.5rem;
+      padding: 4rem 0 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       gap: 1rem;
+      position: relative;
     }
 
-    /* Glowing name */
+    /* Ambient glow behind name */
+    .hub-hero::before {
+      content: '';
+      position: absolute;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 200px;
+      background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .hub-name {
-      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      position: relative;
+      z-index: 1;
+      font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: -1px;
       color: var(--text-main);
       margin: 0;
-      text-shadow: 0 0 40px rgba(59, 130, 246, 0.25);
     }
 
-    /* Typed title */
     .hub-title {
-      font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: clamp(0.7rem, 2.2vw, 0.82rem);
+      position: relative;
+      z-index: 1;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
       color: var(--accent);
       margin: 0;
       line-height: 1.5;
     }
 
-    .hub-title::before { content: '> '; opacity: 0.5; }
+    .hub-title::before { content: '> '; opacity: 0.45; }
 
     .hub-cursor {
       display: inline-block;
@@ -56,33 +69,37 @@
       animation: blink 1s step-end infinite;
     }
 
-    /* Terminal bio block */
+    /* ── TERMINAL — full container width ── */
     .hub-terminal {
+      position: relative;
+      z-index: 1;
       background: #0d1117;
       border: 1px solid #30363d;
       border-radius: 10px;
       width: 100%;
-      max-width: 600px;
       overflow: hidden;
       text-align: left;
       margin-top: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
     }
 
     .hub-terminal-bar {
       background: #161b22;
-      padding: 8px 14px;
+      padding: 9px 16px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       border-bottom: 1px solid #30363d;
     }
 
-    .hub-terminal-bar span {
-      width: 10px; height: 10px; border-radius: 50%;
+    .hub-terminal-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
     }
-    .hub-terminal-bar span:nth-child(1) { background: #ff5f56; }
-    .hub-terminal-bar span:nth-child(2) { background: #ffbd2e; }
-    .hub-terminal-bar span:nth-child(3) { background: #27c93f; }
+    .hub-terminal-dot:nth-child(1) { background: #ff5f56; }
+    .hub-terminal-dot:nth-child(2) { background: #ffbd2e; }
+    .hub-terminal-dot:nth-child(3) { background: #27c93f; }
 
     .hub-terminal-label {
       flex: 1;
@@ -93,30 +110,41 @@
     }
 
     .hub-terminal-body {
-      padding: 16px 18px;
+      padding: 20px 24px;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: clamp(0.72rem, 2vw, 0.8rem);
+      font-size: clamp(0.72rem, 1.8vw, 0.82rem);
       line-height: 1.9;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2rem;
     }
+
+    @media (max-width: 640px) {
+      .hub-terminal-body { grid-template-columns: 1fr; }
+    }
+
+    .t-col { display: flex; flex-direction: column; }
 
     .t-prompt { color: #27c93f; }
     .t-path   { color: #3b82f6; }
     .t-cmd    { color: #d4d4d4; }
     .t-out    { color: #8b949e; padding-left: 1rem; display: block; }
-    .t-arrow  { color: #3b82f6; }
-    .t-blank  { display: block; height: 0.5rem; }
+    .t-blank  { display: block; height: 0.4rem; }
 
-    /* CTA button */
+    /* ── CTA ── */
     .hub-connect {
+      position: relative;
+      z-index: 1;
       display: inline-block;
-      margin-top: 0.25rem;
-      padding: 0.55rem 1.4rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      padding: 0.6rem 1.5rem;
       border: 1px solid var(--accent);
       border-radius: 6px;
-      font-size: 0.82rem;
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--accent);
-      background: rgba(59, 130, 246, 0.08);
+      background: rgba(59,130,246,0.08);
       text-decoration: none;
       transition: background 0.2s, color 0.2s, box-shadow 0.2s;
     }
@@ -124,17 +152,18 @@
     .hub-connect:hover {
       background: var(--accent);
       color: #fff;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 0 24px rgba(59,130,246,0.35);
     }
 
-    /* ── Section divider ── */
+    /* ── DIVIDER ── */
     .hub-divider {
       width: 100%;
       height: 1px;
-      background: var(--border);
+      background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent);
       margin: 2.5rem 0 2rem;
     }
 
+    /* ── SECTION LABEL ── */
     .hub-section-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
@@ -142,64 +171,104 @@
       margin-bottom: 1.25rem;
       letter-spacing: 1px;
     }
-
     .hub-section-label::before { content: '// '; color: #3b82f6; }
 
-    /* ── Grid ── */
+    /* ── GRID — 2 col, last card spans full width ── */
     .hub-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
     }
 
-    @media (min-width: 768px) {
-      .hub-grid { grid-template-columns: repeat(2, 1fr); }
+    .hub-card-wide {
+      grid-column: span 2;
     }
 
-    /* ── Cards ── */
+    @media (max-width: 640px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .hub-card-wide { grid-column: span 1; }
+    }
+
+    /* ── CARDS ── */
     .hub-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.75rem;
+      padding: 1.6rem;
       text-decoration: none;
       color: var(--text-main);
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.3rem;
       transition: transform 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
     }
 
-    /* Glow sweep on hover */
     .hub-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle at 50% 0%, rgba(59,130,246,0.07) 0%, transparent 70%);
       opacity: 0;
       transition: opacity 0.3s;
     }
 
     .hub-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       border-color: var(--accent);
       background: var(--bg-hover);
       color: var(--text-main);
-      box-shadow: 0 0 0 1px rgba(59,130,246,0.2), 0 8px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 0 0 1px rgba(59,130,246,0.18), 0 8px 28px rgba(0,0,0,0.45);
     }
 
     .hub-card:hover::before { opacity: 1; }
 
+    /* Wide card — side by side layout on desktop */
+    .hub-card-wide {
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hub-card-wide .hub-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .hub-card-wide .hub-card-badge {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .hub-card-wide { flex-direction: column; align-items: flex-start; }
+      .hub-card-wide .hub-card-badge { align-items: flex-start; }
+    }
+
+    .live-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: #27c93f;
+      background: rgba(39,201,63,0.1);
+      border: 1px solid rgba(39,201,63,0.3);
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+    }
+
     .hub-card-icon {
-      font-size: 1.35rem;
-      margin-bottom: 0.3rem;
+      font-size: 1.3rem;
+      margin-bottom: 0.2rem;
     }
 
     .hub-card-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: var(--accent);
@@ -207,47 +276,44 @@
     }
 
     .hub-card-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 700;
     }
 
     .hub-card-desc {
-      font-size: 0.84rem;
+      font-size: 0.83rem;
       color: var(--text-muted);
       line-height: 1.65;
-      margin-top: 0.3rem;
+      margin-top: 0.25rem;
       flex: 1;
     }
 
     .hub-card-cta {
-      margin-top: 1rem;
-      padding-top: 0.75rem;
+      margin-top: 0.9rem;
+      padding-top: 0.7rem;
       border-top: 1px solid var(--border);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #6e7681;
-      display: flex;
-      align-items: center;
-      gap: 5px;
       transition: color 0.2s;
     }
 
     .hub-card:hover .hub-card-cta { color: var(--accent); }
 
-    /* ── Animations ── */
+    /* ── ANIMATIONS ── */
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0; }
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     .hub-hero    { animation: fadeUp 0.5s ease both; }
-    .hub-divider { animation: fadeUp 0.5s 0.2s ease both; opacity: 0; animation-fill-mode: forwards; }
-    .hub-grid    { animation: fadeUp 0.5s 0.3s ease both; opacity: 0; animation-fill-mode: forwards; }
+    .hub-divider { animation: fadeUp 0.5s 0.15s ease both; opacity: 0; animation-fill-mode: forwards; }
+    .hub-grid    { animation: fadeUp 0.5s 0.25s ease both; opacity: 0; animation-fill-mode: forwards; }
   </style>
 </head>
 
@@ -261,33 +327,50 @@
       <h1 class="hub-name">Aayush Acharya</h1>
 
       <p class="hub-title">
-        IT Support Officer &nbsp;·&nbsp; Aspiring DevOps &amp; Full-Stack Engineer
+        IT Support Officer &nbsp;·&nbsp; Level 1/2 IT Support &nbsp;·&nbsp; Sydney, AU
         <span class="hub-cursor" aria-hidden="true"></span>
       </p>
 
-      <!-- Terminal bio -->
+      <!-- Terminal — two column layout -->
       <div class="hub-terminal" role="region" aria-label="About Aayush">
         <div class="hub-terminal-bar">
-          <span></span><span></span><span></span>
+          <span class="hub-terminal-dot"></span>
+          <span class="hub-terminal-dot"></span>
+          <span class="hub-terminal-dot"></span>
           <span class="hub-terminal-label">about.sh</span>
         </div>
         <div class="hub-terminal-body">
-          <span>
-            <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
-            <span class="t-cmd"> $ cat about.txt</span>
-          </span>
-          <span class="t-out">I built my work ethic in environments where things go wrong fast and</span>
-          <span class="t-out">you fix them faster. That mindset is what brought me into IT.</span>
-          <span class="t-blank"></span>
-          <span class="t-out">I'm an IT Support Officer based in Sydney — I troubleshoot, document,</span>
-          <span class="t-out">and build systems that hold up in real-world conditions.</span>
-          <span class="t-blank"></span>
-          <span>
-            <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
-            <span class="t-cmd"> $ cat goals.txt</span>
-          </span>
-          <span class="t-out">IT Support <span class="t-arrow">→</span> Infrastructure <span class="t-arrow">→</span> DevOps <span class="t-arrow">→</span> Full-Stack</span>
-          <span class="t-out">Currently open to IT Support roles in Sydney, AU.</span>
+
+          <!-- Left column -->
+          <div class="t-col">
+            <span>
+              <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
+              <span class="t-cmd"> $ cat about.txt</span>
+            </span>
+            <span class="t-out">I built my work ethic in environments</span>
+            <span class="t-out">where things go wrong fast and you fix</span>
+            <span class="t-out">them faster. That mindset brought me</span>
+            <span class="t-out">into IT.</span>
+            <span class="t-blank"></span>
+            <span class="t-out">IT Support Officer — 2+ years enterprise</span>
+            <span class="t-out">experience across M365, Entra ID,</span>
+            <span class="t-out">Intune, and Cisco Meraki.</span>
+          </div>
+
+          <!-- Right column -->
+          <div class="t-col">
+            <span>
+              <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
+              <span class="t-cmd"> $ cat roles.txt</span>
+            </span>
+            <span class="t-out">L1/L2 IT Support</span>
+            <span class="t-out">Service Desk</span>
+            <span class="t-out">Helpdesk</span>
+            <span class="t-out">Desktop Support</span>
+            <span class="t-blank"></span>
+            <span class="t-out">Based in Sydney, AU.</span>
+          </div>
+
         </div>
       </div>
 
@@ -299,19 +382,18 @@
 
     <div class="hub-divider" aria-hidden="true"></div>
 
-    <!-- PLATFORMS -->
     <p class="hub-section-label">platforms</p>
 
     <nav class="hub-grid" aria-label="Hub destinations">
 
+      <!-- Row 1 -->
       <a class="hub-card" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
         <span class="hub-card-icon">🌐</span>
         <span class="hub-card-label">Portfolio</span>
         <span class="hub-card-title">Professional Profile</span>
         <p class="hub-card-desc">
-          My central portfolio — resume, certifications, technical skills, and an overview of
-          everything I'm building. Start here if you want a quick understanding of who I am
-          and what I bring to a role.
+          Resume, certifications, technical skills, and work experience. Start here if you want
+          a quick understanding of who I am and what I bring to a role.
         </p>
         <span class="hub-card-cta">aayushacharya.com.au →</span>
       </a>
@@ -321,21 +403,20 @@
         <span class="hub-card-label">IT Projects</span>
         <span class="hub-card-title">Technical Projects</span>
         <p class="hub-card-desc">
-          A collection of hands-on technical projects — web apps, learning tools, and system-based builds.
-          These projects reflect how I think, build, and solve problems using technology.
+          Hands-on builds — enterprise M365 infrastructure, VLAN design, Azure AD, and DNS.
           Built to show capability, not just theory.
         </p>
         <span class="hub-card-cta">projects.aayush.com.au →</span>
       </a>
 
+      <!-- Row 2 -->
       <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
         <span class="hub-card-icon">🛠</span>
         <span class="hub-card-label">Knowledge Base</span>
         <span class="hub-card-title">IT Knowledge Base</span>
         <p class="hub-card-desc">
-          A structured troubleshooting hub covering real-world IT issues, step-by-step fixes, and
-          support scenarios. This is where I document how I approach problems — clearly and
-          systematically. Designed for IT Support environments.
+          153 articles covering real-world L1/L2 scenarios — Active Directory, Exchange,
+          Intune, Windows, and more. Documents how I approach problems.
         </p>
         <span class="hub-card-cta">kb.aayush.com.au →</span>
       </a>
@@ -345,23 +426,29 @@
         <span class="hub-card-label">Academic</span>
         <span class="hub-card-title">University Work</span>
         <p class="hub-card-desc">
-          My Bachelor of Computer Applications journey — coursework, structured notes, and ongoing
-          learning from Manipal University Jaipur. Shows consistency, discipline, and technical
-          foundation built from first principles.
+          BCA coursework, structured notes, and study modules from Manipal University Jaipur.
+          Built from first principles — every subject converted into an interactive portal.
         </p>
         <span class="hub-card-cta">uni.aayush.com.au →</span>
       </a>
 
-      <a class="hub-card" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">⚙️</span>
-        <span class="hub-card-label">Project</span>
-        <span class="hub-card-title">Stock Operations Project</span>
-        <p class="hub-card-desc">
-          A practical system built around stock and inventory workflows, inspired by real
-          operational experience. Combines business process understanding with technical
-          execution — a bridge between operations and development.
-        </p>
-        <span class="hub-card-cta">pwcstock.aayush.com.au →</span>
+      <!-- Row 3 — full width featured card -->
+      <a class="hub-card hub-card-wide" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
+        <div class="hub-card-content">
+          <span class="hub-card-icon">⚙️</span>
+          <span class="hub-card-label">Live Project</span>
+          <span class="hub-card-title">Stock Operations System</span>
+          <p class="hub-card-desc">
+            A live, password-protected web application built to replace manual stock counting and
+            ordering processes in a real operational environment. Tracks 100+ SKUs, automates
+            supplier order emails, manages event consumption workflows, and generates monthly
+            reports — currently in active daily use.
+          </p>
+          <span class="hub-card-cta">pwcstock.aayush.com.au →</span>
+        </div>
+        <div class="hub-card-badge">
+          <span class="live-pill">● Live & In Use</span>
+        </div>
       </a>
 
     </nav>
