@@ -3,60 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Aayush Acharya — IT Support Officer based in Sydney." />
+  <meta name="description" content="Aayush Acharya — IT Support Officer based in Sydney. M365, Entra ID, Intune, and Cisco Meraki across enterprise environments." />
   <title>Aayush Acharya</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
 
   <style>
-    /* ── HERO ── */
+    /* =====================================================
+       HUB AESTHETIC — Hero + Platforms (preserved)
+       ===================================================== */
+
+    /* HERO — two-column on desktop (Option C): content left, photo right */
     .hub-hero {
-      padding: 4rem 0 0;
-      display: flex;
-      flex-direction: column;
+      padding: 4rem 0 2rem;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
       align-items: center;
-      text-align: center;
-      gap: 1rem;
+      gap: 3rem;
       position: relative;
     }
 
-    /* Ambient glow behind name */
     .hub-hero::before {
       content: '';
       position: absolute;
       top: 2rem;
-      left: 50%;
+      left: 25%;
       transform: translateX(-50%);
-      width: 600px;
-      height: 200px;
+      width: 500px;
+      height: 220px;
       background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
 
-    .hub-name {
+    .hub-hero-content {
       position: relative;
       z-index: 1;
-      font-size: clamp(2rem, 5vw, 3rem);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hub-hero-photo {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hub-hero-photo img {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .hub-name {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 700;
       letter-spacing: -1px;
       color: var(--text-main);
       margin: 0;
+      line-height: 1.05;
     }
 
     .hub-title {
-      position: relative;
-      z-index: 1;
       font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-size: clamp(0.7rem, 2vw, 0.82rem);
       color: var(--accent);
       margin: 0;
       line-height: 1.5;
     }
-
     .hub-title::before { content: '> '; opacity: 0.45; }
 
     .hub-cursor {
@@ -69,10 +92,8 @@
       animation: blink 1s step-end infinite;
     }
 
-    /* ── TERMINAL — full container width ── */
+    /* TERMINAL */
     .hub-terminal {
-      position: relative;
-      z-index: 1;
       background: #0d1117;
       border: 1px solid #30363d;
       border-radius: 10px;
@@ -110,20 +131,11 @@
     }
 
     .hub-terminal-body {
-      padding: 20px 24px;
+      padding: 18px 22px;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+      font-size: clamp(0.72rem, 1.6vw, 0.8rem);
       line-height: 1.9;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0 2rem;
     }
-
-    @media (max-width: 640px) {
-      .hub-terminal-body { grid-template-columns: 1fr; }
-    }
-
-    .t-col { display: flex; flex-direction: column; }
 
     .t-prompt { color: #27c93f; }
     .t-path   { color: #3b82f6; }
@@ -131,22 +143,20 @@
     .t-out    { color: #8b949e; padding-left: 1rem; display: block; }
     .t-blank  { display: block; height: 0.4rem; }
 
-    /* ── CTA ── */
+    /* CTA */
     .hub-connect {
-      position: relative;
-      z-index: 1;
       display: inline-block;
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
-      padding: 0.6rem 1.5rem;
+      margin-top: 0.8rem;
+      padding: 0.7rem 1.6rem;
       border: 1px solid var(--accent);
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--accent);
       background: rgba(59,130,246,0.08);
       text-decoration: none;
       transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      align-self: flex-start;
     }
 
     .hub-connect:hover {
@@ -155,15 +165,15 @@
       box-shadow: 0 0 24px rgba(59,130,246,0.35);
     }
 
-    /* ── DIVIDER ── */
+    /* DIVIDER */
     .hub-divider {
       width: 100%;
       height: 1px;
       background: linear-gradient(to right, transparent, var(--border) 20%, var(--border) 80%, transparent);
-      margin: 2.5rem 0 2rem;
+      margin: 3rem 0 2rem;
     }
 
-    /* ── SECTION LABEL ── */
+    /* SECTION LABEL */
     .hub-section-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
@@ -173,23 +183,15 @@
     }
     .hub-section-label::before { content: '// '; color: #3b82f6; }
 
-    /* ── GRID — 2 col, last card spans full width ── */
+    /* PLATFORMS GRID */
     .hub-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1.25rem;
     }
+    .hub-card-wide { grid-column: span 2; }
 
-    .hub-card-wide {
-      grid-column: span 2;
-    }
-
-    @media (max-width: 640px) {
-      .hub-grid { grid-template-columns: 1fr; }
-      .hub-card-wide { grid-column: span 1; }
-    }
-
-    /* ── CARDS ── */
+    /* PLATFORM CARDS (override the generic .card by using .hub-card) */
     .hub-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -224,7 +226,7 @@
 
     .hub-card:hover::before { opacity: 1; }
 
-    /* Wide card — side by side layout on desktop */
+    /* WIDE PLATFORM CARD — side by side */
     .hub-card-wide {
       flex-direction: row;
       align-items: center;
@@ -246,11 +248,6 @@
       gap: 0.5rem;
     }
 
-    @media (max-width: 640px) {
-      .hub-card-wide { flex-direction: column; align-items: flex-start; }
-      .hub-card-wide .hub-card-badge { align-items: flex-start; }
-    }
-
     .live-pill {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
@@ -261,11 +258,7 @@
       border-radius: 50px;
     }
 
-    .hub-card-icon {
-      font-size: 1.3rem;
-      margin-bottom: 0.2rem;
-    }
-
+    .hub-card-icon  { font-size: 1.3rem; margin-bottom: 0.2rem; }
     .hub-card-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
@@ -274,20 +267,14 @@
       color: var(--accent);
       font-weight: 500;
     }
-
-    .hub-card-title {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .hub-card-desc {
+    .hub-card-title { font-size: 1rem; font-weight: 700; }
+    .hub-card-desc  {
       font-size: 0.83rem;
       color: var(--text-muted);
       line-height: 1.65;
       margin-top: 0.25rem;
       flex: 1;
     }
-
     .hub-card-cta {
       margin-top: 0.9rem;
       padding-top: 0.7rem;
@@ -297,13 +284,16 @@
       color: #6e7681;
       transition: color 0.2s;
     }
-
     .hub-card:hover .hub-card-cta { color: var(--accent); }
 
-    /* ── ANIMATIONS ── */
+    /* Override hub-card hover (which uses transform) to NOT inherit the generic .card hover */
+    .hub-card { transform: none; }
+    .hub-card:hover { transform: translateY(-3px); }
+
+    /* ANIMATIONS */
     @keyframes blink {
       0%, 100% { opacity: 1; }
-      50%       { opacity: 0; }
+      50%      { opacity: 0; }
     }
 
     @keyframes fadeUp {
@@ -314,15 +304,70 @@
     .hub-hero    { animation: fadeUp 0.5s ease both; }
     .hub-divider { animation: fadeUp 0.5s 0.15s ease both; opacity: 0; animation-fill-mode: forwards; }
     .hub-grid    { animation: fadeUp 0.5s 0.25s ease both; opacity: 0; animation-fill-mode: forwards; }
+
+    /* MOBILE — stack hero, simplify */
+    @media (max-width: 768px) {
+      .hub-hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+      .hub-hero-content { align-items: center; }
+      .hub-connect { align-self: center; }
+      .hub-hero::before { left: 50%; }
+      .hub-card-wide { flex-direction: column; align-items: flex-start; }
+      .hub-card-wide .hub-card-badge { align-items: flex-start; }
+    }
+
+    /* =====================================================
+       SKILLS & PROJECTS GRIDS (from aayushacharya)
+       ===================================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+    .skills-grid .card { display: flex; flex-direction: column; }
+    .skills-grid .card ul.clean-list { flex: 1; }
+    @media (max-width: 768px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .projects-grid .span-2 { grid-column: span 2; }
+    @media (max-width: 768px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .projects-grid .span-2 { grid-column: span 1; }
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="container-wide">
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-content">
+    <a href="#" class="logo">Aayush Acharya</a>
+    <div class="nav-links">
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
 
-    <!-- HERO -->
-    <div class="hub-hero">
+<div class="container-wide">
+
+  <!-- HERO — terminal + photo -->
+  <div class="hub-hero">
+
+    <div class="hub-hero-content">
 
       <h1 class="hub-name">Aayush Acharya</h1>
 
@@ -331,7 +376,7 @@
         <span class="hub-cursor" aria-hidden="true"></span>
       </p>
 
-      <!-- Terminal — two column layout -->
+      <!-- Terminal -->
       <div class="hub-terminal" role="region" aria-label="About Aayush">
         <div class="hub-terminal-bar">
           <span class="hub-terminal-dot"></span>
@@ -340,129 +385,376 @@
           <span class="hub-terminal-label">about.sh</span>
         </div>
         <div class="hub-terminal-body">
-
-          <!-- Left column -->
-          <div class="t-col">
-            <span>
-              <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
-              <span class="t-cmd"> $ cat about.txt</span>
-            </span>
-            <span class="t-out">I built my work ethic in environments</span>
-            <span class="t-out">where things go wrong fast and you fix</span>
-            <span class="t-out">them faster. That mindset brought me</span>
-            <span class="t-out">into IT.</span>
-            <span class="t-blank"></span>
-            <span class="t-out">IT Support Officer — 2+ years enterprise</span>
-            <span class="t-out">experience across M365, Entra ID,</span>
-            <span class="t-out">Intune, and Cisco Meraki.</span>
-          </div>
-
-          <!-- Right column -->
-          <div class="t-col">
-            <span>
-              <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span>
-              <span class="t-cmd"> $ cat roles.txt</span>
-            </span>
-            <span class="t-out">L1/L2 IT Support</span>
-            <span class="t-out">Service Desk</span>
-            <span class="t-out">Helpdesk</span>
-            <span class="t-out">Desktop Support</span>
-            <span class="t-blank"></span>
-            <span class="t-out">Based in Sydney, AU.</span>
-          </div>
-
+          <span>
+            <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ cat about.txt</span>
+          </span>
+          <span class="t-out">I built my work ethic in environments</span>
+          <span class="t-out">where things go wrong fast and you fix</span>
+          <span class="t-out">them faster. That mindset brought me</span>
+          <span class="t-out">into IT.</span>
+          <span class="t-blank"></span>
+          <span>
+            <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ cat stack.txt</span>
+          </span>
+          <span class="t-out">M365 · Entra ID · Intune · Cisco Meraki</span>
+          <span class="t-out">Windows Server · Hyper-V · Azure · PowerShell</span>
         </div>
       </div>
 
-      <a class="hub-connect" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
-        See how I solve real IT problems →
-      </a>
+      <a class="hub-connect" href="#contact">Get in Touch →</a>
 
     </div>
 
-    <div class="hub-divider" aria-hidden="true"></div>
-
-    <p class="hub-section-label">platforms</p>
-
-    <nav class="hub-grid" aria-label="Hub destinations">
-
-      <!-- Row 1 -->
-      <a class="hub-card" href="https://aayushacharya.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🌐</span>
-        <span class="hub-card-label">Portfolio</span>
-        <span class="hub-card-title">Professional Profile</span>
-        <p class="hub-card-desc">
-          Resume, certifications, technical skills, and work experience. Start here if you want
-          a quick understanding of who I am and what I bring to a role.
-        </p>
-        <span class="hub-card-cta">aayushacharya.com.au →</span>
-      </a>
-
-      <a class="hub-card" href="https://projects.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">💻</span>
-        <span class="hub-card-label">IT Projects</span>
-        <span class="hub-card-title">Technical Projects</span>
-        <p class="hub-card-desc">
-          Hands-on builds — enterprise M365 infrastructure, VLAN design, Azure AD, and DNS.
-          Built to show capability, not just theory.
-        </p>
-        <span class="hub-card-cta">projects.aayush.com.au →</span>
-      </a>
-
-      <!-- Row 2 -->
-      <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🛠</span>
-        <span class="hub-card-label">Knowledge Base</span>
-        <span class="hub-card-title">IT Knowledge Base</span>
-        <p class="hub-card-desc">
-          153 articles covering real-world L1/L2 scenarios — Active Directory, Exchange,
-          Intune, Windows, and more. Documents how I approach problems.
-        </p>
-        <span class="hub-card-cta">kb.aayush.com.au →</span>
-      </a>
-
-      <a class="hub-card" href="https://uni.aayush.com.au" target="_blank" rel="noopener">
-        <span class="hub-card-icon">🎓</span>
-        <span class="hub-card-label">Academic</span>
-        <span class="hub-card-title">University Work</span>
-        <p class="hub-card-desc">
-          BCA coursework, structured notes, and study modules from Manipal University Jaipur.
-          Built from first principles — every subject converted into an interactive portal.
-        </p>
-        <span class="hub-card-cta">uni.aayush.com.au →</span>
-      </a>
-
-      <!-- Row 3 — full width featured card -->
-      <a class="hub-card hub-card-wide" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
-        <div class="hub-card-content">
-          <span class="hub-card-icon">⚙️</span>
-          <span class="hub-card-label">Live Project</span>
-          <span class="hub-card-title">Stock Operations System</span>
-          <p class="hub-card-desc">
-            A live, password-protected web application built to replace manual stock counting and
-            ordering processes in a real operational environment. Tracks 100+ SKUs, automates
-            supplier order emails, manages event consumption workflows, and generates monthly
-            reports — currently in active daily use.
-          </p>
-          <span class="hub-card-cta">pwcstock.aayush.com.au →</span>
-        </div>
-        <div class="hub-card-badge">
-          <span class="live-pill">● Live & In Use</span>
-        </div>
-      </a>
-
-    </nav>
-
-    <footer>
-      <p>
-        &copy; 2026 Aayush Acharya &mdash;
-        <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener">GitHub</a>
-        &nbsp;&middot;&nbsp;
-        <a href="https://aayushacharya.com.au" target="_blank" rel="noopener">Portfolio</a>
-      </p>
-    </footer>
+    <div class="hub-hero-photo">
+      <img src="assets/images/aayush.png" alt="Aayush Acharya" />
+    </div>
 
   </div>
 
+  <div class="hub-divider" aria-hidden="true"></div>
+
+  <p class="hub-section-label">platforms</p>
+
+  <nav class="hub-grid" aria-label="Hub destinations">
+
+    <!-- Row 1 -->
+    <a class="hub-card" href="https://projects.aayush.com.au" target="_blank" rel="noopener">
+      <span class="hub-card-icon">💻</span>
+      <span class="hub-card-label">IT Projects</span>
+      <span class="hub-card-title">Technical Projects</span>
+      <p class="hub-card-desc">
+        Hands-on builds — enterprise M365 infrastructure, VLAN design, Azure AD, and DNS.
+        Built to show capability, not just theory.
+      </p>
+      <span class="hub-card-cta">projects.aayush.com.au →</span>
+    </a>
+
+    <a class="hub-card" href="https://kb.aayush.com.au" target="_blank" rel="noopener">
+      <span class="hub-card-icon">🛠</span>
+      <span class="hub-card-label">Knowledge Base</span>
+      <span class="hub-card-title">IT Knowledge Base</span>
+      <p class="hub-card-desc">
+        153 articles covering real-world L1/L2 scenarios — Active Directory, Exchange,
+        Intune, Windows, and more. Documents how I approach problems.
+      </p>
+      <span class="hub-card-cta">kb.aayush.com.au →</span>
+    </a>
+
+    <!-- Row 2 -->
+    <a class="hub-card" href="https://uni.aayush.com.au" target="_blank" rel="noopener">
+      <span class="hub-card-icon">🎓</span>
+      <span class="hub-card-label">Academic</span>
+      <span class="hub-card-title">University Work</span>
+      <p class="hub-card-desc">
+        BCA coursework, structured notes, and study modules from Manipal University Jaipur.
+        Built from first principles — every subject converted into an interactive portal.
+      </p>
+      <span class="hub-card-cta">uni.aayush.com.au →</span>
+    </a>
+
+    <a class="hub-card" href="https://github.com/hi-its-aayush" target="_blank" rel="noopener">
+      <span class="hub-card-icon">⚡</span>
+      <span class="hub-card-label">Code</span>
+      <span class="hub-card-title">GitHub</span>
+      <p class="hub-card-desc">
+        Source for everything you see on this site — knowledge base, portfolio,
+        scripts, and lab artifacts. Built in public.
+      </p>
+      <span class="hub-card-cta">github.com/hi-its-aayush →</span>
+    </a>
+
+    <!-- Row 3 — full width featured card (Live system) -->
+    <a class="hub-card hub-card-wide" href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener">
+      <div class="hub-card-content">
+        <span class="hub-card-icon">⚙️</span>
+        <span class="hub-card-label">Live Project</span>
+        <span class="hub-card-title">Stock Operations System</span>
+        <p class="hub-card-desc">
+          A live, password-protected web application built to replace manual stock counting and
+          ordering processes in a real operational environment. Tracks 100+ SKUs, automates
+          supplier order emails, manages event consumption workflows, and generates monthly
+          reports — currently in active daily use.
+        </p>
+        <span class="hub-card-cta">pwcstock.aayush.com.au →</span>
+      </div>
+      <div class="hub-card-badge">
+        <span class="live-pill">● Live &amp; In Use</span>
+      </div>
+    </a>
+
+  </nav>
+
+</div>
+
+<!-- SKILLS & CERTIFICATIONS -->
+<section id="skills" class="fade-in">
+  <div class="container-wide">
+    <h2 class="section-title">Technical Skills &amp; Certifications</h2>
+
+    <div class="top-ticker">
+      <div class="ticker-track">
+        <span>Entra ID &nbsp;·&nbsp; Microsoft Intune &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; Microsoft 365 &nbsp;·&nbsp; Azure &nbsp;·&nbsp; Windows Server 2022 &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; Zero Trust &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; DNS &amp; DHCP &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; Freshservice &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; JAMF &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp;</span>
+        <span>Entra ID &nbsp;·&nbsp; Microsoft Intune &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; Microsoft 365 &nbsp;·&nbsp; Azure &nbsp;·&nbsp; Windows Server 2022 &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; Zero Trust &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; DNS &amp; DHCP &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; Freshservice &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; JAMF &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp;</span>
+        <span>Entra ID &nbsp;·&nbsp; Microsoft Intune &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; Microsoft 365 &nbsp;·&nbsp; Azure &nbsp;·&nbsp; Windows Server 2022 &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; Zero Trust &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; DNS &amp; DHCP &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; Freshservice &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; JAMF &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp;</span>
+        <span>Entra ID &nbsp;·&nbsp; Microsoft Intune &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; Microsoft 365 &nbsp;·&nbsp; Azure &nbsp;·&nbsp; Windows Server 2022 &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; Zero Trust &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; DNS &amp; DHCP &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; Freshservice &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; JAMF &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="card">
+        <h3>Technical Skills</h3>
+        <ul class="clean-list">
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Identity &amp; Access Management:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Entra ID (Azure AD), RBAC, MFA, Conditional Access, user provisioning &amp; offboarding, SSO.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Microsoft 365 &amp; Endpoint Management:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Exchange Online, Teams, OneDrive, SharePoint, Microsoft Intune, Windows Autopilot (lab), JAMF (lab), MDM policy management.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Networking &amp; Infrastructure:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">DNS, DHCP, TCP/IP, VLANs, site-to-site VPN, Cisco Meraki, Windows Server 2022, Hyper-V, Microsoft Azure.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Security &amp; ITSM:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Zero Trust architecture, phishing-resistant MFA, endpoint protection, Conditional Access, ServiceNow, Freshservice, Jira.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Scripting &amp; Automation:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">PowerShell, Bash scripting, task automation, bulk user management via CLI, scheduled tasks.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Remote Support &amp; Tooling:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">RDP, TeamViewer, AnyDesk, Quick Assist, remote endpoint troubleshooting, screen-sharing diagnostics.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Operating Systems:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Windows 10/11 (advanced), macOS, Ubuntu/Linux (basic admin), Windows Server 2022.</span>
+          </li>
+          <li style="margin-bottom: 0.8rem;">
+            <strong>Infrastructure (Home Lab):</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Active Directory, Windows Server 2022, Hyper-V, GPO hardening, hybrid cloud environments, Autopilot zero-touch provisioning, Azure AD Connect.</span>
+          </li>
+          <li style="margin-bottom: 0;">
+            <strong>AV &amp; Hardware:</strong><br>
+            <span style="color: var(--text-muted); font-size: 0.9rem;">Projectors, LED displays, conferencing systems (Teams Rooms / Webex / Zoom), VoIP (3CX), POS (Lightspeed).</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Certifications</h3>
+        <ul class="clean-list" style="flex: 1;">
+
+          <li style="margin-bottom: 1.4rem;">
+            <div style="margin-bottom: 0.2rem;"><strong>Microsoft:</strong> Cloud Support Associate</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem;">Coursera</div>
+            <a href="assets/pdfs/Microsoft Cloud Support Associate.pdf" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </li>
+
+          <li style="margin-bottom: 1.4rem;">
+            <div style="margin-bottom: 0.2rem;"><strong>Microsoft:</strong> Endpoint Administrator (MD-102)</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem;">Coursera</div>
+            <a href="assets/pdfs/MD-102.pdf" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </li>
+
+          <li style="margin-bottom: 1.4rem;">
+            <div style="margin-bottom: 0.2rem;"><strong>Cisco:</strong> CCST IT Support (100-140)</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem;">Coursera</div>
+            <a href="assets/pdfs/CCIT.pdf" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </li>
+
+          <li style="margin-bottom: 1.4rem;">
+            <div style="margin-bottom: 0.2rem;"><strong>CompTIA:</strong> A+ Core 1</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem;">Coursera</div>
+            <a href="assets/pdfs/A+.pdf" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </li>
+
+          <li style="margin-bottom: 1.4rem;">
+            <div style="margin-bottom: 0.2rem;"><strong>Google:</strong> IT Support Professional Certificate</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem;">Coursera</div>
+            <a href="assets/pdfs/Google IT.pdf" target="_blank" class="cert-link">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </li>
+
+          <li style="margin-bottom: 0;">
+            <div style="margin-bottom: 0.2rem;"><strong>In Progress:</strong> AZ-900 Microsoft Azure Fundamentals</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted);">Microsoft Learn &nbsp;·&nbsp; Expected 2026</div>
+          </li>
+
+        </ul>
+
+        <div style="margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+          <a href="assets/pdfs/certifications.pdf" target="_blank" class="cert-master-btn">
+            <i class="fas fa-file-pdf"></i> View All Certifications
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS (Stock excluded — it's in the platforms grid above) -->
+<section id="projects" class="fade-in">
+  <div class="container-wide">
+    <h2 class="section-title">Hands-On Technical Projects</h2>
+
+    <div class="projects-grid">
+
+      <!-- Featured — full width -->
+      <div class="card span-2" style="border-left: 4px solid var(--accent);">
+        <h3>Basic IT Troubleshooting Knowledge Base</h3>
+        <p style="margin-bottom: 1rem;">
+          Built a high-performance, offline-capable IT troubleshooting wiki using vanilla HTML, CSS, and JavaScript — no frameworks, no dependencies. Features <strong>150+ comprehensive articles</strong> across 12 categories including Networking, Active Directory, Exchange, Intune MDM, and Windows OS diagnostics. Each article includes command-line snippets, severity tagging for L1/L2 escalation, and a terminal-style UI built for speed. Designed to be the kind of reference a new helpdesk engineer can use on day one — the resource I wish I had when I started.
+        </p>
+        <a href="https://kb.aayush.com.au" target="_blank" class="btn-primary" style="display:inline-block; padding: 0.6rem 1.2rem; background:var(--accent); color:white; border-radius:6px; text-decoration:none; font-size: 0.9rem; font-weight:600;">
+          <i class="fas fa-external-link-alt"></i> View Live Knowledge Base
+        </a>
+      </div>
+
+      <!-- Row 1 -->
+      <div class="card">
+        <h3>Enterprise Infrastructure &amp; Security</h3>
+        <p style="margin-bottom: 1rem;">
+          Architected a production-grade <strong>Microsoft 365 E5</strong> home lab tenant — a fully working enterprise-style environment built to mirror real corporate IT. Configured Entra ID with RBAC, Conditional Access, and phishing-resistant MFA under a Zero Trust framework. Deployed Intune MDM with Windows Autopilot for zero-touch provisioning, and virtualised Windows Server 2022 with Active Directory and GPO hardening on Hyper-V. Used as a safe space to test enterprise policies before applying them in production environments.
+        </p>
+        <a href="https://projects.aayush.com.au/m365-tenant.html" target="_blank" class="btn-primary" style="display:inline-block; padding: 0.5rem 1rem; background:var(--accent); color:white; border-radius:6px; text-decoration:none; font-size: 0.85rem; font-weight:600;">
+          <i class="fas fa-external-link-alt"></i> View Project Details
+        </a>
+      </div>
+
+      <div class="card">
+        <h3>VLAN Network Design</h3>
+        <p style="margin-bottom: 1rem;">
+          Designed multi-VLAN topologies with inter-VLAN routing via Layer 3 switches using <strong>Cisco Packet Tracer</strong> — segmenting a single network into isolated zones for Staff, Guests, Management, and IoT traffic. Configured access and trunk ports, applied 802.1Q VLAN tagging, and validated end-to-end connectivity across all segments. Replicates the network segmentation pattern used in real multi-site SMB environments where security and traffic isolation matter.
+        </p>
+        <a href="https://projects.aayush.com.au/vlan-design.html" target="_blank" class="btn-primary" style="display:inline-block; padding: 0.5rem 1rem; background:var(--accent); color:white; border-radius:6px; text-decoration:none; font-size: 0.85rem; font-weight:600;">
+          <i class="fas fa-external-link-alt"></i> View Project Details
+        </a>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="card">
+        <h3>Virtual Active Directory &amp; Site-to-Site VPN</h3>
+        <p style="margin-bottom: 1rem;">
+          Deployed a virtual Active Directory environment on <strong>Microsoft Azure</strong> using Windows Server VMs as domain controllers, with OUs and GPOs for centralised policy management. Independently designed a site-to-site VPN integrated with Entra ID, creating a secure bridge between on-prem and cloud workloads for a hybrid identity setup. Hands-on practice for the hybrid environments most mid-sized businesses run today.
+        </p>
+        <a href="https://projects.aayush.com.au/virtual-ad-vpn.html" target="_blank" class="btn-primary" style="display:inline-block; padding: 0.5rem 1rem; background:var(--accent); color:white; border-radius:6px; text-decoration:none; font-size: 0.85rem; font-weight:600;">
+          <i class="fas fa-external-link-alt"></i> View Project Details
+        </a>
+      </div>
+
+      <div class="card">
+        <h3>Multi-Domain DNS Infrastructure</h3>
+        <p style="margin-bottom: 1rem;">
+          Designed and deployed live DNS infrastructure spanning three production domains, with subdomain routing for six independently hosted services under a single root. Provisioned A records, CNAMEs, MX records, and HTTPS across all domains using <strong>GoDaddy DNS</strong> and GitHub Pages hosting. Every subdomain you can navigate to from this site — KB, Projects, Uni, Stock System — is live DNS I configured and maintain.
+        </p>
+        <a href="https://projects.aayush.com.au/dns-portfolio.html" target="_blank" class="btn-primary" style="display:inline-block; padding: 0.5rem 1rem; background:var(--accent); color:white; border-radius:6px; text-decoration:none; font-size: 0.85rem; font-weight:600;">
+          <i class="fas fa-external-link-alt"></i> View Project Details
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="fade-in">
+  <div class="container-wide">
+    <h2 class="section-title">Education</h2>
+    <div class="bento-grid-2">
+      <div class="card">
+        <div class="card-top">
+          <h3>Bachelor of Computer Applications (Cloud &amp; Security)</h3>
+          <p class="meta"><strong>MUJ</strong> | Expected 2029 &nbsp;·&nbsp; Remote / Part-Time</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="fade-in">
+  <div class="container-wide">
+    <div class="card" style="text-align: center;">
+      <h2 class="section-title" style="border: none; margin-bottom: 1rem;">Let's Connect</h2>
+      <div id="contact-container" class="contact-links">
+        <p style="color: var(--text-muted);">Loading contact info...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GAME ROOM -->
+<section id="arcade" class="fade-in">
+  <div class="container-wide">
+    <h2 class="section-title" style="text-align:center; margin-bottom: 0.5rem;">Game Room</h2>
+    <p style="text-align:center; color:var(--text-muted); margin-bottom: 0.5rem;">Welcome to the fun part!!</p>
+    <p style="text-align:center; color:var(--text-muted); margin-bottom: 2rem;">Some simple games to take a break.</p>
+
+    <div class="game-room-wrapper">
+      <div class="games-row">
+
+        <div class="game-box">
+          <h3 style="margin-bottom: 1rem; color: var(--accent);">Speed Grid</h3>
+          <p id="grid-intro" style="color:var(--text-muted); margin-bottom:1.5rem; font-size: 0.9rem;">
+            Numbers 1 to 16 laid out randomly — tap them in order as fast as you can.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 1rem;">
+            <button id="grid-start">Start</button>
+            <button id="grid-abort">Give Up</button>
+          </div>
+          <p id="grid-timer">Time: 0.00s</p>
+          <div id="grid-area"></div>
+          <p id="grid-result"></p>
+          <div id="grid-buttons">
+            <button id="grid-restart">Play Again</button>
+            <button id="grid-quit">Not Now</button>
+          </div>
+        </div>
+
+        <div class="game-box">
+          <h3 style="margin-bottom: 1rem; color: var(--accent);">Tech Memory</h3>
+          <p id="mem-instructions" style="color:var(--text-muted); margin-bottom:1.5rem; font-size: 0.9rem;">
+            IT components hidden behind cards — match the pairs.
+          </p>
+          <div class="memory-stats" style="margin-bottom: 1rem; display: flex; justify-content: space-between; padding: 0 1rem; font-size: 0.9rem;">
+            <span>Moves: <strong id="mem-moves">0</strong></span>
+            <span>Matches: <strong id="mem-score">0</strong>/8</span>
+          </div>
+          <div id="memory-board"></div>
+          <div id="mem-result" style="display: none; margin-top: 2rem;">
+            <p style="color: #059669; font-weight: 700; font-size: 1.1rem; margin-bottom: 1rem;">
+              <i class="fas fa-check-circle"></i> Congratulations 🎉 — challenge complete 🥳
+            </p>
+            <button id="mem-play-again" style="background:var(--accent); color:white; border:none; padding:0.8rem 2rem; border-radius:6px; font-weight:600; cursor:pointer;">
+              Play Again
+            </button>
+          </div>
+          <button id="mem-restart" style="margin-top: 2rem;">Reset Memory</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 Aayush Acharya — All Rights Reserved.
+</footer>
+
+<script src="js/script.js"></script>
 </body>
 </html>
