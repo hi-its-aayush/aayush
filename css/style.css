@@ -86,7 +86,23 @@ a:hover { color: var(--accent); }
 }
 
 section { padding: 4rem 0; }
-.section-title { font-size: 1.75rem; margin-bottom: 2rem; color: var(--text-main); }
+
+/* Section titles — consistent // prefix across the whole site */
+.section-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+    color: var(--text-main);
+}
+
+.section-title::before {
+    content: '// ';
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65em;
+    letter-spacing: 1px;
+    font-weight: 400;
+    opacity: 0.9;
+}
 
 .bento-grid-2 {
     display: grid;
