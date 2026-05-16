@@ -1,42 +1,36 @@
+# 🌐 Aayush Acharya | Central Digital Hub
 
+[![Live Hub](https://img.shields.io/badge/Live_Site-aayush.com.au-3b82f6?style=for-the-badge)](https://aayush.com.au)
+[![Deployment](https://img.shields.io/badge/Hosted-GitHub_Pages-2ea44f?style=for-the-badge&logo=github)](https://pages.github.com/)
 
-# Aayush Acharya
+The foundational routing point and digital ecosystem for my professional portfolio. This repository hosts a bento-box style landing page acting as a "receptionist," seamlessly directing traffic across my technical projects, IT knowledge base, and operational platforms.
 
-The central digital hub and "receptionist" for my professional portfolio. This repository hosts the entry point to my web ecosystem, providing a streamlined directory to my various hosted projects and professional presence.
+---
 
-## 🚀 [Live Hub](https://aayush.com.au)
+## 🏗️ Ecosystem Architecture
 
------
+This central hub routes to specialized sub-domains that separate my work environments:
 
-## 📂 Project Overview
+* **[Technical Projects](https://projects.aayush.com.au)**: Hands-on enterprise environment builds (M365, Azure AD, Intune).
+* **[IT Knowledge Base](https://kb.aayush.com.au)**: Practical documentation and L1/L2 troubleshooting workflows.
+* **[Live Operations](https://pwcstock.aayush.com.au)**: Production-ready inventory automation tracking.
+* **[Academic Portal](https://uni.aayush.com.au)**: Structured coursework tracking for Cloud & Security.
 
-This is a lightweight, responsive landing page designed to act as a primary gateway. It ensures that visitors can easily navigate between my different platforms through a clean, unified interface.
+## ⚙️ Tech Stack & Philosophy
 
-  * **`index.html`**: The main gateway featuring a minimalist layout for project navigation.
-  * **`style.css`**: Custom CSS for a professional look and mobile-responsive grid.
-  * **`assets/images/`**: Optimized visual assets and branding elements.
-  * **`CNAME`**: Custom domain configuration for **aayush.com.au**.
+Built entirely from first principles to ensure blazing-fast load times and perfect core web vitals. 
 
-## 🛠️ Tech Stack
+* **Architecture**: Zero-build, pure Vanilla components (HTML5, CSS3, JavaScript).
+* **Security**: Client-side DOM manipulation for anti-scraping (obfuscated email/mobile data).
+* **Styling**: Custom CSS variables managing a fully responsive, breakpoint-driven bento grid.
+* **Hosting & DNS**: Automated deployments via GitHub Pages with CNAME routing.
 
-  * **Frontend**: Semantic HTML5 and Modern CSS3.
-  * **Hosting**: [GitHub Pages](https://pages.github.com/) for automated and reliable deployment.
-  * **Architecture**: No-build, vanilla setup for maximum performance and simplicity.
+## 📂 Repository Structure
 
-## 💻 Local Setup
-
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/hi-its-aayush/aayush.git
-    ```
-2.  **Run**:
-    Open `index.html` in your browser.
-
------
-
-## 👤 Author
-
-**Aayush Acharya**
-
-  * **GitHub**: [@hi-its-aayush](https://github.com/hi-its-aayush)
-  * **Website**: [aayush.com.au](https://aayush.com.au)
+```text
+aayush/
+├── index.html          # Core bento-grid layout & routing interface
+├── css/style.css       # Unified design system & responsive media queries
+├── js/script.js        # Contact decryption & DOM interactions
+├── assets/images/      # Optimized branding & UI visuals
+└── CNAME               # Custom domain configuration mapping
