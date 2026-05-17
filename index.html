@@ -25,7 +25,6 @@
       position: relative;
       width: 100%;
     }
-
     .hub-hero::before {
       content: '';
       position: absolute;
@@ -37,24 +36,21 @@
       z-index: 0;
     }
 
-    /* Header — centered above terminal */
     .hub-hero-header {
       text-align: center;
       position: relative;
       z-index: 1;
       width: 100%;
     }
-
     .hub-name {
-      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 700; letter-spacing: -1px;
       color: var(--text-main);
       margin: 0 0 0.5rem 0; line-height: 1.05;
     }
-
     .hub-title {
       font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(0.7rem, 2vw, 0.82rem);
+      font-size: clamp(0.65rem, 2vw, 0.82rem);
       color: var(--accent); margin: 0; line-height: 1.5;
     }
     .hub-title::before { content: '> '; opacity: 0.45; }
@@ -67,20 +63,17 @@
     }
 
     /* =====================================================
-       TERMINAL — full width, photo inside
+       TERMINAL
        ===================================================== */
     .hub-terminal {
       background: #0d1117;
       border: 1px solid #30363d;
       border-radius: 10px;
-      width: 100%;
-      overflow: hidden;
+      width: 100%; overflow: hidden;
       text-align: left;
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
     }
-
     .hub-terminal-bar {
       background: #161b22; padding: 9px 16px;
       display: flex; align-items: center; gap: 7px;
@@ -103,10 +96,9 @@
       line-height: 1.8;
       display: flex; flex-direction: column; gap: 0.8rem;
     }
-
     .t-command-line { display: block; }
 
-    /* Three-column: Aa art | info | photo */
+    /* Three-column: Aa | info | photo */
     .t-neofetch-content {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -117,8 +109,7 @@
     /* Aa ASCII art */
     .hub-terminal-ascii {
       display: flex; flex-direction: column;
-      flex-shrink: 0; user-select: none;
-      line-height: 1.5;
+      flex-shrink: 0; user-select: none; line-height: 1.5;
     }
     .hub-terminal-ascii span {
       display: block; white-space: pre;
@@ -126,21 +117,14 @@
       font-size: 0.76rem;
     }
 
-    /* Info column */
-    .hub-terminal-info { display: flex; flex-direction: column; min-width: 0; }
+    /* Info */
+    .hub-terminal-info { display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
 
     /* Photo inside terminal */
-    .t-neofetch-photo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-shrink: 0;
-    }
+    .t-neofetch-photo { display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
     .t-neofetch-photo img {
-      width: 210px;
-      height: 230px;
-      object-fit: cover;
-      object-position: center top;
+      width: 210px; height: 230px;
+      object-fit: cover; object-position: center top;
       border-radius: 8px;
       border: 1px solid #30363d;
       box-shadow: 0 4px 20px rgba(0,0,0,0.6);
@@ -149,7 +133,7 @@
     .t-prompt { color: #27c93f; }
     .t-path   { color: #3b82f6; }
     .t-cmd    { color: #d4d4d4; }
-    .t-out    { color: #8b949e; padding-left: 0.3rem; display: block; white-space: nowrap; }
+    .t-out    { color: #8b949e; padding-left: 0.3rem; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .t-blank  { display: block; height: 0.3rem; }
 
     /* CTA */
@@ -176,50 +160,10 @@
     }
 
     /* =====================================================
-       MOBILE — collapse terminal to single column
-       ===================================================== */
-    @media (max-width: 768px) {
-      .hub-name { font-size: 2rem; }
-
-      .t-neofetch-content {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-
-      /* Photo first on mobile */
-      .t-neofetch-photo {
-        order: -1;
-        justify-content: center;
-      }
-      .t-neofetch-photo img {
-        width: 130px;
-        height: 145px;
-      }
-
-      /* Hide Aa art on mobile — not enough room */
-      .hub-terminal-ascii { display: none; }
-
-      .t-out { white-space: normal; }
-
-      .hub-terminal-body { padding: 16px; }
-    }
-
-    /* Hide Aa art also on medium screens where it crowds */
-    @media (max-width: 1000px) and (min-width: 769px) {
-      .hub-terminal-ascii { display: none; }
-      .t-neofetch-content { grid-template-columns: 1fr auto; }
-    }
-
-    /* =====================================================
        PLATFORMS GRID
        ===================================================== */
-    .hub-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-    }
+    .hub-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
     .hub-card-wide { grid-column: span 2; }
-
     .hub-card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 1.6rem;
@@ -243,10 +187,7 @@
     .hub-card:hover { transform: translateY(-3px); }
     .hub-card-wide { flex-direction: row; align-items: center; gap: 2rem; }
     .hub-card-wide .hub-card-content { flex: 1; display: flex; flex-direction: column; gap: 0.3rem; }
-    .hub-card-wide .hub-card-badge {
-      flex-shrink: 0; display: flex;
-      flex-direction: column; align-items: flex-end; gap: 0.5rem;
-    }
+    .hub-card-wide .hub-card-badge { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
     .live-pill {
       font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
       color: #27c93f; background: rgba(39,201,63,0.1);
@@ -254,19 +195,10 @@
       padding: 0.2rem 0.7rem; border-radius: 50px;
     }
     .hub-card-icon  { font-size: 1.3rem; margin-bottom: 0.2rem; }
-    .hub-card-label {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
-      text-transform: uppercase; letter-spacing: 1.5px;
-      color: var(--accent); font-weight: 500;
-    }
+    .hub-card-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 500; }
     .hub-card-title { font-size: 1rem; font-weight: 700; }
     .hub-card-desc  { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; margin-top: 0.25rem; flex: 1; }
-    .hub-card-cta {
-      margin-top: 0.9rem; padding-top: 0.7rem;
-      border-top: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem; color: #6e7681; transition: color 0.2s;
-    }
+    .hub-card-cta { margin-top: 0.9rem; padding-top: 0.7rem; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #6e7681; transition: color 0.2s; }
     .hub-card:hover .hub-card-cta { color: var(--accent); }
 
     /* ANIMATIONS */
@@ -279,20 +211,62 @@
     .hub-divider { animation: fadeUp 0.5s 0.15s ease both; opacity: 0; animation-fill-mode: forwards; }
     .hub-grid    { animation: fadeUp 0.5s 0.25s ease both; opacity: 0; animation-fill-mode: forwards; }
 
-    /* Mobile platform grid */
-    @media (max-width: 640px) {
-      .hub-grid { grid-template-columns: 1fr; }
-      .hub-card-wide { grid-column: span 1; flex-direction: column; align-items: flex-start; }
+    /* =====================================================
+       RESPONSIVE BREAKPOINTS
+       ===================================================== */
+
+    /* Medium — hide Aa art, 2-col [info | photo] */
+    @media (max-width: 1000px) {
+      .hub-terminal-ascii { display: none; }
+      .t-neofetch-content { grid-template-columns: 1fr auto; gap: 1.5rem; }
+    }
+
+    /* Mobile — [photo left | info right] side by side, small font */
+    @media (max-width: 768px) {
+      .hub-hero { padding: 2rem 0 1.5rem; }
+      .hub-name { font-size: 1.8rem; }
+
+      .hub-terminal-body {
+        padding: 14px 14px;
+        font-size: 0.6rem;
+        gap: 0.5rem;
+      }
+
+      /* Photo LEFT, Info RIGHT — mirrors desktop */
+      .hub-terminal-ascii { display: none; }
+      .t-neofetch-content {
+        grid-template-columns: auto 1fr;
+        gap: 0.8rem;
+        align-items: start;
+      }
+      /* Photo moves to left column */
+      .t-neofetch-photo { order: -1; justify-content: flex-start; }
+      .t-neofetch-photo img {
+        width: 85px;
+        height: 95px;
+        border-radius: 6px;
+      }
+
+      .hub-card-wide { flex-direction: column; align-items: flex-start; }
       .hub-card-wide .hub-card-badge { align-items: flex-start; }
+    }
+
+    /* Extra small — even tighter */
+    @media (max-width: 400px) {
+      .hub-terminal-body { font-size: 0.55rem; padding: 10px 10px; }
+      .t-neofetch-photo img { width: 70px; height: 78px; }
+    }
+
+    /* Platform grid mobile */
+    @media (max-width: 580px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .hub-card-wide { grid-column: span 1; }
     }
 
     /* =====================================================
        SKILLS & PROJECTS GRIDS
        ===================================================== */
-    .skills-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1.5rem; align-items: stretch;
-    }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: stretch; }
     .skills-grid .card { display: flex; flex-direction: column; }
     .skills-grid .card ul.clean-list { flex: 1; }
     @media (max-width: 768px) { .skills-grid { grid-template-columns: 1fr; } }
@@ -324,7 +298,6 @@
 
   <div class="hub-hero">
 
-    <!-- Centered header above terminal -->
     <div class="hub-hero-header">
       <h1 class="hub-name">Aayush Acharya</h1>
       <p class="hub-title">
@@ -332,7 +305,6 @@
       </p>
     </div>
 
-    <!-- Full-width terminal — photo lives inside -->
     <div class="hub-terminal" role="region" aria-label="About Aayush">
       <div class="hub-terminal-bar">
         <span class="hub-terminal-dot"></span>
@@ -343,15 +315,13 @@
 
       <div class="hub-terminal-body">
 
-        <!-- Command line -->
         <div class="t-command-line">
           <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ fastfetch</span>
         </div>
 
-        <!-- Three columns: Aa art | info | photo -->
         <div class="t-neofetch-content">
 
-          <!-- Aa ASCII art (hidden on small screens) -->
+          <!-- Aa ASCII art (hidden ≤1000px) -->
           <div class="hub-terminal-ascii" aria-hidden="true">
             <span style="color:#93c5fd;">    ██              </span>
             <span style="color:#60a5fa;">   ████             </span>
@@ -367,22 +337,22 @@
           <!-- Info -->
           <div class="hub-terminal-info">
             <span class="t-blank"></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">aayush@aayush.com.au</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">aayush@aayush.com.au</span></span>
             <span class="t-out" style="color:#6e7681;">---------------------</span>
             <span class="t-blank"></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">User      </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Aayush Acharya</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Focus     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Modern Workplace &amp; Infrastructure</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Stack     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">M365 · Entra ID · Intune</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Lab       </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Azure · Hyper-V · Windows Server · Meraki</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Certs     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">MD-102 · CCST · CompTIA A+ · Google IT</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Studying  </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">AZ-900 · BCA Cloud &amp; Security · MUJ</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Seeking   </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">IT Support Engineer · Sydney, AU</span></span>
-            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Rights    </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Full AU Working Rights</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">User     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Aayush Acharya</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Focus    </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Modern Workplace &amp; Infrastructure</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Stack    </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">M365 · Entra ID · Intune</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Lab      </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Azure · Hyper-V · Windows Server · Meraki</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Certs    </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">MD-102 · CCST · CompTIA A+ · Google IT</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Studying </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">AZ-900 · BCA Cloud &amp; Security · MUJ</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Seeking  </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">IT Support Engineer · Sydney, AU</span></span>
+            <span class="t-out"><span style="color:#27c93f;font-weight:600;">Rights   </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Full AU Working Rights</span></span>
             <span class="t-blank"></span>
             <span class="t-out"><span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ </span><span class="hub-cursor" aria-hidden="true"></span></span>
           </div>
 
-          <!-- Photo inside terminal -->
+          <!-- Photo inside terminal (right on desktop, left on mobile) -->
           <div class="t-neofetch-photo">
             <img src="assets/images/aayush.png" alt="Aayush Acharya" />
           </div>
@@ -391,7 +361,6 @@
       </div>
     </div>
 
-    <!-- CTA centered below terminal -->
     <a class="hub-connect" href="#contact">Get in Touch →</a>
 
   </div>
