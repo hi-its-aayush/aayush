@@ -14,53 +14,51 @@
 
   <style>
     /* =====================================================
-       HUB HERO
+       HUB HERO — full-width centered terminal
        ===================================================== */
     .hub-hero {
       padding: 4rem 0 2rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 1.5rem;
       position: relative;
+      width: 100%;
     }
+
     .hub-hero::before {
       content: '';
       position: absolute;
-      top: 2rem; left: 25%;
+      top: 2rem; left: 50%;
       transform: translateX(-50%);
-      width: 500px; height: 220px;
+      width: 600px; height: 220px;
       background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
-    .hub-hero-header { position: relative; z-index: 1; }
-    .hub-hero-main {
-      position: relative; z-index: 1;
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      align-items: start;
-      gap: 3rem;
+
+    /* Header — centered above terminal */
+    .hub-hero-header {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      width: 100%;
     }
-    .hub-hero-content { display: flex; flex-direction: column; gap: 1rem; }
-    .hub-hero-photo   { display: flex; justify-content: center; }
-    .hub-hero-photo img {
-      width: 100%; max-width: 360px; height: auto;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    }
+
     .hub-name {
       font-size: clamp(2.2rem, 5vw, 3.2rem);
       font-weight: 700; letter-spacing: -1px;
       color: var(--text-main);
       margin: 0 0 0.5rem 0; line-height: 1.05;
     }
+
     .hub-title {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.7rem, 2vw, 0.82rem);
       color: var(--accent); margin: 0; line-height: 1.5;
     }
     .hub-title::before { content: '> '; opacity: 0.45; }
+
     .hub-cursor {
       display: inline-block; width: 8px; height: 1em;
       background: var(--accent); margin-left: 2px;
@@ -69,16 +67,20 @@
     }
 
     /* =====================================================
-       TERMINAL — fastfetch two-column layout
+       TERMINAL — full width, photo inside
        ===================================================== */
     .hub-terminal {
       background: #0d1117;
       border: 1px solid #30363d;
       border-radius: 10px;
-      width: 100%; overflow: hidden;
+      width: 100%;
+      overflow: hidden;
       text-align: left;
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 1;
     }
+
     .hub-terminal-bar {
       background: #161b22; padding: 9px 16px;
       display: flex; align-items: center; gap: 7px;
@@ -94,32 +96,32 @@
       font-size: 0.7rem; color: #6e7681;
     }
 
-    /* Terminal body — column layout */
     .hub-terminal-body {
-      padding: 16px 20px;
+      padding: 20px 24px;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: clamp(0.68rem, 1.3vw, 0.76rem);
+      font-size: clamp(0.68rem, 1.2vw, 0.76rem);
       line-height: 1.8;
-      display: flex; flex-direction: column; gap: 0.5rem;
-      overflow: hidden;
+      display: flex; flex-direction: column; gap: 0.8rem;
     }
+
     .t-command-line { display: block; }
 
-    /* Two-column neofetch content */
+    /* Three-column: Aa art | info | photo */
     .t-neofetch-content {
-      display: flex; flex-direction: row;
-      gap: 2rem; align-items: center;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 2.5rem;
+      align-items: center;
     }
 
-    /* ASCII art "Aa" */
+    /* Aa ASCII art */
     .hub-terminal-ascii {
       display: flex; flex-direction: column;
       flex-shrink: 0; user-select: none;
       line-height: 1.5;
     }
     .hub-terminal-ascii span {
-      display: block;
-      white-space: pre;
+      display: block; white-space: pre;
       font-family: 'JetBrains Mono', 'Courier New', monospace;
       font-size: 0.76rem;
     }
@@ -127,27 +129,39 @@
     /* Info column */
     .hub-terminal-info { display: flex; flex-direction: column; min-width: 0; }
 
+    /* Photo inside terminal */
+    .t-neofetch-photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .t-neofetch-photo img {
+      width: 210px;
+      height: 230px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+
     .t-prompt { color: #27c93f; }
     .t-path   { color: #3b82f6; }
     .t-cmd    { color: #d4d4d4; }
     .t-out    { color: #8b949e; padding-left: 0.3rem; display: block; white-space: nowrap; }
     .t-blank  { display: block; height: 0.3rem; }
 
-    /* Hide ASCII on screens too narrow to show it cleanly */
-    @media (max-width: 1100px) {
-      .hub-terminal-ascii { display: none; }
-    }
-
     /* CTA */
     .hub-connect {
-      display: inline-block; margin-top: 0.5rem;
+      display: inline-block;
       padding: 0.7rem 1.6rem;
       border: 1px solid var(--accent); border-radius: 6px;
       font-size: 0.9rem; font-weight: 600;
       color: var(--accent); background: rgba(59,130,246,0.08);
       text-decoration: none;
       transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-      align-self: flex-start;
+      position: relative; z-index: 1;
     }
     .hub-connect:hover {
       background: var(--accent); color: #fff;
@@ -162,6 +176,41 @@
     }
 
     /* =====================================================
+       MOBILE — collapse terminal to single column
+       ===================================================== */
+    @media (max-width: 768px) {
+      .hub-name { font-size: 2rem; }
+
+      .t-neofetch-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      /* Photo first on mobile */
+      .t-neofetch-photo {
+        order: -1;
+        justify-content: center;
+      }
+      .t-neofetch-photo img {
+        width: 130px;
+        height: 145px;
+      }
+
+      /* Hide Aa art on mobile — not enough room */
+      .hub-terminal-ascii { display: none; }
+
+      .t-out { white-space: normal; }
+
+      .hub-terminal-body { padding: 16px; }
+    }
+
+    /* Hide Aa art also on medium screens where it crowds */
+    @media (max-width: 1000px) and (min-width: 769px) {
+      .hub-terminal-ascii { display: none; }
+      .t-neofetch-content { grid-template-columns: 1fr auto; }
+    }
+
+    /* =====================================================
        PLATFORMS GRID
        ===================================================== */
     .hub-grid {
@@ -170,6 +219,7 @@
       gap: 1.25rem;
     }
     .hub-card-wide { grid-column: span 2; }
+
     .hub-card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 1.6rem;
@@ -210,10 +260,7 @@
       color: var(--accent); font-weight: 500;
     }
     .hub-card-title { font-size: 1rem; font-weight: 700; }
-    .hub-card-desc  {
-      font-size: 0.83rem; color: var(--text-muted);
-      line-height: 1.65; margin-top: 0.25rem; flex: 1;
-    }
+    .hub-card-desc  { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; margin-top: 0.25rem; flex: 1; }
     .hub-card-cta {
       margin-top: 0.9rem; padding-top: 0.7rem;
       border-top: 1px solid var(--border);
@@ -232,14 +279,10 @@
     .hub-divider { animation: fadeUp 0.5s 0.15s ease both; opacity: 0; animation-fill-mode: forwards; }
     .hub-grid    { animation: fadeUp 0.5s 0.25s ease both; opacity: 0; animation-fill-mode: forwards; }
 
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .hub-hero-main { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
-      .hub-hero-photo { order: -1; }
-      .hub-hero-content { align-items: center; }
-      .hub-connect { align-self: center; }
-      .hub-hero::before { left: 50%; }
-      .hub-card-wide { flex-direction: column; align-items: flex-start; }
+    /* Mobile platform grid */
+    @media (max-width: 640px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .hub-card-wide { grid-column: span 1; flex-direction: column; align-items: flex-start; }
       .hub-card-wide .hub-card-badge { align-items: flex-start; }
     }
 
@@ -281,82 +324,76 @@
 
   <div class="hub-hero">
 
+    <!-- Centered header above terminal -->
     <div class="hub-hero-header">
       <h1 class="hub-name">Aayush Acharya</h1>
       <p class="hub-title">
         IT Support Officer &nbsp;·&nbsp; Level 1/2 IT Support &nbsp;·&nbsp; Sydney, AU
-        <span class="hub-cursor" aria-hidden="true"></span>
       </p>
     </div>
 
-    <div class="hub-hero-main">
+    <!-- Full-width terminal — photo lives inside -->
+    <div class="hub-terminal" role="region" aria-label="About Aayush">
+      <div class="hub-terminal-bar">
+        <span class="hub-terminal-dot"></span>
+        <span class="hub-terminal-dot"></span>
+        <span class="hub-terminal-dot"></span>
+        <span class="hub-terminal-label">about.sh</span>
+      </div>
 
-      <div class="hub-hero-content">
+      <div class="hub-terminal-body">
 
-        <div class="hub-terminal" role="region" aria-label="About Aayush">
-          <div class="hub-terminal-bar">
-            <span class="hub-terminal-dot"></span>
-            <span class="hub-terminal-dot"></span>
-            <span class="hub-terminal-dot"></span>
-            <span class="hub-terminal-label">about.sh</span>
-          </div>
-
-          <div class="hub-terminal-body">
-
-            <!-- Command line -->
-            <div class="t-command-line">
-              <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ fastfetch</span>
-            </div>
-
-            <!-- Two-column: Aa + info -->
-            <div class="t-neofetch-content">
-
-              <!--
-                ASCII art "Aa" — capital A (10 chars) + gap (3 chars) + lowercase a (7 chars) = 20 chars per row
-                Colors graduate light→dark top to bottom; crossbar (row 6) is brightest
-                Hidden below 1100px viewport width
-              -->
-              <div class="hub-terminal-ascii" aria-hidden="true">
-                <span style="color:#93c5fd;">    ██              </span>
-                <span style="color:#60a5fa;">   ████             </span>
-                <span style="color:#3b82f6;">  ██  ██            </span>
-                <span style="color:#3b82f6;"> ██    ██           </span>
-                <span style="color:#3b82f6;"> ██    ██      █████ </span>
-                <span style="color:#bfdbfe;"> ████████         ██</span>
-                <span style="color:#2563eb;">██      ██    ██████</span>
-                <span style="color:#1d4ed8;">██      ██   ██    █</span>
-                <span style="color:#1e40af;">██      ██    ██████</span>
-              </div>
-
-              <!-- Info -->
-              <div class="hub-terminal-info">
-                <span class="t-blank"></span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;">aayush@aayush.com.au</span></span>
-                <span class="t-out" style="color:#6e7681;">---------------------</span>
-                <span class="t-blank"></span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> User</span>     : Aayush Acharya</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Focus</span>    : Modern Workplace &amp; Infrastructure</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Stack</span>    : M365 · Entra ID · Intune</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Lab</span>      : Azure · Hyper-V · Windows Server · Meraki</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Certs</span>    : MD-102 · CCST · CompTIA A+ · Google IT</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Studying</span> : AZ-900 · BCA Cloud &amp; Security · MUJ</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Seeking</span>  : IT Support Engineer · Sydney, AU</span>
-                <span class="t-out"><span style="color:#27c93f; font-weight:600;"> Work Rights</span>   : Full AU Working Rights</span>
-              </div>
-
-            </div>
-          </div>
+        <!-- Command line -->
+        <div class="t-command-line">
+          <span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ fastfetch</span>
         </div>
 
-        <a class="hub-connect" href="#contact">Get in Touch →</a>
+        <!-- Three columns: Aa art | info | photo -->
+        <div class="t-neofetch-content">
 
+          <!-- Aa ASCII art (hidden on small screens) -->
+          <div class="hub-terminal-ascii" aria-hidden="true">
+            <span style="color:#93c5fd;">    ██              </span>
+            <span style="color:#60a5fa;">   ████             </span>
+            <span style="color:#3b82f6;">  ██  ██            </span>
+            <span style="color:#3b82f6;"> ██    ██           </span>
+            <span style="color:#3b82f6;"> ██    ██      █████ </span>
+            <span style="color:#bfdbfe;"> ████████         ██</span>
+            <span style="color:#2563eb;">██      ██    ██████</span>
+            <span style="color:#1d4ed8;">██      ██   ██    █</span>
+            <span style="color:#1e40af;">██      ██    ██████</span>
+          </div>
+
+          <!-- Info -->
+          <div class="hub-terminal-info">
+            <span class="t-blank"></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">aayush@aayush.com.au</span></span>
+            <span class="t-out" style="color:#6e7681;">---------------------</span>
+            <span class="t-blank"></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">User      </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Aayush Acharya</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Focus     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Modern Workplace &amp; Infrastructure</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Stack     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">M365 · Entra ID · Intune</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Lab       </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Azure · Hyper-V · Windows Server · Meraki</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Certs     </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">MD-102 · CCST · CompTIA A+ · Google IT</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Studying  </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">AZ-900 · BCA Cloud &amp; Security · MUJ</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Seeking   </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">IT Support Engineer · Sydney, AU</span></span>
+            <span class="t-out"><span style="color:#27c93f; font-weight:600;">Rights    </span><span style="color:#6e7681;"> : </span><span style="color:#d4d4d4;">Full AU Working Rights</span></span>
+            <span class="t-blank"></span>
+            <span class="t-out"><span class="t-prompt">aayush@hub</span>:<span class="t-path">~</span><span class="t-cmd"> $ </span><span class="hub-cursor" aria-hidden="true"></span></span>
+          </div>
+
+          <!-- Photo inside terminal -->
+          <div class="t-neofetch-photo">
+            <img src="assets/images/aayush.png" alt="Aayush Acharya" />
+          </div>
+
+        </div>
       </div>
-
-      <div class="hub-hero-photo">
-        <img src="assets/images/aayush.png" alt="Aayush Acharya" />
-      </div>
-
     </div>
+
+    <!-- CTA centered below terminal -->
+    <a class="hub-connect" href="#contact">Get in Touch →</a>
+
   </div>
 
   <div class="hub-divider" aria-hidden="true"></div>
@@ -430,15 +467,15 @@
       <div class="card">
         <h3>Technical Skills</h3>
         <ul class="clean-list">
-          <li style="margin-bottom: 0.8rem;"><strong>Identity &amp; Access Management:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Entra ID (Azure AD), RBAC, MFA, Conditional Access, user provisioning &amp; offboarding, SSO.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Microsoft 365 &amp; Endpoint Management:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Exchange Online, Teams, OneDrive, SharePoint, Microsoft Intune, Windows Autopilot (lab), JAMF (lab), MDM policy management.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Networking &amp; Infrastructure:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">DNS, DHCP, TCP/IP, VLANs, site-to-site VPN, Cisco Meraki, Windows Server 2022, Hyper-V, Microsoft Azure.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Security &amp; ITSM:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Zero Trust architecture, phishing-resistant MFA, endpoint protection, Conditional Access, ServiceNow, Freshservice, Jira.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Scripting &amp; Automation:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">PowerShell, Bash scripting, task automation, bulk user management via CLI, scheduled tasks.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Remote Support &amp; Tooling:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">RDP, TeamViewer, AnyDesk, Quick Assist, remote endpoint troubleshooting, screen-sharing diagnostics.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Operating Systems:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Windows 10/11 (advanced), macOS, Ubuntu/Linux (basic admin), Windows Server 2022.</span></li>
-          <li style="margin-bottom: 0.8rem;"><strong>Infrastructure (Home Lab):</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Active Directory, Windows Server 2022, Hyper-V, GPO hardening, hybrid cloud environments, Autopilot zero-touch provisioning, Azure AD Connect.</span></li>
-          <li style="margin-bottom: 0;"><strong>AV &amp; Hardware:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Projectors, LED displays, conferencing systems (Teams Rooms / Webex / Zoom), VoIP (3CX), POS (Lightspeed).</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Identity &amp; Access Management:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Entra ID (Azure AD), RBAC, MFA, Conditional Access, user provisioning &amp; offboarding, SSO.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Microsoft 365 &amp; Endpoint Management:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Exchange Online, Teams, OneDrive, SharePoint, Microsoft Intune, Windows Autopilot (lab), JAMF (lab), MDM policy management.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Networking &amp; Infrastructure:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">DNS, DHCP, TCP/IP, VLANs, site-to-site VPN, Cisco Meraki, Windows Server 2022, Hyper-V, Microsoft Azure.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Security &amp; ITSM:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Zero Trust architecture, phishing-resistant MFA, endpoint protection, Conditional Access, ServiceNow, Freshservice, Jira.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Scripting &amp; Automation:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">PowerShell, Bash scripting, task automation, bulk user management via CLI, scheduled tasks.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Remote Support &amp; Tooling:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">RDP, TeamViewer, AnyDesk, Quick Assist, remote endpoint troubleshooting, screen-sharing diagnostics.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Operating Systems:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Windows 10/11 (advanced), macOS, Ubuntu/Linux (basic admin), Windows Server 2022.</span></li>
+          <li style="margin-bottom:0.8rem;"><strong>Infrastructure (Home Lab):</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Active Directory, Windows Server 2022, Hyper-V, GPO hardening, hybrid cloud environments, Autopilot zero-touch provisioning, Azure AD Connect.</span></li>
+          <li style="margin-bottom:0;"><strong>AV &amp; Hardware:</strong><br><span style="color:var(--text-muted);font-size:0.9rem;">Projectors, LED displays, conferencing systems (Teams Rooms / Webex / Zoom), VoIP (3CX), POS (Lightspeed).</span></li>
         </ul>
       </div>
       <div class="card">
