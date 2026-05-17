@@ -255,13 +255,34 @@ footer {
 @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
 /* --- 8. MEDIA QUERIES --- */
-@media (min-width: 768px) {
-    .bento-grid-2 { grid-template-columns: repeat(2, 1fr); }
-    .span-2 { grid-column: span 2; }
-    .games-row { grid-template-columns: 1fr 1fr; }
-}
-
 @media (max-width: 768px) {
-    .nav-content { flex-direction: column; gap: 0.8rem; padding: 0.8rem 1rem; }
-    .nav-links { flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
+  .hub-name { font-size: 2rem; }
+
+  .hub-terminal-body {
+    font-size: 0.6rem;
+    padding: 12px 14px;
+  }
+
+  /* Photo LEFT, info RIGHT — mirrors desktop layout */
+  .t-neofetch-content {
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .hub-terminal-ascii { display: none; }
+
+  .t-neofetch-photo { order: -1; } /* photo goes to left column */
+  .t-neofetch-photo img {
+    width: 80px;
+    height: 90px;
+  }
+
+  /* Clip long lines instead of wrapping */
+  .hub-terminal-info { overflow: hidden; }
+  .t-out {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
