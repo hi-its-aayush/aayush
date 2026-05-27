@@ -508,56 +508,58 @@
       <div>
         <p class="text-text-muted text-sm mb-6 max-w-md">Targeting IT Support Engineer roles in Sydney. Open to L2/L3 support, systems administration, or modern workplace engineering.</p>
 
-        <!-- Contact details — copyable -->
-        <div class="glass p-4 mb-6 space-y-3 text-sm font-mono">
-          <div class="text-[10px] text-text-muted uppercase tracking-widest mb-2">CONTACT_DETAILS</div>
-          <div class="flex items-center gap-3">
-            <span class="text-terminal-green">Email</span>
-            <span class="text-on-surface select-all">aayush@aayush.com.au</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-terminal-green">LinkedIn</span>
-            <span class="text-on-surface select-all">linkedin.com/in/aayushacharya</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-terminal-green">GitHub</span>
-            <span class="text-on-surface select-all">github.com/hi-its-aayush</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-terminal-green">Website</span>
-            <span class="text-on-surface select-all">aayush.com.au</span>
-          </div>
-        </div>
+<div class="space-y-3">
+  <a href="mailto:aayush@aayush.com.au"
+     class="flex items-center gap-4 px-5 py-3 border border-border-subtle hover:border-primary transition-all group">
+    <span class="material-symbols-outlined text-primary text-xl">mail</span>
+    <div>
+      <div class="text-[10px] text-text-muted uppercase tracking-widest font-mono">EMAIL</div>
+      <div class="text-sm text-on-surface select-all">aayush@aayush.com.au</div>
+    </div>
+  </a>
 
-        <!-- Action links -->
-        <div class="space-y-3">
-          <a href="mailto:aayush@aayush.com.au" class="flex items-center gap-3 px-6 py-3 border-2 border-primary text-primary font-bold text-sm hover:bg-primary/10 transition-all w-fit">
-            <span class="material-symbols-outlined text-lg">mail</span>EMAIL_ROOT
-          </a>
-          <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
-            <span class="material-symbols-outlined text-lg">share</span>LINKEDIN
-          </a>
-          <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
-            <span class="material-symbols-outlined text-lg">code</span>GITHUB
-          </a>
-        </div>
+  <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener"
+     class="flex items-center gap-4 px-5 py-3 border border-border-subtle hover:border-primary transition-all group">
+    <span class="material-symbols-outlined text-primary text-xl">share</span>
+    <div>
+      <div class="text-[10px] text-text-muted uppercase tracking-widest font-mono">LINKEDIN</div>
+      <div class="text-sm text-on-surface select-all">linkedin.com/in/aayushacharya</div>
+    </div>
+  </a>
+<!-- Contact details -->
+  <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener"
+     class="flex items-center gap-4 px-5 py-3 border border-border-subtle hover:border-primary transition-all group">
+    <span class="material-symbols-outlined text-primary text-xl">code</span>
+    <div>
+      <div class="text-[10px] text-text-muted uppercase tracking-widest font-mono">GITHUB</div>
+      <div class="text-sm text-on-surface select-all">github.com/hi-its-aayush</div>
+    </div>
+  </a>
+
+  <div class="flex items-center gap-4 px-5 py-3 border border-border-subtle">
+    <span class="material-symbols-outlined text-primary text-xl">language</span>
+    <div>
+      <div class="text-[10px] text-text-muted uppercase tracking-widest font-mono">WEBSITE</div>
+      <div class="text-sm text-on-surface select-all">aayush.com.au</div>
+    </div>
+  </div>
+</div>
       </div>
-
       <!-- Right: form -->
       <!-- Replace YOUR_FORMSPREE_ID once set up at formspree.io -->
       <div class="glass p-6">
-        <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <form id="contact-form" action="https://formspree.io/f/xgoqabwy" method="POST">
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_NAME</label>
-            <input type="text" name="name" required placeholder="guest_user" class="form-input" />
+            <input type="text" name="name" required placeholder="guest_user" class="form-input" style="color:#0d0d0d;" />
           </div>
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_EMAIL</label>
-            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" />
+            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" style="color:#0d0d0d;" />
           </div>
           <div class="mb-5">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_MESSAGE</label>
-            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none"></textarea>
+            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none" style="color:#0d0d0d;" ></textarea>
           </div>
           <button type="submit" class="w-full py-3.5 bg-surface-bright border border-border-subtle text-terminal-green font-bold text-sm flex items-center justify-center gap-2 hover:bg-terminal-green hover:text-surface transition-all group">
             SEND_PACKET
