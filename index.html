@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Aayush Acharya — IT Support Officer based in Sydney. M365, Entra ID, Intune, Cisco Meraki." />
   <title>AAYUSH_ACHARYA_OS</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-  <!-- Tailwind config — must stay in HTML, processed by CDN -->
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -31,7 +29,6 @@
             "primary-container":        "#4d8eff",
             "on-primary":               "#002e6a",
             "tertiary":                 "#49e255",
-            "secondary":                "#c1c7d0",
             "error":                    "#ffb4ab",
             "border-subtle":            "#30363D",
             "text-muted":               "#8B949E",
@@ -47,27 +44,22 @@
     }
   </script>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-
-  <!-- Custom styles -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body class="bg-surface text-on-surface selection:bg-terminal-green selection:text-surface">
 
+
 <!-- ════════════════════ NAVBAR ════════════════════ -->
 <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-border-subtle">
   <nav class="flex justify-between items-center px-mobile md:px-desktop py-4 max-w-[1440px] mx-auto">
-
     <div class="text-terminal-green font-bold text-base md:text-lg tracking-tighter whitespace-nowrap">
       AAYUSH_ACHARYA_OS
     </div>
-
-    <!-- Desktop nav -->
     <div class="hidden md:flex gap-8 items-center text-sm">
       <a href="#skills"    class="text-on-surface-variant hover:text-primary transition-colors">Skills</a>
       <a href="#platforms" class="text-on-surface-variant hover:text-primary transition-colors">Platforms</a>
@@ -75,15 +67,10 @@
       <a href="#education" class="text-on-surface-variant hover:text-primary transition-colors">Education</a>
       <a href="#contact"   class="text-on-surface-variant hover:text-primary transition-colors">Contact</a>
     </div>
-
-    <!-- Mobile hamburger -->
     <button id="hamburger" class="md:hidden text-terminal-green" aria-label="Open menu">
       <span class="material-symbols-outlined">menu</span>
     </button>
-
   </nav>
-
-  <!-- Mobile dropdown -->
   <div id="mobile-menu" class="flex-col gap-4 px-mobile py-4 border-t border-border-subtle bg-surface text-sm">
     <a href="#skills"    class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Skills</a>
     <a href="#platforms" class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Platforms</a>
@@ -98,14 +85,12 @@
 <main class="pt-24 pb-20 px-mobile md:px-desktop max-w-[1440px] mx-auto">
 
 
-  <!-- ── HERO: fastfetch terminal ─────────────────── -->
+  <!-- ── HERO ─────────────────────────────────────── -->
   <section class="mb-16">
-    <div class="glass rounded-lg overflow-hidden relative" style="box-shadow: 0 20px 60px rgba(0,0,0,0.6);">
-
-      <!-- CRT scanline overlay -->
+    <div class="glass rounded-lg overflow-hidden relative" style="box-shadow:0 20px 60px rgba(0,0,0,0.6);">
       <div class="scanline absolute inset-0 z-10 opacity-30"></div>
 
-      <!-- Terminal title bar -->
+      <!-- Terminal bar -->
       <div class="bg-surface-container-high px-4 py-2.5 flex items-center justify-between border-b border-border-subtle">
         <div class="flex gap-2">
           <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
@@ -116,21 +101,18 @@
         <div class="w-16"></div>
       </div>
 
-      <!-- Terminal body -->
       <div class="p-6 md:p-10">
-
-        <!-- Command prompt -->
+        <!-- Prompt -->
         <div class="text-sm mb-8 font-mono">
           <span class="text-terminal-green">aayush@hub</span><span class="text-text-muted">:</span><span class="text-primary">~</span><span class="text-on-surface"> $ fastfetch</span>
         </div>
 
-        <!-- Three columns: Aa art | info | photo -->
+        <!-- Three columns -->
         <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
 
-          <!-- Pixel Aa art — hidden on small/medium screens -->
-          <div class="hidden lg:flex flex-col gap-3 flex-shrink-0" aria-hidden="true">
-            <!-- Capital A — 5×6 -->
-            <div class="grid gap-1" style="grid-template-columns: repeat(5, 1rem);">
+          <!-- Pixel Aa art -->
+          <div class="hidden lg:flex flex-row gap-3 items-end flex-shrink-0" aria-hidden="true">
+            <div class="grid gap-1" style="grid-template-columns:repeat(5,1rem);">
               <div class="w-4 h-4 bg-primary/10"></div><div class="w-4 h-4 bg-primary/30"></div><div class="w-4 h-4 bg-primary/60"></div><div class="w-4 h-4 bg-primary/30"></div><div class="w-4 h-4 bg-primary/10"></div>
               <div class="w-4 h-4 bg-primary/20"></div><div class="w-4 h-4 bg-primary/50"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 bg-primary/50"></div><div class="w-4 h-4 bg-primary/20"></div>
               <div class="w-4 h-4 bg-primary/40"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 bg-primary/40"></div>
@@ -138,8 +120,7 @@
               <div class="w-4 h-4 bg-primary/90"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 bg-primary/90"></div>
               <div class="w-4 h-4 bg-primary/80"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 border border-primary/30"></div><div class="w-4 h-4 bg-primary/80"></div>
             </div>
-            <!-- Lowercase a — 4×5, offset right -->
-            <div class="grid gap-1 ml-3" style="grid-template-columns: repeat(4, 1rem);">
+            <div class="grid gap-1" style="grid-template-columns:repeat(4,1rem);">
               <div class="w-4 h-4 bg-primary/30"></div><div class="w-4 h-4 bg-primary/60"></div><div class="w-4 h-4 bg-primary/60"></div><div class="w-4 h-4 border border-primary/20"></div>
               <div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 border border-primary/20"></div><div class="w-4 h-4 bg-primary/60"></div>
               <div class="w-4 h-4 bg-primary/40"></div><div class="w-4 h-4 bg-primary/60"></div><div class="w-4 h-4 bg-primary/80"></div><div class="w-4 h-4 bg-primary"></div>
@@ -148,11 +129,11 @@
             </div>
           </div>
 
-          <!-- Info column -->
+          <!-- Info -->
           <div class="flex-1 min-w-0 text-sm font-mono">
-            <div class="text-terminal-green font-semibold mb-1" style="text-decoration:underline; text-underline-offset:3px;">aayush@aayush.com.au</div>
+            <div class="text-terminal-green font-semibold mb-1" style="text-decoration:underline;text-underline-offset:3px;">aayush@aayush.com.au</div>
             <div class="text-text-muted mb-4">─────────────────────</div>
-            <div class="grid gap-y-1.5" style="grid-template-columns: 90px 1fr;">
+            <div class="grid gap-y-1.5" style="grid-template-columns:90px 1fr;">
               <span class="text-terminal-green font-medium">User</span>     <span class="text-on-surface">: Aayush Acharya</span>
               <span class="text-terminal-green font-medium">Focus</span>    <span class="text-on-surface">: Modern Workplace &amp; Infrastructure</span>
               <span class="text-terminal-green font-medium">Stack</span>    <span class="text-on-surface">: M365 · Entra ID · Intune</span>
@@ -169,13 +150,12 @@
 
           <!-- Photo -->
           <div class="flex-shrink-0 flex justify-center">
-            <div class="relative group">
-              <div class="absolute -inset-1 bg-gradient-to-r from-terminal-green to-primary opacity-20 group-hover:opacity-50 blur transition-all duration-500 rounded"></div>
-              <img src="assets/images/aayush.png" alt="Aayush Acharya"
-                   class="relative w-48 md:w-64 h-auto rounded border border-border-subtle  hover:grayscale-0 transition-all duration-700"
-                   style="max-height:190px; object-fit:cover; object-position:center top;" />
-            </div>
-          </div>
+  <div class="relative group">
+    <div class="absolute -inset-1 bg-gradient-to-r from-terminal-green to-primary opacity-20 group-hover:opacity-50 blur transition-all duration-500 rounded"></div>
+    <img src="assets/images/aayush.png" alt="Aayush Acharya"
+         class="relative w-80 md:w-96 h-auto rounded border border-border-subtle grayscale hover:grayscale-0 transition-all duration-700" />
+  </div>
+</div>
 
         </div>
       </div>
@@ -183,21 +163,29 @@
   </section>
 
 
-  <!-- ── SKILLS + STATUS ───────────────────────────── -->
+  <!-- ── SKILLS TICKER ──────────────────────────── -->
+  <div class="ticker-outer">
+    <div class="ticker-track">
+      <span>Entra ID &nbsp;·&nbsp; <em>Microsoft Intune</em> &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; <em>Microsoft 365</em> &nbsp;·&nbsp; Azure &nbsp;·&nbsp; <em>Windows Server 2022</em> &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; <em>Zero Trust</em> &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; <em>DNS &amp; DHCP</em> &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; <em>Freshservice</em> &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; <em>JAMF</em> &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; <em>Active Directory</em> &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp; <em>Conditional Access</em> &nbsp;·&nbsp;</span>
+      <span>Entra ID &nbsp;·&nbsp; <em>Microsoft Intune</em> &nbsp;·&nbsp; Cisco Meraki &nbsp;·&nbsp; <em>Microsoft 365</em> &nbsp;·&nbsp; Azure &nbsp;·&nbsp; <em>Windows Server 2022</em> &nbsp;·&nbsp; Hyper-V &nbsp;·&nbsp; <em>Zero Trust</em> &nbsp;·&nbsp; VLANs &nbsp;·&nbsp; <em>DNS &amp; DHCP</em> &nbsp;·&nbsp; ServiceNow &nbsp;·&nbsp; <em>Freshservice</em> &nbsp;·&nbsp; Teams Rooms &nbsp;·&nbsp; <em>JAMF</em> &nbsp;·&nbsp; PowerShell &nbsp;·&nbsp; <em>Active Directory</em> &nbsp;·&nbsp; Remote Desktop &nbsp;·&nbsp; <em>Conditional Access</em> &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+
+  <!-- ── SKILLS + STATUS ───────────────────────── -->
   <section id="skills" class="mb-12">
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>cat ./skills.json</span></div>
+    <h2 class="section-heading">// Skills &amp; Certifications</h2>
+
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
 
-      <!-- Core Expertise — 8 col -->
+      <!-- Core Expertise -->
       <div class="md:col-span-8 glass p-6">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="flex items-center gap-2 text-base font-bold text-primary">
-            <span class="material-symbols-outlined text-primary">terminal</span>
-            // Core_Expertise
-          </h2>
-          <span class="text-xs text-text-muted font-mono">v2.4.0_STABLE</span>
+        <div class="box-heading">
+          <span class="material-symbols-outlined">terminal</span>
+          // Core_Expertise
+          <span class="ml-auto text-xs text-text-muted font-normal">v2.4.0_STABLE</span>
         </div>
-
-        <!-- Skills grid -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           <div class="p-3 border border-border-subtle hover:border-terminal-green transition-colors">
             <div class="text-text-muted text-[10px] uppercase tracking-widest mb-1">OS_DEPLOYMENT</div>
@@ -248,44 +236,27 @@
             <div class="text-sm font-bold">Teams Rooms / Webex</div>
           </div>
         </div>
-
-        <!-- Proficiency bars -->
         <div class="mt-6 pt-4 border-t border-border-subtle space-y-3">
           <div class="text-[10px] text-text-muted uppercase tracking-widest mb-2 font-mono">NETWORKING_PROFICIENCY</div>
           <div class="flex justify-between items-center text-sm">
             <span class="text-on-surface-variant">TCP/IP &amp; Subnetting</span>
-            <div class="flex gap-1">
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-            </div>
+            <div class="flex gap-1"><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div></div>
           </div>
           <div class="flex justify-between items-center text-sm">
             <span class="text-on-surface-variant">VLAN Design</span>
-            <div class="flex gap-1">
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-border-subtle"></div>
-            </div>
+            <div class="flex gap-1"><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-border-subtle"></div></div>
           </div>
           <div class="flex justify-between items-center text-sm">
             <span class="text-on-surface-variant">Azure / Cloud Infra</span>
-            <div class="flex gap-1">
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-terminal-green"></div>
-              <div class="w-8 h-1.5 bg-border-subtle"></div>
-              <div class="w-8 h-1.5 bg-border-subtle"></div>
-            </div>
+            <div class="flex gap-1"><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-terminal-green"></div><div class="w-8 h-1.5 bg-border-subtle"></div><div class="w-8 h-1.5 bg-border-subtle"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- System Status — 4 col -->
+      <!-- System Status -->
       <div class="md:col-span-4 glass p-6 flex flex-col justify-between relative overflow-hidden">
         <div class="relative z-10">
-          <h3 class="text-terminal-green font-bold text-base mb-5">// System_Status</h3>
+          <div class="box-heading">// System_Status</div>
           <div class="space-y-4 text-sm">
             <div class="flex justify-between items-center">
               <span class="text-text-muted">Availability</span>
@@ -305,39 +276,22 @@
             </div>
           </div>
         </div>
-
-        <!-- Decorative icon -->
         <div class="absolute bottom-0 right-0 p-4 opacity-5 rotate-12 scale-150 z-0">
           <span class="material-symbols-outlined" style="font-size:6rem;">monitoring</span>
         </div>
-
-        <!-- Cert quick links -->
         <div class="mt-6 pt-4 border-t border-border-subtle relative z-10">
           <div class="text-[10px] text-text-muted uppercase tracking-widest mb-3 font-mono">CERT_VAULT</div>
           <div class="grid grid-cols-2 gap-2 text-xs mb-3">
-            <a href="assets/pdfs/MD-102.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>MD-102
-            </a>
-            <a href="assets/pdfs/CCIT.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>CCST
-            </a>
-            <a href="assets/pdfs/A+.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>CompTIA A+
-            </a>
-            <a href="assets/pdfs/Google IT.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>Google IT
-            </a>
-            <a href="assets/pdfs/Microsoft Cloud Support Associate.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors">
-              <span class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>MS Cloud
-            </a>
-            <div class="flex items-center gap-1.5 text-text-muted/50 text-[10px]">
-              <span class="w-1.5 h-1.5 rounded-full bg-outline-variant flex-shrink-0"></span>AZ-900 Soon
-            </div>
+            <a href="assets/pdfs/MD-102.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>MD-102</a>
+            <a href="assets/pdfs/CCIT.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>CCST</a>
+            <a href="assets/pdfs/A+.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>CompTIA A+</a>
+            <a href="assets/pdfs/Google IT.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-terminal-green flex-shrink-0"></span>Google IT</a>
+            <a href="assets/pdfs/Microsoft Cloud Support Associate.pdf" target="_blank" class="flex items-center gap-1.5 text-text-muted hover:text-terminal-green transition-colors"><span class="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0"></span>MS Cloud</a>
+            <div class="flex items-center gap-1.5 text-text-muted/50 text-[10px]"><span class="w-1.5 h-1.5 rounded-full bg-outline-variant flex-shrink-0"></span>AZ-900 Soon</div>
           </div>
           <a href="assets/pdfs/certifications.pdf" target="_blank"
              class="w-full py-2.5 flex items-center justify-center gap-2 bg-surface-container border border-primary text-primary text-xs font-bold hover:bg-primary hover:text-on-primary transition-all">
-            <span class="material-symbols-outlined text-base">verified</span>
-            VIEW_ALL_CERTS
+            <span class="material-symbols-outlined text-base">verified</span>VIEW_ALL_CERTS
           </a>
         </div>
       </div>
@@ -346,41 +300,31 @@
   </section>
 
 
-  <!-- ── PLATFORMS ─────────────────────────────────── -->
+  <!-- ── PLATFORMS ─────────────────────────────── -->
   <section id="platforms" class="mb-12">
-    <div class="flex items-center gap-3 mb-3 text-xs text-text-muted font-mono">
-      <span class="text-terminal-green">root@aayush:~$</span>
-      <span>ls ./deployed_services</span>
-    </div>
-    <h2 class="text-2xl font-bold mb-6">// Deployed_Services</h2>
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>ls ./deployed_services</span></div>
+    <h2 class="section-heading">// Deployed_Services</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-      <a href="https://projects.aayush.com.au" target="_blank" rel="noopener"
-         class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
+      <a href="https://projects.aayush.com.au" target="_blank" rel="noopener" class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
         <div class="text-primary text-[10px] uppercase tracking-widest font-bold">IT_PROJECTS</div>
         <div class="text-base font-bold">Technical Projects</div>
         <p class="text-xs text-text-muted flex-1">Enterprise M365, VLAN, Azure AD, and DNS builds. Capability, not theory.</p>
         <div class="text-terminal-green text-[10px] mt-2 group-hover:translate-x-1 transition-transform font-mono">projects.aayush.com.au →</div>
       </a>
-
-      <a href="https://kb.aayush.com.au" target="_blank" rel="noopener"
-         class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
+      <a href="https://kb.aayush.com.au" target="_blank" rel="noopener" class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
         <div class="text-primary text-[10px] uppercase tracking-widest font-bold">KNOWLEDGE_BASE</div>
         <div class="text-base font-bold">IT Knowledge Base</div>
         <p class="text-xs text-text-muted flex-1">153 articles across L1/L2 scenarios. How I approach real problems.</p>
         <div class="text-terminal-green text-[10px] mt-2 group-hover:translate-x-1 transition-transform font-mono">kb.aayush.com.au →</div>
       </a>
-
-      <a href="https://uni.aayush.com.au" target="_blank" rel="noopener"
-         class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
+      <a href="https://uni.aayush.com.au" target="_blank" rel="noopener" class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
         <div class="text-primary text-[10px] uppercase tracking-widest font-bold">ACADEMIC</div>
         <div class="text-base font-bold">University Work</div>
         <p class="text-xs text-text-muted flex-1">BCA coursework from MUJ. Every subject an interactive portal.</p>
         <div class="text-terminal-green text-[10px] mt-2 group-hover:translate-x-1 transition-transform font-mono">uni.aayush.com.au →</div>
       </a>
-
-      <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener"
-         class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
+      <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener" class="glass p-5 flex flex-col gap-2 terminal-glow hover:no-underline group">
         <div class="text-primary text-[10px] uppercase tracking-widest font-bold">CODE</div>
         <div class="text-base font-bold">GitHub</div>
         <p class="text-xs text-text-muted flex-1">Source for everything on this site — built in public.</p>
@@ -388,9 +332,9 @@
       </a>
     </div>
 
-    <!-- Featured: Stock System -->
+    <!-- Stock System featured -->
     <a href="https://pwcstock.aayush.com.au" target="_blank" rel="noopener"
-       class="glass mt-gutter p-6 flex flex-col md:flex-row items-start md:items-center gap-6 terminal-glow hover:no-underline group block border-l-4 border-l-terminal-green" style="margin-top:16px;">
+       class="glass mt-4 p-6 flex flex-col md:flex-row items-start md:items-center gap-6 terminal-glow hover:no-underline group block border-l-4 border-l-terminal-green">
       <div class="flex-1">
         <div class="text-terminal-green text-[10px] uppercase tracking-widest font-bold mb-2">LIVE_PROJECT</div>
         <div class="text-lg font-bold mb-2">Stock Operations System</div>
@@ -404,17 +348,13 @@
   </section>
 
 
-  <!-- ── PROJECTS ──────────────────────────────────── -->
+  <!-- ── PROJECTS ──────────────────────────────── -->
   <section id="projects" class="mb-12">
-    <div class="flex items-center gap-3 mb-3 text-xs text-text-muted font-mono">
-      <span class="text-terminal-green">root@aayush:~$</span>
-      <span>ls ./deployments/active</span>
-    </div>
-    <h2 class="text-2xl font-bold mb-6">// Technical_Builds &amp; Labs</h2>
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>ls ./deployments/active</span></div>
+    <h2 class="section-heading">// Technical_Builds &amp; Labs</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
 
-      <!-- Featured: M365 — 8 col -->
       <div class="md:col-span-8 glass p-6 terminal-glow">
         <div class="flex items-center gap-2 mb-2">
           <span class="material-symbols-outlined text-primary text-base">cloud</span>
@@ -437,11 +377,9 @@
           <span class="px-2 py-1 bg-surface-container border border-border-subtle text-xs font-mono">PowerShell</span>
           <span class="px-2 py-1 bg-surface-container border border-border-subtle text-xs font-mono">Hyper-V</span>
         </div>
-        <a href="https://projects.aayush.com.au/m365-tenant.html" target="_blank"
-           class="text-terminal-green text-xs hover:underline font-mono">VIEW_PROJECT_DETAILS →</a>
+        <a href="https://projects.aayush.com.au/m365-tenant.html" target="_blank" class="text-terminal-green text-xs hover:underline font-mono">VIEW_PROJECT_DETAILS →</a>
       </div>
 
-      <!-- VLAN — 4 col -->
       <div class="md:col-span-4 glass p-6 terminal-glow">
         <div class="flex items-center gap-2 mb-3">
           <span class="material-symbols-outlined text-tertiary text-base">lan</span>
@@ -453,11 +391,9 @@
           <span class="px-2 py-0.5 border border-tertiary/30 text-tertiary text-[10px] font-bold bg-tertiary/10 font-mono">PACKET_TRACER</span>
           <span class="px-2 py-0.5 border border-tertiary/30 text-tertiary text-[10px] font-bold bg-tertiary/10 font-mono">802.1Q</span>
         </div>
-        <a href="https://projects.aayush.com.au/vlan-design.html" target="_blank"
-           class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
+        <a href="https://projects.aayush.com.au/vlan-design.html" target="_blank" class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
       </div>
 
-      <!-- AD + VPN — 4 col -->
       <div class="md:col-span-4 glass p-6 terminal-glow border-l-4 border-primary">
         <div class="flex items-center gap-2 mb-3">
           <span class="material-symbols-outlined text-primary text-base">data_object</span>
@@ -465,14 +401,10 @@
         </div>
         <h3 class="font-bold mb-3">Virtual AD &amp; Site-to-Site VPN</h3>
         <p class="text-xs text-text-muted mb-4">Active Directory on Azure VMs with domain controllers, OUs, GPOs — plus a site-to-site VPN bridging on-prem and Entra ID cloud tenant.</p>
-        <div class="bg-surface-container-high px-3 py-2 text-xs text-primary-container font-mono mb-3">
-          PS C:\&gt; Set-ADUser -Identity aayush -Enabled $true
-        </div>
-        <a href="https://projects.aayush.com.au/virtual-ad-vpn.html" target="_blank"
-           class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
+        <div class="bg-surface-container-high px-3 py-2 text-xs text-primary-container font-mono mb-3">PS C:\&gt; Set-ADUser -Identity aayush -Enabled $true</div>
+        <a href="https://projects.aayush.com.au/virtual-ad-vpn.html" target="_blank" class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
       </div>
 
-      <!-- DNS — 4 col -->
       <div class="md:col-span-4 glass p-6 terminal-glow">
         <div class="flex items-center gap-2 mb-3">
           <span class="material-symbols-outlined text-primary text-base">dns</span>
@@ -480,11 +412,9 @@
         </div>
         <h3 class="font-bold mb-3">Multi-Domain DNS Infrastructure</h3>
         <p class="text-xs text-text-muted mb-3">Live DNS across 3 production domains. A records, CNAMEs, MX, HTTPS — six independently hosted services under one root. Every subdomain on this site is DNS I configure and maintain.</p>
-        <a href="https://projects.aayush.com.au/dns-portfolio.html" target="_blank"
-           class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
+        <a href="https://projects.aayush.com.au/dns-portfolio.html" target="_blank" class="text-terminal-green text-xs hover:underline font-mono">VIEW_DETAILS →</a>
       </div>
 
-      <!-- KB — 4 col -->
       <div class="md:col-span-4 glass p-6 terminal-glow">
         <div class="flex items-center gap-2 mb-3">
           <span class="material-symbols-outlined text-primary text-base">library_books</span>
@@ -492,60 +422,49 @@
         </div>
         <h3 class="font-bold mb-3">IT Troubleshooting KB</h3>
         <p class="text-xs text-text-muted mb-3">153 articles across 12 categories — AD, Exchange, Intune, Windows, Networking. Offline-capable, severity-tagged, CLI-integrated.</p>
-        <a href="https://kb.aayush.com.au" target="_blank"
-           class="text-terminal-green text-xs hover:underline font-mono">OPEN_KB →</a>
+        <a href="https://kb.aayush.com.au" target="_blank" class="text-terminal-green text-xs hover:underline font-mono">OPEN_KB →</a>
       </div>
 
     </div>
   </section>
 
 
-  <!-- ── EDUCATION ─────────────────────────────────── -->
+  <!-- ── EDUCATION ─────────────────────────────── -->
   <section id="education" class="mb-12">
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>cat ./path_execution.log</span></div>
+    <h2 class="section-heading">// Education &amp; Certifications</h2>
+
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
 
-      <!-- Path Execution — 7 col -->
       <div class="md:col-span-7 glass p-6">
-        <h2 class="text-lg font-bold mb-7">// Path_Execution</h2>
+        <div class="box-heading">// Path_Execution</div>
         <div class="relative space-y-8">
           <div class="absolute left-2.5 top-2 bottom-2 w-px bg-border-subtle"></div>
 
-          <!-- BCA -->
           <div class="relative pl-10">
-            <div class="absolute left-0 top-1 w-5 h-5 border border-terminal-green bg-surface flex items-center justify-center">
-              <div class="w-2 h-2 bg-terminal-green"></div>
-            </div>
+            <div class="absolute left-0 top-1 w-5 h-5 border border-terminal-green bg-surface flex items-center justify-center"><div class="w-2 h-2 bg-terminal-green"></div></div>
             <div class="text-terminal-green text-xs font-mono mb-1">2023 – PRESENT</div>
             <div class="font-bold">Bachelor of Computer Applications</div>
             <div class="text-sm font-bold text-text-muted">Cloud &amp; Security</div>
             <div class="text-text-muted text-sm">Manipal University Jaipur · Remote / Part-Time · Expected 2029</div>
           </div>
 
-          <!-- Microsoft Applied Skills -->
           <div class="relative pl-10">
-            <div class="absolute left-0 top-1 w-5 h-5 border border-primary bg-surface flex items-center justify-center">
-              <div class="w-2 h-2 bg-primary"></div>
-            </div>
+            <div class="absolute left-0 top-1 w-5 h-5 border border-primary bg-surface flex items-center justify-center"><div class="w-2 h-2 bg-primary"></div></div>
             <div class="text-primary text-xs font-mono mb-1">COMPLETED</div>
             <div class="font-bold">Microsoft Applied Skills</div>
             <div class="text-text-muted text-sm">Entra ID · Intune · Defender · Azure Storage</div>
           </div>
 
-          <!-- Google / Cisco / CompTIA -->
           <div class="relative pl-10">
-            <div class="absolute left-0 top-1 w-5 h-5 border border-text-muted bg-surface flex items-center justify-center">
-              <div class="w-2 h-2 bg-text-muted"></div>
-            </div>
+            <div class="absolute left-0 top-1 w-5 h-5 border border-text-muted bg-surface flex items-center justify-center"><div class="w-2 h-2 bg-text-muted"></div></div>
             <div class="text-text-muted text-xs font-mono mb-1">COMPLETED</div>
             <div class="font-bold">Industry Certifications</div>
             <div class="text-text-muted text-sm">Google IT Professional · Cisco CCST · CompTIA A+ Core 1 · Coursera</div>
           </div>
 
-          <!-- AZ-900 in progress -->
           <div class="relative pl-10">
-            <div class="absolute left-0 top-1 w-5 h-5 border border-outline-variant bg-surface flex items-center justify-center">
-              <div class="w-2 h-2 border border-outline-variant"></div>
-            </div>
+            <div class="absolute left-0 top-1 w-5 h-5 border border-outline-variant bg-surface flex items-center justify-center"><div class="w-2 h-2 border border-outline-variant"></div></div>
             <div class="text-outline-variant text-xs font-mono mb-1">IN PROGRESS</div>
             <div class="font-bold text-on-surface-variant">AZ-900: Azure Fundamentals</div>
             <div class="text-text-muted text-sm">Microsoft Learn · Expected 2026</div>
@@ -553,10 +472,9 @@
         </div>
       </div>
 
-      <!-- Lab Logs — 5 col -->
       <div class="md:col-span-5 glass flex flex-col">
         <div class="p-6 border-b border-border-subtle flex items-center justify-between">
-          <h2 class="text-lg font-bold">// Lab_Logs</h2>
+          <div class="box-heading mb-0">// Lab_Logs</div>
           <span class="material-symbols-outlined text-text-muted">science</span>
         </div>
         <div class="p-6 space-y-4 flex-1">
@@ -579,36 +497,54 @@
   </section>
 
 
-  <!-- ── CONTACT ───────────────────────────────────── -->
+  <!-- ── CONTACT ───────────────────────────────── -->
   <section id="contact" class="mb-12">
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>ping aayush@aayush.com.au</span></div>
+    <h2 class="section-heading">// Establish_Connection</h2>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter items-start">
 
-      <!-- Left -->
+      <!-- Left: info + links -->
       <div>
-        <h2 class="text-3xl font-extrabold tracking-tighter mb-4">
-          // ESTABLISH_<br/>CONNECTION
-        </h2>
-        <p class="text-text-muted text-sm mb-8 max-w-md">
-          Targeting IT Support Engineer roles in Sydney. Open to L2/L3 support, systems administration, or modern workplace engineering.
-        </p>
+        <p class="text-text-muted text-sm mb-6 max-w-md">Targeting IT Support Engineer roles in Sydney. Open to L2/L3 support, systems administration, or modern workplace engineering.</p>
+
+        <!-- Contact details — copyable -->
+        <div class="glass p-4 mb-6 space-y-3 text-sm font-mono">
+          <div class="text-[10px] text-text-muted uppercase tracking-widest mb-2">CONTACT_DETAILS</div>
+          <div class="flex items-center gap-3">
+            <span class="text-terminal-green">Email</span>
+            <span class="text-on-surface select-all">aayush@aayush.com.au</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-terminal-green">LinkedIn</span>
+            <span class="text-on-surface select-all">linkedin.com/in/aayushacharya</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-terminal-green">GitHub</span>
+            <span class="text-on-surface select-all">github.com/hi-its-aayush</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-terminal-green">Website</span>
+            <span class="text-on-surface select-all">aayush.com.au</span>
+          </div>
+        </div>
+
+        <!-- Action links -->
         <div class="space-y-3">
-          <a href="mailto:aayush@aayush.com.au"
-             class="flex items-center gap-3 px-6 py-3 border-2 border-primary text-primary font-bold text-sm hover:bg-primary/10 transition-all w-fit">
+          <a href="mailto:aayush@aayush.com.au" class="flex items-center gap-3 px-6 py-3 border-2 border-primary text-primary font-bold text-sm hover:bg-primary/10 transition-all w-fit">
             <span class="material-symbols-outlined text-lg">mail</span>EMAIL_ROOT
           </a>
-          <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener"
-             class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
+          <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
             <span class="material-symbols-outlined text-lg">share</span>LINKEDIN
           </a>
-          <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener"
-             class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
+          <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener" class="flex items-center gap-3 px-6 py-3 border border-border-subtle text-on-surface font-bold text-sm hover:border-primary transition-all w-fit">
             <span class="material-symbols-outlined text-lg">code</span>GITHUB
           </a>
         </div>
       </div>
 
-      <!-- Right: Contact form -->
-      <!-- Replace YOUR_FORMSPREE_ID once you set up a free account at formspree.io -->
+      <!-- Right: form -->
+      <!-- Replace YOUR_FORMSPREE_ID once set up at formspree.io -->
       <div class="glass p-6">
         <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
           <div class="mb-4">
@@ -623,8 +559,7 @@
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_MESSAGE</label>
             <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none"></textarea>
           </div>
-          <button type="submit"
-                  class="w-full py-3.5 bg-surface-bright border border-border-subtle text-terminal-green font-bold text-sm flex items-center justify-center gap-2 hover:bg-terminal-green hover:text-surface transition-all group">
+          <button type="submit" class="w-full py-3.5 bg-surface-bright border border-border-subtle text-terminal-green font-bold text-sm flex items-center justify-center gap-2 hover:bg-terminal-green hover:text-surface transition-all group">
             SEND_PACKET
             <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">send</span>
           </button>
@@ -638,10 +573,11 @@
   </section>
 
 
-  <!-- ── GAME ROOM ──────────────────────────────────── -->
+  <!-- ── GAME ROOM ──────────────────────────────── -->
   <section id="arcade" class="mb-8">
-    <h2 class="text-2xl font-bold mb-2">// Game_Room.exe</h2>
-    <p class="text-text-muted text-xs mb-6 font-mono">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [2_LOADED]</p>
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>./game_room.exe</span></div>
+    <h2 class="section-heading">// Game_Room.exe</h2>
+    <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [2_LOADED]</p>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
 
@@ -658,14 +594,32 @@
               </div>
               <span class="text-terminal-green text-xs font-mono" id="speed-timer">TIME: 0.00s</span>
             </div>
-            <div class="speed-grid-wrapper" id="speed-grid"></div>
+
+            <!-- Grid with result overlay -->
+            <div class="relative">
+              <div class="speed-grid-wrapper" id="speed-grid"></div>
+              <div class="game-result" id="speed-result">
+                <div class="text-terminal-green text-[10px] font-mono tracking-widest">GRID_COMPLETE</div>
+                <div class="game-result-title">Challenge Finished!</div>
+                <div class="game-result-time" id="speed-time-display">0.00s</div>
+                <div class="flex gap-3 mt-2">
+                  <button class="game-result-btn btn-play-again" id="speed-play-again">PLAY_AGAIN</button>
+                  <button class="game-result-btn btn-quit" id="speed-quit">QUIT</button>
+                </div>
+              </div>
+            </div>
+
             <div class="flex justify-between items-center bg-surface-container-low p-3">
               <span class="text-xs font-mono">Next: <span class="text-primary font-bold" id="next-target">1</span></span>
-              <button id="start-speed" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">INITIATE</button>
+              <div class="flex gap-2">
+                <button id="abort-speed" class="hidden px-3 py-1 bg-error/20 border border-error/40 text-error text-xs hover:bg-error/30 transition-all font-mono">ABORT</button>
+                <button id="start-speed" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">INITIATE</button>
+              </div>
             </div>
+            <p class="text-[10px] text-text-muted font-mono -mt-2">Click 1 to start · Timer starts on first valid click</p>
           </div>
 
-          <!-- Memory Match -->
+          <!-- Tech Memory -->
           <div class="glass p-5 flex flex-col gap-4">
             <div class="flex justify-between items-center border-b border-border-subtle pb-3">
               <div class="flex items-center gap-2">
@@ -674,7 +628,21 @@
               </div>
               <span class="text-terminal-green text-xs font-mono" id="mem-score-display">MOVES: 0</span>
             </div>
-            <div class="memory-grid-wrapper" id="memory-grid"></div>
+
+            <!-- Grid with result overlay -->
+            <div class="relative">
+              <div class="memory-grid-wrapper" id="memory-grid"></div>
+              <div class="game-result" id="mem-result">
+                <div class="text-terminal-green text-[10px] font-mono tracking-widest">MEMORY_COMPLETE</div>
+                <div class="game-result-title">All Pairs Matched!</div>
+                <div class="game-result-time" id="mem-moves-display">0 moves</div>
+                <div class="flex gap-3 mt-2">
+                  <button class="game-result-btn btn-play-again" id="mem-play-again">PLAY_AGAIN</button>
+                  <button class="game-result-btn btn-quit" id="mem-quit">QUIT</button>
+                </div>
+              </div>
+            </div>
+
             <div class="flex justify-between items-center bg-surface-container-low p-3">
               <span class="text-xs font-mono">Pairs: <span class="text-primary font-bold" id="mem-pairs">0/8</span></span>
               <button id="reset-memory" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">REBOOT</button>
@@ -694,11 +662,11 @@
           </div>
           <span class="text-[10px] text-text-muted font-mono">live_terminal.log</span>
         </div>
-        <div class="p-4 overflow-y-auto flex-1 bg-black/40 space-y-1 font-mono" id="terminal-log" style="min-height:200px; max-height:320px;">
-          <div style="color:#22C55E; font-size:11px;">[SYSTEM] Initializing kernel...</div>
-          <div style="color:#22C55E; font-size:11px;">[SYSTEM] Loading game_modules.bin</div>
-          <div style="color:#8B949E; font-size:11px;">... done</div>
-          <div style="color:#c2c6d6; font-size:11px;">Awaiting user input...</div>
+        <div class="p-4 overflow-y-auto flex-1 bg-black/40 space-y-1 font-mono" id="terminal-log" style="min-height:200px;max-height:320px;">
+          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Initializing kernel...</div>
+          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Loading game_modules.bin</div>
+          <div style="color:#8B949E;font-size:11px;">... done</div>
+          <div style="color:#c2c6d6;font-size:11px;">Awaiting user input...</div>
           <div style="font-size:11px;">
             <span style="color:#22C55E;">root@aayush:~$</span>
             <span class="inline-block w-2 h-3 bg-terminal-green align-middle blink ml-1"></span>
@@ -728,12 +696,10 @@
   <div class="flex flex-col md:flex-row justify-between items-center px-mobile md:px-desktop gap-gutter max-w-[1440px] mx-auto">
     <div class="text-terminal-green font-mono text-xs">root@aayush:~$ © 2026 Aayush Acharya</div>
     <div class="flex gap-8">
-      <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener"
-         class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
+      <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener" class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
         GitHub <span class="material-symbols-outlined" style="font-size:12px;">open_in_new</span>
       </a>
-      <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener"
-         class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
+      <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener" class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
         LinkedIn <span class="material-symbols-outlined" style="font-size:12px;">open_in_new</span>
       </a>
     </div>
@@ -741,8 +707,6 @@
   </div>
 </footer>
 
-<!-- Scripts -->
 <script src="js/script.js"></script>
-
 </body>
 </html>
