@@ -1,36 +1,68 @@
-# 🌐 Aayush Acharya | Central Digital Hub
+# AAYUSH_ACHARYA_OS
 
-[![Live Hub](https://img.shields.io/badge/Live_Site-aayush.com.au-3b82f6?style=for-the-badge)](https://aayush.com.au)
-[![Deployment](https://img.shields.io/badge/Hosted-GitHub_Pages-2ea44f?style=for-the-badge&logo=github)](https://pages.github.com/)
+[![Live Site](https://img.shields.io/badge/Live_Site-aayush.com.au-22C55E?style=for-the-badge)](https://aayush.com.au)
+[![Hosted on GitHub Pages](https://img.shields.io/badge/Hosted-GitHub_Pages-2ea44f?style=for-the-badge&logo=github)](https://pages.github.com/)
+[![Built with](https://img.shields.io/badge/Built_with-HTML_CSS_JS-adc6ff?style=for-the-badge)](#)
 
-The foundational routing point and digital ecosystem for my professional portfolio. This repository hosts a bento-box style landing page acting as a "receptionist," seamlessly directing traffic across my technical projects, IT knowledge base, and operational platforms.
+A terminal-aesthetic personal portfolio and digital hub. Styled as an OS-themed interface — `AAYUSH_ACHARYA_OS` — it presents my professional profile in a `fastfetch`-inspired layout, links to all active sub-domains, and routes visitors to the right destination depending on what they need.
 
 ---
 
-## 🏗️ Ecosystem Architecture
+## Ecosystem
 
-This central hub routes to specialized sub-domains that separate my work environments:
+This repository is the root. All other properties branch off it:
 
-* **[Technical Projects](https://projects.aayush.com.au)**: Hands-on enterprise environment builds (M365, Azure AD, Intune).
-* **[IT Knowledge Base](https://kb.aayush.com.au)**: Practical documentation and L1/L2 troubleshooting workflows.
-* **[Live Operations](https://pwcstock.aayush.com.au)**: Production-ready inventory automation tracking.
-* **[Academic Portal](https://uni.aayush.com.au)**: Structured coursework tracking for Cloud & Security.
+| Sub-domain | Purpose |
+|---|---|
+| [projects.aayush.com.au](https://projects.aayush.com.au) | Enterprise IT lab builds — M365, Azure AD, VLAN, DNS |
+| [kb.aayush.com.au](https://kb.aayush.com.au) | 153-article IT troubleshooting knowledge base |
+| [pwcstock.aayush.com.au](https://pwcstock.aayush.com.au) | Live stock operations system — in active daily use |
+| [uni.aayush.com.au](https://uni.aayush.com.au) | BCA coursework portal — Manipal University Jaipur |
 
-## ⚙️ Tech Stack & Philosophy
+---
 
-Built entirely from first principles to ensure blazing-fast load times and perfect core web vitals. 
+## Tech Stack
 
-* **Architecture**: Zero-build, pure Vanilla components (HTML5, CSS3, JavaScript).
-* **Security**: Client-side DOM manipulation for anti-scraping (obfuscated email/mobile data).
-* **Styling**: Custom CSS variables managing a fully responsive, breakpoint-driven bento grid.
-* **Hosting & DNS**: Automated deployments via GitHub Pages with CNAME routing.
+| Layer | Technology |
+|---|---|
+| Structure | HTML5 — semantic, no frameworks |
+| Styling | CSS3 + Tailwind CDN — terminal OS design system |
+| Logic | Vanilla JavaScript — games, form handling, uptime counter |
+| Fonts | JetBrains Mono · Material Symbols |
+| Hosting | GitHub Pages |
+| DNS | GoDaddy — CNAME routing across all sub-domains |
 
-## 📂 Repository Structure
+---
+
+## Structure
 
 ```text
 aayush/
-├── index.html          # Core bento-grid layout & routing interface
-├── css/style.css       # Unified design system & responsive media queries
-├── js/script.js        # Contact decryption & DOM interactions
-├── assets/images/      # Optimized branding & UI visuals
-└── CNAME               # Custom domain configuration mapping
+├── index.html          # Main portfolio — all sections in a single page
+├── css/
+│   └── style.css       # Custom styles — glass panels, ticker, game cards, forms
+├── js/
+│   └── script.js       # Games, uptime counter, contact form, mouse glow
+├── assets/
+│   ├── images/         # Profile photo, favicon
+│   └── pdfs/           # Certification documents
+└── CNAME               # Custom domain mapping → aayush.com.au
+```
+
+---
+
+## Sections
+
+- **Hero** — `fastfetch`-style terminal with pixel `Aa` art, tech stack info, and profile photo
+- **Skills & Certifications** — skills grid, proficiency bars, cert vault with PDF links
+- **Deployed Services** — links to all active sub-domains
+- **Technical Builds & Labs** — project cards with real deployment details
+- **Education** — timeline of BCA degree, Microsoft certs, and industry credentials
+- **Establish Connection** — contact form (Formspree), copyable contact details
+- **Game Room** — Speed Grid and Tech Memory with a live terminal log sidebar
+
+---
+
+## Contact
+
+**aayush@aayush.com.au** · [linkedin.com/in/aayushacharya](https://linkedin.com/in/aayushacharya) · [github.com/hi-its-aayush](https://github.com/hi-its-aayush)
