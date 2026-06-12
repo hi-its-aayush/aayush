@@ -7,7 +7,7 @@
   <title>AAYUSH_ACHARYA_OS</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -571,15 +571,15 @@
         <form id="contact-form" action="https://formspree.io/f/xgoqabwy" method="POST">
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_NAME</label>
-            <input type="text" name="name" required placeholder="guest_user" class="form-input" style="color:#e5e2e1;" />
+            <input type="text" name="name" required placeholder="guest_user" class="form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_EMAIL</label>
-            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" style="color:#e5e2e1;" />
+            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" />
           </div>
           <div class="mb-5">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_MESSAGE</label>
-            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none" style="color:#e5e2e1;" ></textarea>
+            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none"></textarea>
           </div>
           <button type="submit" class="w-full py-3.5 bg-surface-bright border border-border-subtle text-terminal-green font-bold text-sm flex items-center justify-center gap-2 hover:bg-terminal-green hover:text-surface transition-all group">
             SEND_PACKET

@@ -293,3 +293,122 @@ window.addEventListener('load', () => {
   initMemory();
   logMsg('Game environments ready.', 'info');
 });
+
+/* ═══════════════════════════════════════════════
+   v3.1 — Boot sequence & scroll-triggered reveals
+   ═══════════════════════════════════════════════ */
+
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Generic character-by-character typer ─────────
+function typeText(el, text, speed, done) {
+  let i = 0;
+  el.textContent = '';
+  const t = setInterval(() => {
+    i++;
+    el.textContent = text.slice(0, i);
+    if (i >= text.length) {
+      clearInterval(t);
+      if (done) done();
+    }
+  }, speed);
+}
+
+// ── Boot sequence (first visit per session) ──────
+function runBootSequence() {
+  const html    = document.documentElement;
+  const cmdText = document.getElementById('hero-cmd-text');
+  const cursor  = document.getElementById('hero-cmd-cursor');
+  const output  = document.getElementById('hero-output');
+  const panel   = document.getElementById('hero-panel');
+
+  // Not booting (repeat visit / reduced motion / storage blocked) → ensure visible, bail
+  if (!html.classList.contains('booting') || !cmdText || !output) {
+    html.classList.remove('booting');
+    return;
+  }
+
+  try { sessionStorage.setItem('os_booted', '1'); } catch (e) {}
+
+  // Safety net: whatever happens, everything is visible after 4s
+  const failsafe = setTimeout(() => {
+    html.classList.remove('booting');
+    output.style.visibility = 'visible';
+    output.querySelectorAll('.boot-el').forEach(el => el.classList.add('on'));
+  }, 4000);
+
+  // Build the reveal sequence: pixel art → fastfetch rows → trailing prompt → photo
+  const seq  = [];
+  const kids = Array.from(output.children);          // [pixel art, info col, photo]
+  const art  = kids[0], info = kids[1], photo = kids[2];
+  if (art) seq.push([art]);
+  if (info) {
+    Array.from(info.children).forEach(child => {
+      if (child.classList.contains('grid')) {
+        const spans = Array.from(child.children);
+        for (let i = 0; i < spans.length; i += 2) {
+          seq.push(spans.slice(i, i + 2));           // label + value as one "line"
+        }
+      } else {
+        seq.push([child]);
+      }
+    });
+  }
+  if (photo) seq.push([photo]);
+
+  // Pre-hide every line, then make the container itself visible
+  seq.flat().forEach(el => el.classList.add('boot-el'));
+  output.style.visibility = 'visible';
+
+  // Type the command, then cascade the output
+  cmdText.style.visibility = 'visible';
+  if (cursor) cursor.classList.remove('hidden');
+
+  setTimeout(() => {
+    typeText(cmdText, 'fastfetch', 65, () => {
+      setTimeout(() => {
+        if (cursor) cursor.classList.add('hidden');
+        if (panel)  panel.classList.add('crt-flicker');
+        html.classList.remove('booting');
+        seq.forEach((line, i) => {
+          setTimeout(() => line.forEach(el => el.classList.add('on')), i * 55);
+        });
+        clearTimeout(failsafe);
+      }, 250);
+    });
+  }, 400);
+}
+runBootSequence();
+
+// ── Scroll-triggered "command execution" ─────────
+function initScrollReveals() {
+  if (REDUCED_MOTION || !('IntersectionObserver' in window)) return;
+
+  document.querySelectorAll('main > section').forEach(section => {
+    const cmdEl = section.querySelector('.section-cmd span:not(.prompt)');
+    if (!cmdEl) return;                              // hero has no section-cmd — boot owns it
+
+    const targets = Array.from(section.children)
+      .filter(c => !c.classList.contains('section-cmd'));
+    targets.forEach(t => t.classList.add('reveal'));
+
+    const cmdFull = cmdEl.textContent;
+    cmdEl.textContent = '';
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        cmdEl.classList.add('cmd-typing');
+        typeText(cmdEl, cmdFull, 26, () => {
+          cmdEl.classList.remove('cmd-typing');
+          targets.forEach((t, i) =>
+            setTimeout(() => t.classList.add('visible'), i * 90));
+        });
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+
+    io.observe(section);
+  });
+}
+initScrollReveals();
