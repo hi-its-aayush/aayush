@@ -114,7 +114,7 @@
   <section id="arcade" class="mb-8">
     <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>./game_room.exe</span></div>
     <h2 class="section-heading">// Game_Room.exe</h2>
-    <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [4_LOADED]</p>
+    <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [3_LOADED]</p>
 
 
     <!-- ═══ FLOOR_OPS — boardroom floor day sim ═══ -->
@@ -182,62 +182,6 @@
           </div>
         </div>
       </div>
-
-      <div class="flex flex-wrap gap-x-4 gap-y-1 justify-center text-[10px] font-mono text-text-muted">
-        <span><span class="text-error">&#9632;</span> AV BROKE</span>
-        <span><span style="color:#EAB308">&#9632;</span> COFFEE / TEA ORDER</span>
-        <span><span class="text-primary">&#9632;</span> ON IT</span>
-        <span>Tap the EVENT HALL to keep the live feed alive</span>
-      </div>
-    </div>
-
-    <!-- ═══ RACK_STACKER — full-width canvas game ═══ -->
-    <div class="glass p-5 mt-gutter flex flex-col gap-4">
-      <div class="flex flex-wrap justify-between items-center border-b border-border-subtle pb-3 gap-2">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-primary text-base">dns</span>
-          <h3 class="font-bold">Rack Stacker</h3>
-          <span class="text-[10px] text-text-muted font-mono ml-1 hidden sm:inline">// stack the rack, don't drop a unit</span>
-        </div>
-        <div class="flex items-center gap-4 text-xs font-mono">
-          <span class="text-tertiary" id="rack-combo"></span>
-          <span class="text-terminal-green">HEIGHT: <span id="rack-score" class="font-bold">0</span>U</span>
-          <span class="text-text-muted">BEST: <span id="rack-best" class="text-tertiary font-bold">0</span>U</span>
-        </div>
-      </div>
-
-      <div class="relative mx-auto w-full" style="max-width:420px;">
-        <canvas id="rack-canvas" width="420" height="460"
-                class="w-full block bg-black/40 border border-border-subtle"
-                style="touch-action:manipulation;cursor:pointer;"></canvas>
-
-        <!-- Start overlay -->
-        <div id="rack-start" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 backdrop-blur-sm">
-          <div class="text-terminal-green text-[10px] font-mono tracking-widest">RACK_STACKER.EXE</div>
-          <div class="text-lg font-bold">Stack the Server Rack</div>
-          <p class="text-[11px] text-text-muted font-mono text-center px-6 max-w-xs">
-            A unit slides across. CLICK / TAP / SPACE to drop it. Overhang gets sliced off.
-            Land it <span class="text-terminal-green">perfectly</span> to chain a combo (grows the rack back +
-            score multiplier). Grab the <span style="color:#f4c542">gold blade servers</span> for 3&times; points.
-          </p>
-          <div class="text-[11px] font-mono text-tertiary">CHALLENGE &rarr; BEAT_THE_ADMIN: <span class="font-bold">12U</span></div>
-          <button id="rack-start-btn" class="px-5 py-1.5 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono mt-1">INITIATE</button>
-        </div>
-
-        <!-- Game over overlay -->
-        <div id="rack-over" class="absolute inset-0 flex-col items-center justify-center gap-2 bg-black/80 backdrop-blur-sm hidden">
-          <div id="rack-verdict" class="text-terminal-green text-[10px] font-mono tracking-widest">RACK_DEPLOYED</div>
-          <div class="text-xl font-bold">Game Over</div>
-          <div class="game-result-time"><span id="rack-final">0</span>U deployed</div>
-          <div id="rack-beat" class="text-[11px] font-mono text-tertiary h-4"></div>
-          <div class="flex gap-3 mt-2">
-            <button class="game-result-btn btn-play-again" id="rack-again">PLAY_AGAIN</button>
-            <button class="game-result-btn btn-quit" id="rack-quit">QUIT</button>
-          </div>
-        </div>
-      </div>
-
-      <p class="text-[10px] text-text-muted font-mono text-center">CLICK &middot; TAP &middot; or SPACE to drop &middot; Best score saved locally</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
