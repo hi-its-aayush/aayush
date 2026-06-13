@@ -7,7 +7,7 @@
   <title>AAYUSH_ACHARYA_OS</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -86,6 +86,7 @@
       <a href="#projects"  class="nav-link text-on-surface-variant hover:text-primary transition-colors">Projects</a>
       <a href="#education" class="nav-link text-on-surface-variant hover:text-primary transition-colors">Education</a>
       <a href="#contact"   class="nav-link text-on-surface-variant hover:text-primary transition-colors">Contact</a>
+      <a href="arcade.html" class="nav-link text-terminal-green hover:text-primary transition-colors">Arcade</a>
     </div>
     <button id="hamburger" class="md:hidden text-terminal-green" aria-label="Open menu">
       <span class="material-symbols-outlined">menu</span>
@@ -97,6 +98,7 @@
     <a href="#projects"  class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Projects</a>
     <a href="#education" class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Education</a>
     <a href="#contact"   class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Contact</a>
+    <a href="arcade.html" class="text-terminal-green hover:text-primary">Arcade</a>
   </div>
 </header>
 
@@ -571,15 +573,15 @@
         <form id="contact-form" action="https://formspree.io/f/xgoqabwy" method="POST">
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_NAME</label>
-            <input type="text" name="name" required placeholder="guest_user" class="form-input" style="color:#e5e2e1;" />
+            <input type="text" name="name" required placeholder="guest_user" class="form-input" />
           </div>
           <div class="mb-4">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_EMAIL</label>
-            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" style="color:#e5e2e1;" />
+            <input type="email" name="email" required placeholder="you@domain.com" class="form-input" />
           </div>
           <div class="mb-5">
             <label class="block text-[10px] uppercase tracking-widest text-text-muted mb-2 font-mono">INPUT_MESSAGE</label>
-            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none" style="color:#e5e2e1;" ></textarea>
+            <textarea name="message" required rows="4" placeholder="Hello world..." class="form-input resize-none"></textarea>
           </div>
           <button type="submit" class="w-full py-3.5 bg-surface-bright border border-border-subtle text-terminal-green font-bold text-sm flex items-center justify-center gap-2 hover:bg-terminal-green hover:text-surface transition-all group">
             SEND_PACKET
@@ -595,118 +597,27 @@
   </section>
 
 
-  <!-- ── GAME ROOM ──────────────────────────────── -->
-  <section id="arcade" class="mb-8">
+  <!-- ── GAME ROOM TEASER ───────────────────────── -->
+  <section class="mb-8">
     <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>./game_room.exe</span></div>
     <h2 class="section-heading">// Game_Room.exe</h2>
-    <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [2_LOADED]</p>
-
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-
-      <!-- Games — 8 col -->
-      <div class="md:col-span-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
-
-          <!-- Speed Grid -->
-          <div class="glass p-5 flex flex-col gap-4">
-            <div class="flex justify-between items-center border-b border-border-subtle pb-3">
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-base">bolt</span>
-                <h3 class="font-bold">Speed Grid</h3>
-              </div>
-              <span class="text-terminal-green text-xs font-mono" id="speed-timer">TIME: 0.00s</span>
-            </div>
-
-            <!-- Grid with result overlay -->
-            <div class="relative">
-              <div class="speed-grid-wrapper" id="speed-grid"></div>
-              <div class="game-result" id="speed-result">
-                <div class="text-terminal-green text-[10px] font-mono tracking-widest">GRID_COMPLETE</div>
-                <div class="game-result-title">Challenge Finished!</div>
-                <div class="game-result-time" id="speed-time-display">0.00s</div>
-                <div class="flex gap-3 mt-2">
-                  <button class="game-result-btn btn-play-again" id="speed-play-again">PLAY_AGAIN</button>
-                  <button class="game-result-btn btn-quit" id="speed-quit">QUIT</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-between items-center bg-surface-container-low p-3">
-              <span class="text-xs font-mono">Next: <span class="text-primary font-bold" id="next-target">1</span></span>
-              <div class="flex gap-2">
-                <button id="abort-speed" class="hidden px-3 py-1 bg-error/20 border border-error/40 text-error text-xs hover:bg-error/30 transition-all font-mono">ABORT</button>
-                <button id="start-speed" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">INITIATE</button>
-              </div>
-            </div>
-            <p class="text-[10px] text-text-muted font-mono -mt-2">Click 1 to start · Timer starts on first valid click</p>
+    <a href="arcade.html" class="block glass p-6 -mt-2 group hover:border-terminal-green/50 transition-colors" style="border:1px solid var(--border-subtle,#30363D);">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-start gap-4">
+          <span class="material-symbols-outlined text-terminal-green text-3xl phosphor">stadia_controller</span>
+          <div>
+            <div class="font-bold text-base mb-1">Enter the Arcade <span class="text-text-muted font-mono text-xs">[4 modules]</span></div>
+            <p class="text-text-muted text-xs font-mono leading-relaxed max-w-md">
+              Floor Ops &middot; Rack Stacker &middot; Speed Grid &middot; Tech Memory.
+              Four browser games built from scratch &mdash; run the boardroom floor, stack a server rack, and more.
+            </p>
           </div>
-
-          <!-- Tech Memory -->
-          <div class="glass p-5 flex flex-col gap-4">
-            <div class="flex justify-between items-center border-b border-border-subtle pb-3">
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-base">memory</span>
-                <h3 class="font-bold">Tech Memory</h3>
-              </div>
-              <span class="text-terminal-green text-xs font-mono" id="mem-score-display">MOVES: 0</span>
-            </div>
-
-            <!-- Grid with result overlay -->
-            <div class="relative">
-              <div class="memory-grid-wrapper" id="memory-grid"></div>
-              <div class="game-result" id="mem-result">
-                <div class="text-terminal-green text-[10px] font-mono tracking-widest">MEMORY_COMPLETE</div>
-                <div class="game-result-title">All Pairs Matched!</div>
-                <div class="game-result-time" id="mem-moves-display">0 moves</div>
-                <div class="flex gap-3 mt-2">
-                  <button class="game-result-btn btn-play-again" id="mem-play-again">PLAY_AGAIN</button>
-                  <button class="game-result-btn btn-quit" id="mem-quit">QUIT</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-between items-center bg-surface-container-low p-3">
-              <span class="text-xs font-mono">Pairs: <span class="text-primary font-bold" id="mem-pairs">0/8</span></span>
-              <button id="reset-memory" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">REBOOT</button>
-            </div>
-          </div>
-
+        </div>
+        <div class="flex items-center gap-1 text-terminal-green text-xs font-mono whitespace-nowrap self-start sm:self-center group-hover:translate-x-1 transition-transform">
+          LAUNCH <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </div>
       </div>
-
-      <!-- Live terminal log — 4 col -->
-      <div class="md:col-span-4 glass flex flex-col">
-        <div class="bg-surface-container-highest px-4 py-2 border-b border-border-subtle flex items-center justify-between">
-          <div class="flex gap-1.5">
-            <div class="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
-            <div class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
-            <div class="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
-          </div>
-          <span class="text-[10px] text-text-muted font-mono">live_terminal.log</span>
-        </div>
-        <div class="p-4 overflow-y-auto flex-1 bg-black/40 space-y-1 font-mono" id="terminal-log" style="min-height:200px;max-height:320px;">
-          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Initializing kernel...</div>
-          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Loading game_modules.bin</div>
-          <div style="color:#8B949E;font-size:11px;">... done</div>
-          <div style="color:#c2c6d6;font-size:11px;">Awaiting user input...</div>
-          <div style="font-size:11px;">
-            <span style="color:#22C55E;">root@aayush:~$</span>
-            <span class="inline-block w-2 h-3 bg-terminal-green align-middle blink ml-1"></span>
-          </div>
-        </div>
-        <div class="p-4 border-t border-border-subtle bg-surface-container-lowest">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-1.5 h-1.5 rounded-full bg-terminal-green animate-pulse"></div>
-            <span class="text-[10px] text-text-muted uppercase tracking-widest font-mono">REAL-TIME MONITOR</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-[10px] font-mono">
-            <div>AUTH: <span class="text-tertiary">ROOT</span></div>
-            <div>STATUS: <span class="text-terminal-green">ONLINE</span></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </a>
   </section>
 
 

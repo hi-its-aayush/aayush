@@ -412,3 +412,644 @@ function initScrollReveals() {
   });
 }
 initScrollReveals();
+
+
+// ════════════════════════════════════════════════
+// RACK STACKER — datacenter stacking game
+// ════════════════════════════════════════════════
+(function () {
+  const canvas = document.getElementById('rack-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const W = canvas.width, H = canvas.height;
+  const UNIT_H = 26;            // pixel height of one rack unit
+  const BASE_W = 150;           // starting unit width
+  const SPEED_BASE = 2.2;       // px/frame at start
+  const ADMIN_SCORE = 12;       // BEAT_THE_ADMIN target
+
+  const scoreEl  = document.getElementById('rack-score');
+  const bestEl   = document.getElementById('rack-best');
+  const startOv  = document.getElementById('rack-start');
+  const overOv   = document.getElementById('rack-over');
+  const finalEl  = document.getElementById('rack-final');
+  const beatEl   = document.getElementById('rack-beat');
+  const verdictEl= document.getElementById('rack-over').querySelector('#rack-verdict');
+
+  let best = 0;
+  try { best = parseInt(localStorage.getItem('rack_best') || '0', 10) || 0; } catch (e) {}
+  bestEl.textContent = best;
+
+  let stack, current, score, speed, dir, state, raf, shake;
+  // state: 'idle' | 'sliding' | 'dropping' | 'over'
+
+  // Server-unit colours cycle for visual variety
+  const HUES = ['#22C55E', '#3B82F6', '#06B6D4', '#8B5CF6', '#EAB308'];
+
+  function reset() {
+    score = 0;
+    speed = SPEED_BASE;
+    shake = 0;
+    stack = [{ x: (W - BASE_W) / 2, w: BASE_W, hue: HUES[0] }];
+    spawn();
+    scoreEl.textContent = '0';
+    state = 'sliding';
+  }
+
+  function spawn() {
+    const top = stack[stack.length - 1];
+    dir = Math.random() < 0.5 ? 1 : -1;
+    current = {
+      x: dir === 1 ? -top.w : W,
+      w: top.w,
+      hue: HUES[stack.length % HUES.length]
+    };
+  }
+
+  // y-position (top-left) of the Nth unit from bottom (0 = base)
+  function unitY(indexFromBottom) {
+    return H - UNIT_H - indexFromBottom * UNIT_H;
+  }
+
+  function drop() {
+    if (state !== 'sliding') return;
+    const top = stack[stack.length - 1];
+    const overlapL = Math.max(current.x, top.x);
+    const overlapR = Math.min(current.x + current.w, top.x + top.w);
+    const overlap  = overlapR - overlapL;
+
+    if (overlap <= 0) {            // total miss → game over
+      gameOver(false);
+      return;
+    }
+
+    const perfect = Math.abs(current.x - top.x) < 4;
+    if (perfect) {
+      current.x = top.x;          // snap, keep width
+      flashPerfect();
+    } else {
+      current.x = overlapL;
+      current.w = overlap;        // slice overhang
+    }
+
+    stack.push({ x: current.x, w: current.w, hue: current.hue });
+    score++;
+    scoreEl.textContent = score;
+    shake = perfect ? 6 : 3;
+
+    if (score === ADMIN_SCORE) logMsg('rack_stacker: matched ADMIN baseline (12U) &mdash; impressive', 'success');
+
+    speed = SPEED_BASE + score * 0.18;   // ramp difficulty
+    spawn();
+    state = 'sliding';
+  }
+
+  let perfectFlash = 0;
+  function flashPerfect() { perfectFlash = 12; }
+
+  function gameOver(deployed) {
+    state = 'over';
+    cancelAnimationFrame(raf);
+    finalEl.textContent = score;
+
+    if (score > best) {
+      best = score;
+      bestEl.textContent = best;
+      try { localStorage.setItem('rack_best', String(best)); } catch (e) {}
+    }
+
+    // Verdict + funny IT-flavoured copy gated on score
+    let verdict, beat;
+    if (score >= 20)      { verdict = 'SENIOR_INFRA_ENGINEER'; beat = 'Flawless. Change management would be proud.'; }
+    else if (score >= ADMIN_SCORE) { verdict = 'ADMIN_BEATEN';   beat = `You beat the admin (${ADMIN_SCORE}U). Respect.`; }
+    else if (score >= 6)  { verdict = 'RACK_DEPLOYED';           beat = `${ADMIN_SCORE - score}U short of the admin. Try again.`; }
+    else if (score >= 1)  { verdict = 'CABLE_MANAGEMENT_NIGHTMARE'; beat = 'That rack is a fire hazard. Restack.'; }
+    else                  { verdict = 'TICKET_ESCALATED';        beat = 'Dropped the very first unit. Bold.'; }
+
+    verdictEl.textContent = verdict;
+    beatEl.textContent = beat;
+    overOv.classList.remove('hidden');
+    overOv.classList.add('flex');
+    logMsg(`rack_stacker: run ended &mdash; ${score}U deployed`, score >= ADMIN_SCORE ? 'success' : 'info');
+  }
+
+  function loop() {
+    // update
+    if (state === 'sliding') {
+      current.x += dir * speed;
+      const top = stack[stack.length - 1];
+      // bounce within a generous bound so it's always catchable
+      if (current.x + current.w > W + 40) dir = -1;
+      if (current.x < -40) dir = 1;
+    }
+    if (perfectFlash > 0) perfectFlash--;
+    if (shake > 0) shake--;
+
+    // draw
+    ctx.clearRect(0, 0, W, H);
+    const sx = shake > 0 ? (Math.random() - 0.5) * shake : 0;
+    const sy = shake > 0 ? (Math.random() - 0.5) * shake : 0;
+    ctx.save();
+    ctx.translate(sx, sy);
+
+    // rack rails (subtle side posts)
+    ctx.strokeStyle = 'rgba(139,148,158,0.15)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 12; i++) {
+      const y = H - i * UNIT_H;
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    // camera: if stack is tall, shift everything down so top stays visible
+    const visibleRows = Math.floor(H / UNIT_H) - 2;
+    const offset = Math.max(0, stack.length - visibleRows) * UNIT_H;
+
+    // stacked units
+    for (let i = 0; i < stack.length; i++) {
+      drawUnit(stack[i], unitY(i) + offset);
+    }
+    // moving unit
+    if (state === 'sliding') {
+      drawUnit(current, unitY(stack.length) + offset, true);
+    }
+
+    // perfect flash text
+    if (perfectFlash > 0) {
+      ctx.fillStyle = `rgba(34,197,94,${perfectFlash / 12})`;
+      ctx.font = 'bold 14px JetBrains Mono, monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('PERFECT', W / 2, unitY(stack.length - 1) + offset - 8);
+    }
+
+    ctx.restore();
+    if (state !== 'over') raf = requestAnimationFrame(loop);
+  }
+
+  function drawUnit(u, y, moving) {
+    // body
+    ctx.fillStyle = moving ? u.hue : u.hue + 'cc';
+    ctx.fillRect(u.x, y, u.w, UNIT_H - 3);
+    // face detail: slots + LED
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    for (let v = u.x + 8; v < u.x + u.w - 8; v += 12) {
+      ctx.fillRect(v, y + 6, 6, UNIT_H - 15);
+    }
+    ctx.fillStyle = moving ? '#fff' : '#9be59b';
+    ctx.fillRect(u.x + u.w - 7, y + 5, 3, 3);   // status LED
+    // outline
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(u.x + 0.5, y + 0.5, u.w - 1, UNIT_H - 4);
+  }
+
+  // ── input ──
+  function handleDrop() {
+    if (state === 'sliding') drop();
+  }
+  canvas.addEventListener('click', handleDrop);
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && state === 'sliding') { e.preventDefault(); drop(); }
+  });
+
+  function startGame() {
+    startOv.classList.add('hidden');
+    overOv.classList.add('hidden');
+    overOv.classList.remove('flex');
+    reset();
+    logMsg('rack_stacker: deployment started', 'info');
+    cancelAnimationFrame(raf);
+    loop();
+  }
+
+  document.getElementById('rack-start-btn').addEventListener('click', startGame);
+  document.getElementById('rack-again').addEventListener('click', startGame);
+  document.getElementById('rack-quit').addEventListener('click', () => {
+    overOv.classList.add('hidden');
+    overOv.classList.remove('flex');
+    startOv.classList.remove('hidden');
+    state = 'idle';
+    ctx.clearRect(0, 0, W, H);
+  });
+})();
+
+
+// ════════════════════════════════════════════════
+// FLOOR_OPS — a day on the boardroom floor
+// Boss-satisfaction model · walking execs · fullscreen
+// ════════════════════════════════════════════════
+(function () {
+  const stage = document.getElementById('floor-stage');
+  if (!stage) return;
+
+  // ── DOM refs ──
+  const shell   = document.getElementById('floor-shell');
+  const clockEl = document.getElementById('fo-clock');
+  const scoreEl = document.getElementById('fo-score');
+  const bestEl  = document.getElementById('fo-best');
+  const bossBar = document.getElementById('fo-boss-bar');
+  const bossPct = document.getElementById('fo-boss-pct');
+  const moodFace= document.getElementById('fo-mood-face');
+  const startOv = document.getElementById('floor-start');
+  const overOv  = document.getElementById('floor-over');
+  const verdictEl = document.getElementById('floor-verdict');
+  const overTitle = document.getElementById('floor-over-title');
+  const finalEl = document.getElementById('floor-final');
+  const flavorEl= document.getElementById('floor-flavor');
+  const fsBtn   = document.getElementById('fo-fullscreen');
+  const fsIcon  = document.getElementById('fo-fs-icon');
+
+  // ── Tunables (relaxed but real challenge) ──
+  const DAY_LENGTH   = 120000;  // ms for a full 9am→5pm shift (longer = calmer)
+  const ADMIN_SCORE  = 600;
+  const DISPATCH_MS  = 1500;    // time to walk over + fix
+  const RESOLVE_BASE = 14;      // points per fix
+  const EVENT_BOOST  = 46;      // event health restored per stabilise
+  const BOSS_START   = 80;      // starting boss mood
+  const BOSS_HIT_IGNORE = 9;    // mood lost when a fault is left too long
+  const BOSS_HIT_EVENT  = 12;   // mood lost if the live event dies down
+  const BOSS_GAIN_FIX   = 5;    // mood gained per good fix
+  const BOSS_GAIN_EVENT = 4;    // mood gained per event save
+
+  // ── Floor layout (% of stage) ──
+  const LAYOUT = [
+    { id:'reception', label:'RECEPTION', sub:'lobby',  x:1.5, y:6,  w:18,   h:88, spawn:true },
+    { id:'br1', label:'BR-1', sub:'board room', x:21.5, y:6,  w:24.5, h:34, faultable:true },
+    { id:'br2', label:'BR-2', sub:'board room', x:48,   y:6,  w:24.5, h:34, faultable:true },
+    { id:'br3', label:'BR-3', sub:'board room', x:74,   y:6,  w:24.5, h:34, faultable:true },
+    { id:'event', label:'LIVE EVENT HALL', sub:'keynote in progress', x:21.5, y:44, w:77, h:50, event:true },
+  ];
+  const CENTERS = {};
+  LAYOUT.forEach(r => CENTERS[r.id] = { x: r.x + r.w/2, y: r.y + r.h/2 });
+  const FIXER_ORIGIN = { x: 10, y: 92 };   // you walk in from by reception (desk removed)
+
+  // ── Funny content ──
+  const AV_FAULTS = [
+    'HDMI shrugged, no signal', 'Teams call has no audio (again)',
+    'Projector showing a desktop of 400 icons', 'Exec can\u2019t find the \u201Cany\u201D key',
+    'Someone joined Teams from the ceiling speaker', 'Clicker controlling the wrong screen',
+    'Wireless mic doing dial-up noises', 'Screen mirroring mirrored the wrong laptop',
+    'VC camera pointed at the ceiling', 'Slides stuck on the title for 20 min',
+    'Caps Lock crisis in the board pack', 'Zoom and Teams open, fighting to the death',
+  ];
+  const HOSP_REQUESTS = [
+    'Flat white for the CFO', 'Table needs a tea refresh',
+    'Oat milk emergency \u2014 stat', 'Biscuits ran out mid-meeting',
+    'Decaf, but make it look like real coffee', 'Pot of English Breakfast for table 3',
+    'Iced latte, in this weather', 'Sparkling water, somehow room temp',
+    'More pastries, the partners are circling', 'Someone ordered a babyccino (?)',
+    'Long black, \u201Cnot too long though\u201D', 'Green tea for the wellness exec',
+  ];
+  const EVENT_CRISES = [
+    'Mic feedback during the CEO\u2019s big line', 'Keynote feed froze on a yawn',
+    'Backing track started playing show tunes', 'Confidence monitor went full blue-screen',
+    'Stage lights flickering like a nightclub', 'Livestream buffering in front of investors',
+  ];
+  const ARRIVALS = [
+    'two execs strolled in arguing about a deck',
+    'the CFO wants \u201Cjust a quick AV check\u201D (it\u2019s never quick)',
+    'coffee cart rolled past, smelling amazing',
+    'legal team seated, already on three laptops',
+    'someone\u2019s brought pastries to BR-1',
+    'the CEO walked in 9 minutes early, of course',
+    'an investor is asking where the HDMI cable went',
+    'a partner is trying to AirPlay from the lift',
+  ];
+
+  // ── State ──
+  let roomEls = {}, faultableIds = [];
+  let state = 'idle';
+  let dayTime, score, best, eventHealth, boss;
+  let faults, eventCrisis, dispatch, spawnTimer, arrivalTimer, occupancy, eventCrisisFx;
+  let lastFrame, raf;
+
+  try { best = parseInt(localStorage.getItem('floor_best')||'0',10)||0; } catch(e){ best=0; }
+  bestEl.textContent = best;
+
+  // ── Build floor ──
+  function buildFloor() {
+    LAYOUT.forEach(r => {
+      const el = document.createElement('div');
+      el.className = 'fo-room';
+      el.style.left=r.x+'%'; el.style.top=r.y+'%'; el.style.width=r.w+'%'; el.style.height=r.h+'%';
+      el.innerHTML = `<div class="fo-label">${r.label}</div><div class="fo-sub">${r.sub}</div>`;
+      if (r.faultable || r.event) {
+        el.classList.add('fo-clickable');
+        el.addEventListener('click', () => onRoomClick(r.id));
+      }
+      if (r.event) {
+        const wrap = document.createElement('div');
+        wrap.className = 'fo-event-bar-wrap';
+        wrap.innerHTML = '<div class="fo-event-bar" id="fo-event-bar"></div>';
+        el.appendChild(wrap);
+      }
+      stage.appendChild(el);
+      roomEls[r.id] = el;
+      if (r.faultable) faultableIds.push(r.id);
+    });
+  }
+
+  // ── Helpers ──
+  function fmtClock(p) {
+    const totalMin = Math.floor(p*8*60);
+    let h = 9 + Math.floor(totalMin/60);
+    const m = totalMin%60;
+    const ap = h>=12?'PM':'AM';
+    let hh = h>12?h-12:h;
+    return `${hh}:${String(m).padStart(2,'0')} ${ap}`;
+  }
+  function roomLabel(id){ return LAYOUT.find(r=>r.id===id).label; }
+
+  function floatPts(id, txt, bad) {
+    const f = document.createElement('div');
+    f.className = 'fo-float' + (bad?' bad':'');
+    f.textContent = txt;
+    f.style.left = CENTERS[id].x+'%'; f.style.top = CENTERS[id].y+'%';
+    stage.appendChild(f);
+    setTimeout(()=>f.remove(), 1000);
+  }
+  function shake(){ stage.classList.add('fo-shake'); setTimeout(()=>stage.classList.remove('fo-shake'),300); }
+
+  // ── Walking exec sprite ──
+  function makeSprite(cls) {
+    const s = document.createElement('div');
+    s.className = 'fo-exec' + (cls?(' '+cls):'');
+    s.innerHTML = '<div class="fo-bob"><div class="fo-head"></div><div class="fo-body"></div></div>'
+                + '<div class="fo-leg l"></div><div class="fo-leg r"></div>';
+    return s;
+  }
+
+  function sendExec() {
+    if (state!=='playing') return;
+    const targetId = faultableIds[Math.floor(Math.random()*faultableIds.length)];
+    const dot = makeSprite();
+    const hue = ['#3B82F6','#6366F1','#0EA5E9','#8B5CF6'][Math.floor(Math.random()*4)];
+    dot.style.setProperty('--suit', hue);
+    dot.style.setProperty('--walk', '2.4s');
+    dot.style.left = CENTERS.reception.x+'%';
+    dot.style.top  = CENTERS.reception.y+'%';
+    stage.appendChild(dot);
+    requestAnimationFrame(()=>{ dot.style.left = CENTERS[targetId].x+'%'; dot.style.top = CENTERS[targetId].y+'%'; });
+    setTimeout(()=>{ dot.classList.add('arrived'); addOccupant(targetId, hue); }, 2400);
+    setTimeout(()=>{ dot.style.opacity='0'; }, 2700);
+    setTimeout(()=>dot.remove(), 3200);
+    if (Math.random()<0.75) logMsg('floor_ops: '+ARRIVALS[Math.floor(Math.random()*ARRIVALS.length)], 'info');
+  }
+
+  function addOccupant(id, hue) {
+    occupancy[id]=(occupancy[id]||0)+1;
+    const el = roomEls[id]; if(!el) return;
+    let occ = el.querySelector('.fo-occ');
+    if(!occ){ occ=document.createElement('div'); occ.className='fo-occ'; el.appendChild(occ); }
+    if(occ.children.length<5){ const i=document.createElement('i'); if(hue)i.style.setProperty('--suit',hue); occ.appendChild(i); }
+  }
+
+  // walking "you" sprite to a room being serviced
+  function dispatchFixer(id) {
+    const f = makeSprite('fixer');
+    f.style.setProperty('--walk', (DISPATCH_MS/1000*0.85)+'s');
+    f.style.left = FIXER_ORIGIN.x+'%'; f.style.top = FIXER_ORIGIN.y+'%';
+    stage.appendChild(f);
+    requestAnimationFrame(()=>{ f.style.left = CENTERS[id].x+'%'; f.style.top = CENTERS[id].y+'%'; });
+    return f;
+  }
+
+  // ── Faults ──
+  function spawnFault() {
+    if (state!=='playing') return;
+    const free = faultableIds.filter(id => !faults[id] && (!dispatch||dispatch.id!==id));
+    if (!free.length) return;
+    const weighted = free.flatMap(id => Array((occupancy[id]||0)+1).fill(id));
+    const id = weighted[Math.floor(Math.random()*weighted.length)];
+    const p = dayTime/DAY_LENGTH;
+    const max = 8500 - p*3300;     // 8.5s early → ~5.2s late
+    const hosp = Math.random() < 0.45;   // ~45% hospitality, ~55% AV
+    const type = hosp ? HOSP_REQUESTS[Math.floor(Math.random()*HOSP_REQUESTS.length)]
+                      : AV_FAULTS[Math.floor(Math.random()*AV_FAULTS.length)];
+    faults[id] = { type, t:max, max, kind: hosp ? 'hosp' : 'av' };
+    paintRoom(id);
+    const tag = hosp ? '<span style="color:#f5d97a">[ORDER]</span>' : '<span style="color:#ffb4ab">[BROKE]</span>';
+    logMsg(`floor_ops: ${tag} ${roomLabel(id)} &mdash; ${type}`, hosp ? 'info' : 'error');
+  }
+
+  function triggerEventCrisis() {
+    if (eventCrisis) return;
+    eventCrisis = true;
+    eventHealth = Math.max(0, eventHealth-18);
+    roomEls.event.classList.add('event-crit');
+    shake();
+    const c = EVENT_CRISES[Math.floor(Math.random()*EVENT_CRISES.length)];
+    logMsg(`floor_ops: <span style="color:#ffb4ab">[EVENT]</span> ${c}! &mdash; tap the hall`, 'error');
+    clearTimeout(eventCrisisFx);
+    eventCrisisFx = setTimeout(()=>{ eventCrisis=false; roomEls.event.classList.remove('event-crit'); }, 1600);
+  }
+
+  function paintRoom(id) {
+    const el = roomEls[id];
+    el.classList.add(faults[id].kind === 'hosp' ? 'request' : 'fault');
+    if(!el.querySelector('.fo-ring')){ const r=document.createElement('div'); r.className='fo-ring'; el.appendChild(r); }
+    let ft = el.querySelector('.fo-fault-text');
+    if(!ft){ ft=document.createElement('div'); ft.className='fo-fault-text'; el.appendChild(ft); }
+    ft.textContent = (faults[id].kind === 'hosp' ? '\u2615 ' : '') + faults[id].type;
+  }
+
+  // ── Boss mood ──
+  function setBoss(v) {
+    boss = Math.max(0, Math.min(100, v));
+    bossBar.style.width = boss+'%';
+    bossPct.textContent = Math.round(boss);
+    bossBar.style.background = boss>=55 ? '#22C55E' : boss>=30 ? '#EAB308' : '#ba1a1a';
+    moodFace.textContent = boss>=70 ? 'sentiment_very_satisfied'
+                         : boss>=45 ? 'sentiment_satisfied'
+                         : boss>=25 ? 'sentiment_dissatisfied'
+                         : 'sentiment_very_dissatisfied';
+    moodFace.style.color = boss>=55 ? '#22C55E' : boss>=30 ? '#EAB308' : '#ffb4ab';
+  }
+
+  // ── Interaction ──
+  function onRoomClick(id) {
+    if (state!=='playing' || dispatch) return;
+    if (id==='event') {
+      dispatch = { id, t:DISPATCH_MS, event:true, sprite:dispatchFixer('event') };
+      roomEls.event.classList.add('resolving');
+      addProgress('event');
+      return;
+    }
+    if (!faults[id]) return;
+    dispatch = { id, t:DISPATCH_MS, kind:faults[id].kind, sprite:dispatchFixer(id) };
+    delete faults[id];
+    const el = roomEls[id];
+    el.classList.remove('fault','request'); el.classList.add('resolving');
+    const ring=el.querySelector('.fo-ring'); if(ring)ring.remove();
+    const ft=el.querySelector('.fo-fault-text'); if(ft)ft.remove();
+    addProgress(id);
+  }
+
+  function addProgress(id) {
+    const el = roomEls[id];
+    let bar = el.querySelector('.fo-progress');
+    if(!bar){ bar=document.createElement('div'); bar.className='fo-progress'; el.appendChild(bar); }
+    bar.style.setProperty('--p','0%');
+  }
+
+  function updateEventBar() {
+    const bar = document.getElementById('fo-event-bar'); if(!bar) return;
+    bar.style.width = eventHealth+'%';
+    bar.classList.toggle('warn', eventHealth<55 && eventHealth>=28);
+    bar.classList.toggle('crit', eventHealth<28);
+  }
+
+  // ── Main loop ──
+  function frame(now) {
+    if (state!=='playing') return;
+    const dt = Math.min(now-lastFrame, 100);
+    lastFrame = now; dayTime += dt;
+    const p = dayTime/DAY_LENGTH;
+    clockEl.textContent = fmtClock(Math.min(p,1));
+
+    // fault timers
+    for (const id of Object.keys(faults)) {
+      faults[id].t -= dt;
+      const el = roomEls[id];
+      const ring = el.querySelector('.fo-ring');
+      if (ring) ring.style.setProperty('--p', Math.max(0, faults[id].t/faults[id].max));
+      if (faults[id].t <= 0) {
+        const wasHosp = faults[id].kind === 'hosp';
+        delete faults[id];
+        el.classList.remove('fault','request');
+        const r=el.querySelector('.fo-ring'); if(r)r.remove();
+        const ft=el.querySelector('.fo-fault-text'); if(ft)ft.remove();
+        setBoss(boss - BOSS_HIT_IGNORE);
+        floatPts(id, '\u2639 boss', true);
+        shake();
+        const msg = wasHosp ? `${roomLabel(id)} is still waiting on their order` : `${roomLabel(id)} left broken too long`;
+        logMsg(`floor_ops: <span style="color:#ffb4ab">[GRR]</span> ${msg} &mdash; boss noticed`, 'error');
+        if (boss <= 0) return endDay('boss');
+      }
+    }
+
+    // dispatch progress
+    if (dispatch) {
+      dispatch.t -= dt;
+      const el = roomEls[dispatch.id];
+      const bar = el.querySelector('.fo-progress');
+      if (bar) bar.style.setProperty('--p', (1-dispatch.t/DISPATCH_MS)*100+'%');
+      if (dispatch.t <= 0) {
+        el.classList.remove('resolving');
+        const b=el.querySelector('.fo-progress'); if(b)b.remove();
+        if (dispatch.sprite){ dispatch.sprite.style.opacity='0'; const sp=dispatch.sprite; setTimeout(()=>sp.remove(),400); }
+        if (dispatch.event) {
+          eventHealth = Math.min(100, eventHealth+EVENT_BOOST);
+          if (eventCrisis){ eventCrisis=false; clearTimeout(eventCrisisFx); roomEls.event.classList.remove('event-crit'); }
+          score += 12; setBoss(boss + BOSS_GAIN_EVENT);
+          floatPts('event','+12');
+          logMsg('floor_ops: <span style="color:#22C55E">live feed saved</span> \u2014 nice', 'success');
+        } else {
+          score += RESOLVE_BASE; setBoss(boss + BOSS_GAIN_FIX);
+          floatPts(dispatch.id, '+'+RESOLVE_BASE);
+          const done = dispatch.kind === 'hosp'
+            ? `<span style="color:#f5d97a">[SERVED]</span> ${roomLabel(dispatch.id)}`
+            : `<span style="color:#22C55E">[FIXED]</span> ${roomLabel(dispatch.id)}`;
+          logMsg(`floor_ops: ${done}`, 'success');
+        }
+        scoreEl.textContent = score;
+        dispatch = null;
+      }
+    }
+
+    // event decay (gentle) + crisis roll
+    eventHealth = Math.max(0, eventHealth - (0.022 + p*0.03) * (dt/16.7));
+    updateEventBar();
+    if (eventHealth <= 0) {
+      // event dies → boss hit + reset to a recoverable level (not instant loss)
+      setBoss(boss - BOSS_HIT_EVENT);
+      eventHealth = 35;
+      shake();
+      logMsg('floor_ops: <span style="color:#ffb4ab">[OUCH]</span> the live feed dropped \u2014 boss winced', 'error');
+      if (boss <= 0) return endDay('boss');
+    }
+    if (!eventCrisis && Math.random() < (0.0009 + p*0.0016)*(dt/16.7)) triggerEventCrisis();
+
+    // spawns (calmer)
+    spawnTimer -= dt;
+    if (spawnTimer <= 0) {
+      spawnFault();
+      spawnTimer = (4600 - p*2950) * (0.82 + Math.random()*0.36); // calm morning ~4.6s → afternoon rush ~1.65s
+    }
+    arrivalTimer -= dt;
+    if (arrivalTimer <= 0){ sendExec(); arrivalTimer = 3200 + Math.random()*3200; }
+
+    if (dayTime >= DAY_LENGTH) return endDay('survived');
+    raf = requestAnimationFrame(frame);
+  }
+
+  // ── Lifecycle ──
+  function startGame() {
+    faultableIds.forEach(id => {
+      const el = roomEls[id];
+      el.classList.remove('fault','request','resolving','event-crit');
+      el.querySelectorAll('.fo-ring,.fo-fault-text,.fo-progress,.fo-occ').forEach(n=>n.remove());
+    });
+    roomEls.event.classList.remove('resolving','event-crit');
+    roomEls.event.querySelectorAll('.fo-progress').forEach(n=>n.remove());
+    stage.querySelectorAll('.fo-exec').forEach(n=>n.remove());
+
+    dayTime=0; score=0; eventHealth=100; faults={}; eventCrisis=false;
+    dispatch=null; occupancy={}; spawnTimer=2600; arrivalTimer=1400;
+    setBoss(BOSS_START);
+    scoreEl.textContent='0'; clockEl.textContent='9:00 AM'; updateEventBar();
+    startOv.classList.add('hidden'); overOv.classList.add('hidden');
+    state='playing';
+    logMsg('floor_ops: <span style="color:#22C55E">shift started \u2014 9:00 AM, coffee in hand</span>', 'success');
+    lastFrame = performance.now();
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
+  }
+
+  function endDay(reason) {
+    state='over'; cancelAnimationFrame(raf); dispatch=null;
+    stage.querySelectorAll('.fo-exec').forEach(n=>n.remove());
+    if (score>best){ best=score; bestEl.textContent=best; try{localStorage.setItem('floor_best',String(best));}catch(e){} }
+    finalEl.textContent = score;
+
+    let verdict, title, flavor;
+    if (reason==='boss') {
+      verdict='SEEN_IN_THE_LIFT'; title='The Boss Wants a Word';
+      flavor='Mood hit zero. You\u2019re getting a calendar invite titled \u201Cquick chat\u201D. Never good.';
+    } else if (score>=ADMIN_SCORE && boss>=70) {
+      verdict='FLOOR_LEGEND'; title='Flawless Day';
+      flavor=`${score} pts &amp; the boss is beaming \u2014 you beat the admin (${ADMIN_SCORE}). Nobody saw a single thing break.`;
+    } else if (boss>=55) {
+      verdict='SOLID_SHIFT'; title='Made It to 5 PM';
+      flavor='Good day on the floor. The execs have no idea how close some of those were.';
+    } else if (boss>=30) {
+      verdict='SURVIVED_IT'; title='Clocked Out';
+      flavor='You made it, but the boss is giving you That Look. Tomorrow, get there earlier.';
+    } else {
+      verdict='ROUGH_ONE'; title='Long Day';
+      flavor='Survived on vibes and apologies. The retro is going to be spicy.';
+    }
+    verdictEl.textContent=verdict; overTitle.textContent=title; flavorEl.innerHTML=flavor;
+    overOv.classList.remove('hidden');
+    logMsg(`floor_ops: shift ended \u2014 ${score} pts, boss at ${Math.round(boss)}% [${verdict}]`, boss>=55?'success':'info');
+  }
+
+  function quit() {
+    state='idle'; cancelAnimationFrame(raf);
+    stage.querySelectorAll('.fo-exec').forEach(n=>n.remove());
+    overOv.classList.add('hidden'); startOv.classList.remove('hidden');
+  }
+
+  // ── Fullscreen / bigscreen ──
+  function toggleBig() {
+    const big = shell.classList.toggle('fo-big');
+    fsIcon.textContent = big ? 'fullscreen_exit' : 'fullscreen';
+  }
+
+  // ── Wire up ──
+  buildFloor();
+  setBoss(BOSS_START);
+  document.getElementById('floor-start-btn').addEventListener('click', startGame);
+  document.getElementById('floor-again').addEventListener('click', startGame);
+  document.getElementById('floor-quit').addEventListener('click', quit);
+  fsBtn.addEventListener('click', toggleBig);
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && shell.classList.contains('fo-big')) toggleBig(); });
+})();

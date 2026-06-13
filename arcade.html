@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aayush Acharya — IT Support Officer based in Sydney. M365, Entra ID, Intune, Cisco Meraki." />
+  <title>ARCADE // AAYUSH_ACHARYA_OS</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+
+  <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface":                  "#131313",
+            "surface-container-lowest": "#0e0e0e",
+            "surface-container-low":    "#1c1b1b",
+            "surface-container":        "#201f1f",
+            "surface-container-high":   "#2a2a2a",
+            "surface-container-highest":"#353534",
+            "surface-bright":           "#393939",
+            "surface-variant":          "#353534",
+            "on-surface":               "#e5e2e1",
+            "on-surface-variant":       "#c2c6d6",
+            "terminal-green":           "#22C55E",
+            "primary":                  "#adc6ff",
+            "primary-container":        "#4d8eff",
+            "on-primary":               "#002e6a",
+            "tertiary":                 "#49e255",
+            "error":                    "#ffb4ab",
+            "border-subtle":            "#30363D",
+            "text-muted":               "#8B949E",
+            "outline-variant":          "#424754",
+          },
+          spacing: {
+            "desktop": "32px",
+            "mobile":  "16px",
+            "gutter":  "16px",
+          },
+        },
+      },
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Boot gate: hides hero output pre-paint on first visit this session (skipped for reduced motion / repeat visits) -->
+  <script>
+    (function () {
+      try {
+        if (!sessionStorage.getItem('os_booted') &&
+            !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.documentElement.classList.add('booting');
+        }
+      } catch (e) { /* private mode etc. — boot skipped */ }
+    })();
+  </script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4BCHE02B2X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4BCHE02B2X');
+</script>
+</head>
+
+<body class="bg-surface text-on-surface selection:bg-terminal-green selection:text-surface">
+
+
+<!-- ════════════════════ NAVBAR ════════════════════ -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-border-subtle">
+  <nav class="flex justify-between items-center px-mobile md:px-desktop py-4 max-w-[1440px] mx-auto">
+    <a href="index.html" class="text-terminal-green font-bold text-base md:text-lg tracking-tighter whitespace-nowrap phosphor">
+      AAYUSH_ACHARYA_OS
+    </a>
+    <div class="hidden md:flex gap-8 items-center text-sm">
+      <a href="index.html#skills"    class="nav-link text-on-surface-variant hover:text-primary transition-colors">Skills</a>
+      <a href="index.html#platforms" class="nav-link text-on-surface-variant hover:text-primary transition-colors">Platforms</a>
+      <a href="index.html#projects"  class="nav-link text-on-surface-variant hover:text-primary transition-colors">Projects</a>
+      <a href="index.html#education" class="nav-link text-on-surface-variant hover:text-primary transition-colors">Education</a>
+      <a href="index.html#contact"   class="nav-link text-on-surface-variant hover:text-primary transition-colors">Contact</a>
+      <a href="arcade.html" class="nav-link text-terminal-green hover:text-primary transition-colors">Arcade</a>
+    </div>
+    <button id="hamburger" class="md:hidden text-terminal-green" aria-label="Open menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </nav>
+  <div id="mobile-menu" class="flex-col gap-4 px-mobile py-4 border-t border-border-subtle bg-surface text-sm">
+    <a href="index.html#skills"    class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Skills</a>
+    <a href="index.html#platforms" class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Platforms</a>
+    <a href="index.html#projects"  class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Projects</a>
+    <a href="index.html#education" class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Education</a>
+    <a href="index.html#contact"   class="text-on-surface-variant hover:text-primary" onclick="closeMobileMenu()">Contact</a>
+    <a href="arcade.html" class="text-terminal-green hover:text-primary">Arcade</a>
+  </div>
+</header>
+
+
+<!-- ════════════════════ MAIN ════════════════════ -->
+<main class="pt-24 pb-20 px-mobile md:px-desktop max-w-[1440px] mx-auto">
+
+  <!-- ── ARCADE PAGE HEADER ─────────────────────── -->
+  <a href="index.html" class="inline-flex items-center gap-1 text-text-muted hover:text-primary text-xs font-mono mb-6 transition-colors">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> cd ~/home
+  </a>
+
+  <section id="arcade" class="mb-8">
+    <div class="section-cmd"><span class="prompt">root@aayush:~$</span><span>./game_room.exe</span></div>
+    <h2 class="section-heading">// Game_Room.exe</h2>
+    <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [4_LOADED]</p>
+
+
+    <!-- ═══ FLOOR_OPS — boardroom floor day sim ═══ -->
+    <div id="floor-shell" class="fo-shell glass p-5 mt-gutter flex flex-col gap-4">
+      <div class="flex flex-wrap justify-between items-center border-b border-border-subtle pb-3 gap-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-base">meeting_room</span>
+          <h3 class="font-bold">Floor Ops</h3>
+          <span class="text-[10px] text-text-muted font-mono ml-1 hidden sm:inline">// a day on the boardroom floor &mdash; keep the bosses happy</span>
+        </div>
+        <div class="flex items-center gap-3 sm:gap-4 text-xs font-mono flex-wrap">
+          <span class="text-text-muted">CLOCK: <span id="fo-clock" class="text-on-surface font-bold">9:00 AM</span></span>
+          <span class="text-tertiary">SCORE: <span id="fo-score" class="font-bold">0</span></span>
+          <span class="text-text-muted">BEST: <span id="fo-best" class="font-bold">0</span></span>
+          <button id="fo-fullscreen" class="fo-fullscreen-btn text-text-muted hover:text-primary transition-colors" title="Bigger screen">
+            <span class="material-symbols-outlined text-sm" id="fo-fs-icon">fullscreen</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Boss satisfaction meter -->
+      <div class="flex items-center gap-3 -mt-1">
+        <span class="material-symbols-outlined text-sm" id="fo-mood-face">sentiment_satisfied</span>
+        <span class="text-[10px] font-mono text-text-muted whitespace-nowrap">BOSS MOOD</span>
+        <div class="flex-1 h-2.5 bg-surface-container-low border border-border-subtle overflow-hidden">
+          <div id="fo-boss-bar" class="h-full bg-terminal-green transition-all duration-300" style="width:80%"></div>
+        </div>
+        <span class="text-[10px] font-mono"><span id="fo-boss-pct" class="font-bold">80</span>%</span>
+      </div>
+
+      <div id="floor-stage" class="floor-stage">
+        <!-- rooms + walking execs injected by JS -->
+
+        <!-- Start overlay -->
+        <div id="floor-start" class="floor-overlay">
+          <div class="text-terminal-green text-[10px] font-mono tracking-widest">FLOOR_OPS.EXE</div>
+          <div class="text-lg font-bold">A Day on the Boardroom Floor</div>
+          <p class="text-[11px] text-text-muted font-mono text-center px-6 max-w-md leading-relaxed">
+            You're the floor analyst. Execs walk in, meetings start, and they need things:
+            <span class="text-error">AV breaks</span> (red) and
+            <span style="color:#f5d97a">coffee/tea orders</span> (amber) pop up in the board rooms.
+            CLICK a room to walk over and sort it. Keep the
+            <span class="text-primary">LIVE EVENT</span> running too. Every save keeps the
+            <span class="text-terminal-green">boss happy</span>; ignore stuff and the mood drops.
+            Make it to 5 PM with the boss still smiling.
+          </p>
+          <div class="text-[11px] font-mono text-tertiary">CHALLENGE &rarr; BEAT_THE_ADMIN: <span class="font-bold">600 pts</span></div>
+          <button id="floor-start-btn" class="px-5 py-1.5 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono mt-1">CLOCK_IN</button>
+        </div>
+
+        <!-- Game over overlay -->
+        <div id="floor-over" class="floor-overlay hidden">
+          <div id="floor-verdict" class="text-terminal-green text-[10px] font-mono tracking-widest">SHIFT_COMPLETE</div>
+          <div id="floor-over-title" class="text-xl font-bold">End of Day</div>
+          <div class="game-result-time"><span id="floor-final">0</span> pts</div>
+          <div id="floor-flavor" class="text-[11px] font-mono text-tertiary text-center px-6 max-w-sm h-8"></div>
+          <div class="flex gap-3 mt-1">
+            <button class="game-result-btn btn-play-again" id="floor-again">NEW_SHIFT</button>
+            <button class="game-result-btn btn-quit" id="floor-quit">CLOCK_OUT</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-x-4 gap-y-1 justify-center text-[10px] font-mono text-text-muted">
+        <span><span class="text-error">&#9632;</span> AV BROKE</span>
+        <span><span style="color:#EAB308">&#9632;</span> COFFEE / TEA ORDER</span>
+        <span><span class="text-primary">&#9632;</span> ON IT</span>
+        <span>Tap the EVENT HALL to keep the live feed alive</span>
+      </div>
+    </div>
+
+    <!-- ═══ RACK_STACKER — full-width canvas game ═══ -->
+    <div class="glass p-5 mt-gutter flex flex-col gap-4">
+      <div class="flex flex-wrap justify-between items-center border-b border-border-subtle pb-3 gap-2">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary text-base">dns</span>
+          <h3 class="font-bold">Rack Stacker</h3>
+          <span class="text-[10px] text-text-muted font-mono ml-1 hidden sm:inline">// stack the rack, don't drop a unit</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-mono">
+          <span class="text-terminal-green">HEIGHT: <span id="rack-score" class="font-bold">0</span>U</span>
+          <span class="text-text-muted">BEST: <span id="rack-best" class="text-tertiary font-bold">0</span>U</span>
+        </div>
+      </div>
+
+      <div class="relative mx-auto w-full" style="max-width:420px;">
+        <canvas id="rack-canvas" width="420" height="460"
+                class="w-full block bg-black/40 border border-border-subtle"
+                style="touch-action:manipulation;cursor:pointer;"></canvas>
+
+        <!-- Start overlay -->
+        <div id="rack-start" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/70 backdrop-blur-sm">
+          <div class="text-terminal-green text-[10px] font-mono tracking-widest">RACK_STACKER.EXE</div>
+          <div class="text-lg font-bold">Stack the Server Rack</div>
+          <p class="text-[11px] text-text-muted font-mono text-center px-6 max-w-xs">
+            A unit slides across. CLICK / TAP / SPACE to drop it. Overhang gets sliced off.
+            Perfect stacks keep your width. Miss completely = game over.
+          </p>
+          <div class="text-[11px] font-mono text-tertiary">CHALLENGE &rarr; BEAT_THE_ADMIN: <span class="font-bold">12U</span></div>
+          <button id="rack-start-btn" class="px-5 py-1.5 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono mt-1">INITIATE</button>
+        </div>
+
+        <!-- Game over overlay -->
+        <div id="rack-over" class="absolute inset-0 flex-col items-center justify-center gap-2 bg-black/80 backdrop-blur-sm hidden">
+          <div id="rack-verdict" class="text-terminal-green text-[10px] font-mono tracking-widest">RACK_DEPLOYED</div>
+          <div class="text-xl font-bold">Game Over</div>
+          <div class="game-result-time"><span id="rack-final">0</span>U deployed</div>
+          <div id="rack-beat" class="text-[11px] font-mono text-tertiary h-4"></div>
+          <div class="flex gap-3 mt-2">
+            <button class="game-result-btn btn-play-again" id="rack-again">PLAY_AGAIN</button>
+            <button class="game-result-btn btn-quit" id="rack-quit">QUIT</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-[10px] text-text-muted font-mono text-center">CLICK &middot; TAP &middot; or SPACE to drop &middot; Best score saved locally</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+
+      <!-- Games — 8 col -->
+      <div class="md:col-span-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+
+          <!-- Speed Grid -->
+          <div class="glass p-5 flex flex-col gap-4">
+            <div class="flex justify-between items-center border-b border-border-subtle pb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-base">bolt</span>
+                <h3 class="font-bold">Speed Grid</h3>
+              </div>
+              <span class="text-terminal-green text-xs font-mono" id="speed-timer">TIME: 0.00s</span>
+            </div>
+
+            <!-- Grid with result overlay -->
+            <div class="relative">
+              <div class="speed-grid-wrapper" id="speed-grid"></div>
+              <div class="game-result" id="speed-result">
+                <div class="text-terminal-green text-[10px] font-mono tracking-widest">GRID_COMPLETE</div>
+                <div class="game-result-title">Challenge Finished!</div>
+                <div class="game-result-time" id="speed-time-display">0.00s</div>
+                <div class="flex gap-3 mt-2">
+                  <button class="game-result-btn btn-play-again" id="speed-play-again">PLAY_AGAIN</button>
+                  <button class="game-result-btn btn-quit" id="speed-quit">QUIT</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center bg-surface-container-low p-3">
+              <span class="text-xs font-mono">Next: <span class="text-primary font-bold" id="next-target">1</span></span>
+              <div class="flex gap-2">
+                <button id="abort-speed" class="hidden px-3 py-1 bg-error/20 border border-error/40 text-error text-xs hover:bg-error/30 transition-all font-mono">ABORT</button>
+                <button id="start-speed" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">INITIATE</button>
+              </div>
+            </div>
+            <p class="text-[10px] text-text-muted font-mono -mt-2">Click 1 to start · Timer starts on first valid click</p>
+          </div>
+
+          <!-- Tech Memory -->
+          <div class="glass p-5 flex flex-col gap-4">
+            <div class="flex justify-between items-center border-b border-border-subtle pb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-base">memory</span>
+                <h3 class="font-bold">Tech Memory</h3>
+              </div>
+              <span class="text-terminal-green text-xs font-mono" id="mem-score-display">MOVES: 0</span>
+            </div>
+
+            <!-- Grid with result overlay -->
+            <div class="relative">
+              <div class="memory-grid-wrapper" id="memory-grid"></div>
+              <div class="game-result" id="mem-result">
+                <div class="text-terminal-green text-[10px] font-mono tracking-widest">MEMORY_COMPLETE</div>
+                <div class="game-result-title">All Pairs Matched!</div>
+                <div class="game-result-time" id="mem-moves-display">0 moves</div>
+                <div class="flex gap-3 mt-2">
+                  <button class="game-result-btn btn-play-again" id="mem-play-again">PLAY_AGAIN</button>
+                  <button class="game-result-btn btn-quit" id="mem-quit">QUIT</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center bg-surface-container-low p-3">
+              <span class="text-xs font-mono">Pairs: <span class="text-primary font-bold" id="mem-pairs">0/8</span></span>
+              <button id="reset-memory" class="px-4 py-1 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono">REBOOT</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Live terminal log — 4 col -->
+      <div class="md:col-span-4 glass flex flex-col">
+        <div class="bg-surface-container-highest px-4 py-2 border-b border-border-subtle flex items-center justify-between">
+          <div class="flex gap-1.5">
+            <div class="w-2.5 h-2.5 rounded-full bg-[#FF5F56]"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-[#27C93F]"></div>
+          </div>
+          <span class="text-[10px] text-text-muted font-mono">live_terminal.log</span>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 bg-black/40 space-y-1 font-mono" id="terminal-log" style="min-height:200px;max-height:320px;">
+          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Initializing kernel...</div>
+          <div style="color:#22C55E;font-size:11px;">[SYSTEM] Loading game_modules.bin</div>
+          <div style="color:#8B949E;font-size:11px;">... done</div>
+          <div style="color:#c2c6d6;font-size:11px;">Awaiting user input...</div>
+          <div style="font-size:11px;">
+            <span style="color:#22C55E;">root@aayush:~$</span>
+            <span class="inline-block w-2 h-3 bg-terminal-green align-middle blink ml-1"></span>
+          </div>
+        </div>
+        <div class="p-4 border-t border-border-subtle bg-surface-container-lowest">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-1.5 h-1.5 rounded-full bg-terminal-green animate-pulse"></div>
+            <span class="text-[10px] text-text-muted uppercase tracking-widest font-mono">REAL-TIME MONITOR</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[10px] font-mono">
+            <div>AUTH: <span class="text-tertiary">ROOT</span></div>
+            <div>STATUS: <span class="text-terminal-green">ONLINE</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="w-full py-8 border-t border-border-subtle bg-surface-container-lowest">
+  <div class="flex flex-col md:flex-row justify-between items-center px-mobile md:px-desktop gap-gutter max-w-[1440px] mx-auto">
+    <div class="text-terminal-green font-mono text-xs">root@aayush:~$ © 2026 Aayush Acharya</div>
+    <div class="flex gap-8">
+      <a href="https://github.com/hi-its-aayush" target="_blank" rel="noopener" class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
+        GitHub <span class="material-symbols-outlined" style="font-size:12px;">open_in_new</span>
+      </a>
+      <a href="https://www.linkedin.com/in/aayushacharya/" target="_blank" rel="noopener" class="text-text-muted hover:text-terminal-green transition-all font-mono text-xs flex items-center gap-1">
+        LinkedIn <span class="material-symbols-outlined" style="font-size:12px;">open_in_new</span>
+      </a>
+    </div>
+    <div class="text-[10px] font-mono text-text-muted/40">BUILD: AAYUSH_OS_v3 // STATUS: ACTIVE</div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
