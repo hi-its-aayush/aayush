@@ -615,22 +615,43 @@ body::after {
 .fo-shell.fo-big {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;               /* iOS: dynamic viewport accounts for the address bar */
   z-index: 9999;
   background: #07090a;
   margin: 0;
-  padding: clamp(12px, 3vh, 40px);
+  padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
+/* in fullscreen, the stage fills as much as it can by BOTH width and height */
 .fo-shell.fo-big .floor-stage {
-  max-width: min(96vw, calc((100vh - 160px) * 16 / 9));
+  max-width: min(98vw, calc((100dvh - 150px) * 16 / 9));
+  width: 100%;
   flex: 0 0 auto;
 }
 .fo-fullscreen-btn {
   display: inline-flex; align-items: center; gap: 4px;
   cursor: pointer;
+}
+/* "rotate for a bigger view" hint — only shown in fullscreen + portrait + small screens */
+.fo-rotate-hint { display: none; }
+@media (max-width: 820px) and (orientation: portrait) {
+  .fo-shell.fo-big .fo-rotate-hint {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #f5d97a;
+    padding: 6px; border: 1px dashed rgba(245,217,122,0.4);
+  }
+}
+/* landscape phones in fullscreen: let the stage use the height */
+@media (orientation: landscape) and (max-height: 520px) {
+  .fo-shell.fo-big { padding: 6px 10px; gap: 6px; }
+  .fo-shell.fo-big .floor-stage { max-width: min(96vw, calc((100dvh - 92px) * 16 / 9)); }
 }
 
 /* full-stage overlay (start / game over) */

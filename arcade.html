@@ -129,8 +129,9 @@
           <span class="text-text-muted">CLOCK: <span id="fo-clock" class="text-on-surface font-bold">9:00 AM</span></span>
           <span class="text-tertiary">SCORE: <span id="fo-score" class="font-bold">0</span></span>
           <span class="text-text-muted">BEST: <span id="fo-best" class="font-bold">0</span></span>
-          <button id="fo-fullscreen" class="fo-fullscreen-btn text-text-muted hover:text-primary transition-colors" title="Bigger screen">
+          <button id="fo-fullscreen" class="fo-fullscreen-btn px-2 py-1 border border-border-subtle text-text-muted hover:text-primary hover:border-primary transition-colors" title="Bigger screen">
             <span class="material-symbols-outlined text-sm" id="fo-fs-icon">fullscreen</span>
+            <span class="text-[10px]" id="fo-fs-label">BIGGER</span>
           </button>
         </div>
       </div>
@@ -145,6 +146,10 @@
         <span class="text-[10px] font-mono"><span id="fo-boss-pct" class="font-bold">80</span>%</span>
       </div>
 
+      <div class="fo-rotate-hint">
+        <span class="material-symbols-outlined text-sm">screen_rotation</span>
+        Rotate your phone sideways for a bigger floor
+      </div>
       <div id="floor-stage" class="floor-stage">
         <!-- rooms + walking execs injected by JS -->
 
@@ -195,6 +200,7 @@
           <span class="text-[10px] text-text-muted font-mono ml-1 hidden sm:inline">// stack the rack, don't drop a unit</span>
         </div>
         <div class="flex items-center gap-4 text-xs font-mono">
+          <span class="text-tertiary" id="rack-combo"></span>
           <span class="text-terminal-green">HEIGHT: <span id="rack-score" class="font-bold">0</span>U</span>
           <span class="text-text-muted">BEST: <span id="rack-best" class="text-tertiary font-bold">0</span>U</span>
         </div>
@@ -211,7 +217,8 @@
           <div class="text-lg font-bold">Stack the Server Rack</div>
           <p class="text-[11px] text-text-muted font-mono text-center px-6 max-w-xs">
             A unit slides across. CLICK / TAP / SPACE to drop it. Overhang gets sliced off.
-            Perfect stacks keep your width. Miss completely = game over.
+            Land it <span class="text-terminal-green">perfectly</span> to chain a combo (grows the rack back +
+            score multiplier). Grab the <span style="color:#f4c542">gold blade servers</span> for 3&times; points.
           </p>
           <div class="text-[11px] font-mono text-tertiary">CHALLENGE &rarr; BEAT_THE_ADMIN: <span class="font-bold">12U</span></div>
           <button id="rack-start-btn" class="px-5 py-1.5 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono mt-1">INITIATE</button>

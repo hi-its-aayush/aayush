@@ -430,6 +430,7 @@ initScrollReveals();
 
   const scoreEl  = document.getElementById('rack-score');
   const bestEl   = document.getElementById('rack-best');
+  const comboEl  = document.getElementById('rack-combo');
   const startOv  = document.getElementById('rack-start');
   const overOv   = document.getElementById('rack-over');
   const finalEl  = document.getElementById('rack-final');
@@ -441,28 +442,36 @@ initScrollReveals();
   bestEl.textContent = best;
 
   let stack, current, score, speed, dir, state, raf, shake;
+  let combo, bestCombo, mult;        // perfect-streak combo system
   // state: 'idle' | 'sliding' | 'dropping' | 'over'
 
   // Server-unit colours cycle for visual variety
   const HUES = ['#22C55E', '#3B82F6', '#06B6D4', '#8B5CF6', '#EAB308'];
+  const PERFECT_REGROW = 14;         // px width recovered on a perfect drop
+  const BONUS_GOLD = '#f4c542';      // colour of the bonus "blade server"
 
   function reset() {
     score = 0;
     speed = SPEED_BASE;
     shake = 0;
+    combo = 0; bestCombo = 0; mult = 1;
     stack = [{ x: (W - BASE_W) / 2, w: BASE_W, hue: HUES[0] }];
     spawn();
     scoreEl.textContent = '0';
+    if (comboEl) comboEl.textContent = '';
     state = 'sliding';
   }
 
   function spawn() {
     const top = stack[stack.length - 1];
     dir = Math.random() < 0.5 ? 1 : -1;
+    // ~12% chance of a bonus golden blade server (worth 3x, glows)
+    const bonus = stack.length > 2 && Math.random() < 0.12;
     current = {
       x: dir === 1 ? -top.w : W,
       w: top.w,
-      hue: HUES[stack.length % HUES.length]
+      hue: bonus ? BONUS_GOLD : HUES[stack.length % HUES.length],
+      bonus
     };
   }
 
@@ -485,21 +494,33 @@ initScrollReveals();
 
     const perfect = Math.abs(current.x - top.x) < 4;
     if (perfect) {
-      current.x = top.x;          // snap, keep width
+      current.x = top.x;                          // snap
+      // reward streak: grow width back a touch, raise multiplier
+      combo++;
+      bestCombo = Math.max(bestCombo, combo);
+      mult = 1 + Math.floor(combo / 3);           // x2 at 3 perfects, x3 at 6...
+      current.w = Math.min(current.w + PERFECT_REGROW, BASE_W);
       flashPerfect();
     } else {
       current.x = overlapL;
-      current.w = overlap;        // slice overhang
+      current.w = overlap;                        // slice overhang
+      combo = 0; mult = 1;                        // streak broken
     }
 
     stack.push({ x: current.x, w: current.w, hue: current.hue });
-    score++;
+
+    // scoring: base 1, ×combo multiplier, ×3 for a bonus blade
+    let gain = 1 * mult * (current.bonus ? 3 : 1);
+    score += gain;
     scoreEl.textContent = score;
+    if (comboEl) comboEl.textContent = combo >= 2 ? `x${mult} · ${combo} PERFECT` : '';
+    if (current.bonus) logMsg(`rack_stacker: <span style="color:${BONUS_GOLD}">BLADE SERVER</span> bonus +${gain}`, 'success');
     shake = perfect ? 6 : 3;
 
-    if (score === ADMIN_SCORE) logMsg('rack_stacker: matched ADMIN baseline (12U) &mdash; impressive', 'success');
+    if (score >= ADMIN_SCORE && score - gain < ADMIN_SCORE)
+      logMsg('rack_stacker: passed the ADMIN baseline (12U) &mdash; impressive', 'success');
 
-    speed = SPEED_BASE + score * 0.18;   // ramp difficulty
+    speed = SPEED_BASE + stack.length * 0.16;     // ramp by height, not score
     spawn();
     state = 'sliding';
   }
@@ -527,7 +548,8 @@ initScrollReveals();
     else                  { verdict = 'TICKET_ESCALATED';        beat = 'Dropped the very first unit. Bold.'; }
 
     verdictEl.textContent = verdict;
-    beatEl.textContent = beat;
+    beatEl.textContent = bestCombo >= 3 ? `${beat}  (best streak: ${bestCombo} perfect)` : beat;
+    if (comboEl) comboEl.textContent = '';
     overOv.classList.remove('hidden');
     overOv.classList.add('flex');
     logMsg(`rack_stacker: run ended &mdash; ${score}U deployed`, score >= ADMIN_SCORE ? 'success' : 'info');
@@ -586,6 +608,12 @@ initScrollReveals();
   }
 
   function drawUnit(u, y, moving) {
+    // bonus blade servers glow
+    if (u.bonus) {
+      ctx.save();
+      ctx.shadowColor = u.hue;
+      ctx.shadowBlur = moving ? 16 : 8;
+    }
     // body
     ctx.fillStyle = moving ? u.hue : u.hue + 'cc';
     ctx.fillRect(u.x, y, u.w, UNIT_H - 3);
@@ -594,12 +622,13 @@ initScrollReveals();
     for (let v = u.x + 8; v < u.x + u.w - 8; v += 12) {
       ctx.fillRect(v, y + 6, 6, UNIT_H - 15);
     }
-    ctx.fillStyle = moving ? '#fff' : '#9be59b';
+    ctx.fillStyle = u.bonus ? '#fff7d6' : (moving ? '#fff' : '#9be59b');
     ctx.fillRect(u.x + u.w - 7, y + 5, 3, 3);   // status LED
     // outline
-    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.strokeStyle = u.bonus ? 'rgba(244,197,66,0.7)' : 'rgba(255,255,255,0.18)';
     ctx.lineWidth = 1;
     ctx.strokeRect(u.x + 0.5, y + 0.5, u.w - 1, UNIT_H - 4);
+    if (u.bonus) ctx.restore();
   }
 
   // ── input ──
@@ -657,6 +686,7 @@ initScrollReveals();
   const flavorEl= document.getElementById('floor-flavor');
   const fsBtn   = document.getElementById('fo-fullscreen');
   const fsIcon  = document.getElementById('fo-fs-icon');
+  const fsLabel = document.getElementById('fo-fs-label');
 
   // ── Tunables (relaxed but real challenge) ──
   const DAY_LENGTH   = 120000;  // ms for a full 9am→5pm shift (longer = calmer)
@@ -703,6 +733,8 @@ initScrollReveals();
     'Mic feedback during the CEO\u2019s big line', 'Keynote feed froze on a yawn',
     'Backing track started playing show tunes', 'Confidence monitor went full blue-screen',
     'Stage lights flickering like a nightclub', 'Livestream buffering in front of investors',
+    'Someone\u2019s phone is AirPlaying holiday photos to the main screen',
+    'Wrong slide deck \u2014 it\u2019s the Christmas party one',
   ];
   const ARRIVALS = [
     'two execs strolled in arguing about a deck',
@@ -713,6 +745,8 @@ initScrollReveals();
     'the CEO walked in 9 minutes early, of course',
     'an investor is asking where the HDMI cable went',
     'a partner is trying to AirPlay from the lift',
+    'a director just asked if the wifi password \u201Cchanged again\u201D',
+    'someone booked BR-3 but went to BR-2, classic',
   ];
 
   // ── State ──
@@ -814,6 +848,26 @@ initScrollReveals();
   }
 
   // ── Faults ──
+  // a coffee order that morphs into an AV fault in the same room
+  const FOLLOWUP_AV = [
+    'caffeinated and confident \u2014 now the HDMI won\u2019t connect',
+    'sipped the latte, immediately broke the projector',
+    'one flat white later, Teams audio is gone',
+    'coffee in hand, clicker stopped working',
+    'fully caffeinated, now fighting the screen mirror',
+    'post-coffee energy went straight into unplugging something',
+  ];
+  function scheduleFollowUp(id) {
+    if (state !== 'playing') return;
+    if (faults[id] || (dispatch && dispatch.id === id)) return;   // room busy/occupied already
+    const p = dayTime/DAY_LENGTH;
+    const max = 8500 - p*3300;
+    const flavor = FOLLOWUP_AV[Math.floor(Math.random()*FOLLOWUP_AV.length)];
+    faults[id] = { type: flavor, t:max, max, kind:'av' };
+    paintRoom(id);
+    logMsg(`floor_ops: <span style="color:#ffb4ab">[BROKE]</span> ${roomLabel(id)} &mdash; ${flavor}`, 'error');
+  }
+
   function spawnFault() {
     if (state!=='playing') return;
     const free = faultableIds.filter(id => !faults[id] && (!dispatch||dispatch.id!==id));
@@ -950,6 +1004,11 @@ initScrollReveals();
             ? `<span style="color:#f5d97a">[SERVED]</span> ${roomLabel(dispatch.id)}`
             : `<span style="color:#22C55E">[FIXED]</span> ${roomLabel(dispatch.id)}`;
           logMsg(`floor_ops: ${done}`, 'success');
+          // comedic combo: caffeinated execs immediately break the AV (~50% after a coffee)
+          if (dispatch.kind === 'hosp' && Math.random() < 0.5) {
+            const rid = dispatch.id;
+            setTimeout(() => scheduleFollowUp(rid), 1200 + Math.random()*1500);
+          }
         }
         scoreEl.textContent = score;
         dispatch = null;
@@ -1042,6 +1101,8 @@ initScrollReveals();
   function toggleBig() {
     const big = shell.classList.toggle('fo-big');
     fsIcon.textContent = big ? 'fullscreen_exit' : 'fullscreen';
+    if (fsLabel) fsLabel.textContent = big ? 'EXIT' : 'BIGGER';
+    document.body.style.overflow = big ? 'hidden' : '';   // stop background scroll on iOS
   }
 
   // ── Wire up ──
