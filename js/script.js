@@ -722,7 +722,7 @@ initScrollReveals();
     'Caps Lock crisis in the board pack', 'Zoom and Teams open, fighting to the death',
   ];
   const HOSP_REQUESTS = [
-    'Flat white for the CFO', 'Table needs a tea refresh',
+    'Flat white for the CEO', 'Boiling water, extra hot... like their personality',
     'Oat milk emergency \u2014 stat', 'Biscuits ran out mid-meeting',
     'Decaf, but make it look like real coffee', 'Pot of English Breakfast for table 3',
     'Iced latte, in this weather', 'Sparkling water, somehow room temp',
