@@ -1114,3 +1114,202 @@ initScrollReveals();
   fsBtn.addEventListener('click', toggleBig);
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && shell.classList.contains('fo-big')) toggleBig(); });
 })();
+
+
+// ════════════════════════════════════════════════
+// HERO TERMINAL CUBE (Three.js) — replaces pixel art
+// Falls back to pixel Aa art if WebGL/Three is unavailable.
+// ════════════════════════════════════════════════
+(function () {
+  const wrap = document.getElementById('hero-cube');
+  const canvas = document.getElementById('hero-cube-canvas');
+  const fallback = document.getElementById('hero-cube-fallback');
+  if (!wrap || !canvas) return;
+
+  function showFallback() {
+    if (canvas) canvas.style.display = 'none';
+    if (fallback) { fallback.classList.remove('hidden'); fallback.classList.add('flex'); }
+  }
+
+  // WebGL support check
+  function webglOK() {
+    try {
+      const c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext &&
+        (c.getContext('webgl') || c.getContext('experimental-webgl')));
+    } catch (e) { return false; }
+  }
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Three.js may still be loading (deferred). Wait for it, then init — or fall back.
+  function whenReady(attempt) {
+    if (typeof THREE !== 'undefined') return init();
+    if (attempt > 40) return showFallback();          // ~4s grace then give up gracefully
+    setTimeout(() => whenReady(attempt + 1), 100);
+  }
+
+  if (!webglOK()) { showFallback(); return; }
+  // kick off once the page has loaded (so the deferred Three.js script is in)
+  if (document.readyState === 'complete') whenReady(0);
+  else window.addEventListener('load', () => whenReady(0));
+
+  function init() {
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    } catch (e) { return showFallback(); }
+
+    const SIZE = 200;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(SIZE, SIZE, false);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 5.2);
+
+    // ── Build a terminal-window texture for a cube face ──
+    function faceTexture(drawFn) {
+      const c = document.createElement('canvas');
+      c.width = c.height = 256;
+      const g = c.getContext('2d');
+      // panel bg
+      g.fillStyle = '#0b0e0d';
+      g.fillRect(0, 0, 256, 256);
+      // subtle inner border
+      g.strokeStyle = 'rgba(34,197,94,0.35)';
+      g.lineWidth = 4;
+      g.strokeRect(8, 8, 240, 240);
+      // window title bar
+      g.fillStyle = 'rgba(34,197,94,0.10)';
+      g.fillRect(8, 8, 240, 34);
+      const dots = ['#ff5f56', '#ffbd2e', '#27c93f'];
+      dots.forEach((col, i) => { g.fillStyle = col; g.beginPath(); g.arc(28 + i * 18, 25, 5, 0, Math.PI * 2); g.fill(); });
+      g.fillStyle = 'rgba(139,148,158,0.8)';
+      g.font = '13px "JetBrains Mono", monospace';
+      g.textAlign = 'right';
+      g.fillText('aayush_os', 240, 30);
+      g.textAlign = 'left';
+      drawFn(g);
+      const tex = new THREE.CanvasTexture(c);
+      tex.anisotropy = 4;
+      return tex;
+    }
+
+    const green = '#22C55E', dim = '#7ee2a8', mut = '#8B949E';
+    const faces = [
+      // +X
+      faceTexture(g => { g.fillStyle = green; g.font = 'bold 30px "JetBrains Mono",monospace';
+        g.fillText('root@', 26, 96); g.fillText('aayush', 26, 132);
+        g.fillStyle = dim; g.font = '20px "JetBrains Mono",monospace'; g.fillText(':~$ _', 26, 176); }),
+      // -X
+      faceTexture(g => { g.fillStyle = green; g.font = 'bold 104px "JetBrains Mono",monospace';
+        g.fillText('Aa', 60, 178); }),
+      // +Y
+      faceTexture(g => { g.fillStyle = dim; g.font = '17px "JetBrains Mono",monospace';
+        const rows = [['OS', 'AAYUSH_OS'], ['SHELL', 'zsh'], ['ROLE', 'AV / IT'], ['STACK', 'M365·Azure']];
+        rows.forEach((r, i) => { g.fillStyle = green; g.fillText(r[0], 26, 86 + i * 30);
+          g.fillStyle = mut; g.fillText(': ' + r[1], 120, 86 + i * 30); }); }),
+      // -Y
+      faceTexture(g => { g.fillStyle = green; g.font = 'bold 64px "JetBrains Mono",monospace';
+        g.fillText('</>', 56, 150); g.font = '18px "JetBrains Mono",monospace';
+        g.fillStyle = dim; g.fillText('build · ship · fix', 40, 190); }),
+      // +Z
+      faceTexture(g => { g.fillStyle = green; g.font = '16px "JetBrains Mono",monospace';
+        const lines = ['> whoami', 'aayush acharya', '> uptime', 'always learning', '> _'];
+        lines.forEach((l, i) => g.fillText(l, 24, 80 + i * 26)); }),
+      // -Z
+      faceTexture(g => { g.fillStyle = green; g.font = 'bold 22px "JetBrains Mono",monospace';
+        g.fillText('AAYUSH', 60, 110); g.fillText('_ACHARYA', 40, 140);
+        g.fillStyle = dim; g.font = '16px "JetBrains Mono",monospace'; g.fillText('_OS', 100, 168); }),
+    ];
+
+    const materials = faces.map(t => new THREE.MeshBasicMaterial({ map: t }));
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.2, 2.2), materials);
+    scene.add(cube);
+
+    // glowing green wireframe edges
+    const edges = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(2.22, 2.22, 2.22)),
+      new THREE.LineBasicMaterial({ color: 0x22C55E, transparent: true, opacity: 0.9 })
+    );
+    cube.add(edges);
+
+    cube.rotation.set(-0.5, 0.6, 0);
+
+    // ── Grab-and-drag rotation with inertia ──
+    let dragging = false, lastX = 0, lastY = 0;
+    let velX = 0, velY = 0;          // angular velocity (radians/frame)
+    let idleSpin = reduceMotion ? 0 : 0.0035;
+    let lastInteract = 0;
+
+    function pointerDown(e) {
+      dragging = true;
+      const p = e.touches ? e.touches[0] : e;
+      lastX = p.clientX; lastY = p.clientY;
+      velX = velY = 0;
+      wrap.style.cursor = 'grabbing';
+      lastInteract = Date.now();
+    }
+    function pointerMove(e) {
+      if (!dragging) return;
+      const p = e.touches ? e.touches[0] : e;
+      const dx = p.clientX - lastX, dy = p.clientY - lastY;
+      lastX = p.clientX; lastY = p.clientY;
+      // drag maps to rotation; record as velocity for inertia
+      velY = dx * 0.008;
+      velX = dy * 0.008;
+      cube.rotation.y += velY;
+      cube.rotation.x += velX;
+      lastInteract = Date.now();
+      if (e.cancelable) e.preventDefault();
+    }
+    function pointerUp() {
+      if (!dragging) return;
+      dragging = false;
+      wrap.style.cursor = 'grab';
+    }
+
+    wrap.style.cursor = 'grab';
+    canvas.addEventListener('mousedown', pointerDown);
+    window.addEventListener('mousemove', pointerMove, { passive: false });
+    window.addEventListener('mouseup', pointerUp);
+    canvas.addEventListener('touchstart', pointerDown, { passive: false });
+    window.addEventListener('touchmove', pointerMove, { passive: false });
+    window.addEventListener('touchend', pointerUp);
+
+    // pause when off-screen or tab hidden (perf)
+    let visible = true, running = true, raf;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && running) loop(); })
+        .observe(wrap);
+    }
+    document.addEventListener('visibilitychange', () => {
+      running = !document.hidden; if (running && visible) loop();
+    });
+
+    function loop() {
+      if (!running || !visible) return;
+      raf = requestAnimationFrame(loop);
+
+      if (!dragging) {
+        // apply inertia from the throw
+        cube.rotation.y += velY;
+        cube.rotation.x += velX;
+        velX *= 0.94; velY *= 0.94;                 // friction
+        if (Math.abs(velX) < 0.0002) velX = 0;
+        if (Math.abs(velY) < 0.0002) velY = 0;
+        // resume gentle auto-spin only after a short idle (so it doesn't fight the user)
+        const idle = Date.now() - lastInteract > 1500;
+        if (idle && velX === 0 && velY === 0) {
+          cube.rotation.y += idleSpin;
+          cube.rotation.x += idleSpin * 0.3;
+          // ease x back toward a pleasant tilt
+          cube.rotation.x += (-0.5 - cube.rotation.x) * 0.01;
+        }
+      }
+      renderer.render(scene, camera);
+    }
+    loop();
+  }
+})();
