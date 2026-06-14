@@ -416,7 +416,13 @@ body::after {
 }
 /* gentler tilt on small screens so far rooms stay readable */
 @media (max-width: 640px) {
-  .floor-stage { transform: perspective(900px) rotateX(7deg); }
+  /* taller floor in portrait = bigger rooms + room for the menu */
+  .floor-stage { aspect-ratio: 4 / 3; transform: perspective(900px) rotateX(7deg); }
+  /* top-align + scroll so CLOCK_IN / buttons are never pushed off-screen */
+  .floor-overlay { justify-content: flex-start; gap: 6px; padding: 12px 10px; }
+  .floor-overlay p { font-size: 10px !important; line-height: 1.4; }
+  .floor-overlay .text-lg { font-size: 0.95rem; }
+  .floor-overlay .text-xl { font-size: 1.05rem; }
 }
 
 /* generic room box (positioned inline by JS via %) */
@@ -450,6 +456,34 @@ body::after {
 /* clickable rooms get a pointer + hover */
 .fo-room.fo-clickable { cursor: pointer; }
 .fo-room.fo-clickable:hover { border-color: rgba(34,197,94,0.5); }
+
+/* ── faux-3D low cubicle walls (beveled raised rim) ── */
+.fo-room::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;        /* clicks pass through to the room */
+  border-style: solid;
+  border-width: 3px 4px 5px 3px;   /* a touch thicker on the front/right (toward viewer) */
+  border-color:
+    rgba(210, 220, 228, 0.16)  /* top    — wall edge catching light */
+    rgba(0, 0, 0, 0.42)        /* right  — shadowed side */
+    rgba(0, 0, 0, 0.50)        /* bottom — front wall, darkest */
+    rgba(210, 220, 228, 0.09); /* left   — faint highlight */
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,0.25),
+    inset 0 7px 12px -8px rgba(0,0,0,0.55);   /* soft shadow the wall casts inward */
+  z-index: 1;
+}
+/* walls pick up the alert colour so the whole room glows together */
+.fo-room.fault::before   { border-top-color: rgba(255,180,171,0.42); border-left-color: rgba(255,180,171,0.18); }
+.fo-room.request::before { border-top-color: rgba(245,217,122,0.42); border-left-color: rgba(245,217,122,0.18); }
+.fo-room.resolving::before { border-top-color: rgba(126,226,168,0.45); border-left-color: rgba(126,226,168,0.20); }
+/* keep room content above the wall rim (::before is z-index 1) */
+.fo-room .fo-label,
+.fo-room .fo-sub,
+.fo-fault-text { position: relative; z-index: 2; }
+.fo-ring, .fo-progress, .fo-occ, .fo-event-bar-wrap { z-index: 2; }
 
 /* fault state */
 .fo-room.fault {
@@ -672,10 +706,20 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 10px;
   background: rgba(0,0,0,0.80);
   backdrop-filter: blur(3px);
   z-index: 20;
   text-align: center;
+  overflow-y: auto;                 /* never trap the start button off-screen */
+  -webkit-overflow-scrolling: touch;
+}
+/* compact the overlay on short/narrow screens so CLOCK_IN is always visible */
+@media (max-width: 640px), (max-height: 520px) {
+  .floor-overlay { gap: 5px; justify-content: flex-start; padding: 8px 8px 12px; }
+  .floor-overlay p { font-size: 10px; line-height: 1.45; max-width: 100%; }
+  .floor-overlay .text-lg { font-size: 0.95rem; }
+  .floor-overlay .text-xl { font-size: 1.05rem; }
 }
 .floor-overlay.hidden { display: none; }
 
