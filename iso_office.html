@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AAYUSH_ACHARYA_OS // boardroom floor</title>
+<style>
+  html,body{margin:0;height:100%;background:#070908;overflow:hidden;font-family:'JetBrains Mono',ui-monospace,monospace;}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;box-sizing:border-box;}
+  #stage{width:100%;max-width:900px;}
+  canvas{display:block;width:100%;}
+  #brand{position:fixed;top:14px;left:16px;color:#22C55E;font-size:13px;letter-spacing:.06em;text-shadow:0 0 8px rgba(34,197,94,.5);z-index:5;}
+  #brand small{color:#5f6b63;}
+  #hint{position:fixed;bottom:12px;left:0;right:0;text-align:center;color:#5f6b63;font-size:11px;z-index:5;}
+</style>
+</head>
+<body>
+<div id="brand">AAYUSH_ACHARYA_OS <small>// boardroom_floor.iso</small></div>
+<div id="wrap"><div id="stage"><canvas id="iso-floor-canvas"></canvas></div></div>
+<div id="hint">central hallway &middot; reception &middot; people walking in &middot; code-drawn, no assets</div>
+<script>
+// ── AAYUSH_ACHARYA_OS :: isometric boardroom floor (showcase renderer) ──
+// Self-contained. Binds to #iso-floor-canvas if present. No external assets.
+(function () {
+  const cv = document.getElementById('iso-floor-canvas');
+  if (!cv) return;
+  const ctx = cv.getContext('2d');
+
+  const TW = 54, TH = 27;          // tile width / height (2:1 iso)
+  const COLS = 11, ROWS = 9;
+  let OX = 500, OY = 120;
+  const DESIGN_W = 1040, DESIGN_H = 560;
+  let scaleF = 1, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    const host = cv.parentElement;
+    const cssW = Math.min(host ? host.clientWidth : DESIGN_W, 900);
+    scaleF = cssW / DESIGN_W;
+    const cssH = DESIGN_H * scaleF;
+    cv.style.width = cssW + 'px';
+    cv.style.height = cssH + 'px';
+    cv.width = cssW * dpr;
+    cv.height = cssH * dpr;
+    ctx.setTransform(scaleF * dpr, 0, 0, scaleF * dpr, 0, 0);
+  }
+
+  function gp(cf, rf) { return { x: OX + (cf - rf) * (TW / 2), y: OY + (cf + rf) * (TH / 2) }; }
+  function poly(pts, fill, stroke, sw) {
+    ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    ctx.closePath();
+    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+    if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = sw || 1; ctx.stroke(); }
+  }
+  function shade(hex, d) {
+    const n = parseInt(hex.slice(1), 16);
+    let r = (n >> 16) + d, g = ((n >> 8) & 255) + d, b = (n & 255) + d;
+    r = Math.max(0, Math.min(255, r)); g = Math.max(0, Math.min(255, g)); b = Math.max(0, Math.min(255, b));
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  }
+
+  let scene = [];
+  function addBox(cf0, rf0, cf1, rf1, h, top, left, right, yoff) {
+    const z = (cf0 + rf0 + cf1 + rf1) / 2;
+    scene.push({ z, draw() {
+      const yo = yoff || 0;
+      const P00 = gp(cf0, rf0), P10 = gp(cf1, rf0), P11 = gp(cf1, rf1), P01 = gp(cf0, rf1);
+      const u = p => ({ x: p.x, y: p.y - h - yo }), d = p => ({ x: p.x, y: p.y - yo });
+      poly([d(P01), d(P11), u(P11), u(P01)], left, 'rgba(0,0,0,.28)', 1);
+      poly([d(P10), d(P11), u(P11), u(P10)], right, 'rgba(0,0,0,.28)', 1);
+      poly([u(P00), u(P10), u(P11), u(P01)], top, 'rgba(0,0,0,.2)', 1);
+    }});
+  }
+
+  // ── layout regions ──
+  const BR = [
+    { id: 'BR-1', c0: 2, c1: 4 }, { id: 'BR-2', c0: 5, c1: 7 }, { id: 'BR-3', c0: 8, c1: 10 },
+  ];
+  function classify(c, r) {
+    if (c >= 0 && c <= 1 && r >= 3 && r <= 5) return 'rec';
+    if (r === 4 && c >= 2 && c <= 10) return 'hall';
+    if (r >= 0 && r <= 3 && c >= 2 && c <= 10) return 'br';
+    if (r >= 5 && r <= 8 && c >= 2 && c <= 10) return 'event';
+    return null;
+  }
+  function tint(kind, c, r) {
+    const alt = (c + r) % 2;
+    if (kind === 'rec') return alt ? '#3a3a44' : '#33333d';
+    if (kind === 'hall') return alt ? '#46526c' : '#404c64';
+    if (kind === 'br') return alt ? '#34405e' : '#2c374f';
+    if (kind === 'event') return alt ? '#3a3358' : '#322c4d';
+    return null;
+  }
+  function drawFloor() {
+    for (let s = 0; s <= COLS + ROWS; s++) for (let c = 0; c < COLS; c++) {
+      const r = s - c; if (r < 0 || r >= ROWS) continue;
+      const k = classify(c, r); if (!k) continue;
+      poly([gp(c, r), gp(c + 1, r), gp(c + 1, r + 1), gp(c, r + 1)], tint(k, c, r), 'rgba(0,0,0,.16)', 1);
+    }
+  }
+
+  // ── walls ──
+  function wN(c0, c1, rf, h, col) { addBox(c0, rf, c1, rf + 0.08, h, shade(col, 18), shade(col, -26), col); }
+  function wW(cf, r0, r1, h, col) { addBox(cf, r0, cf + 0.08, r1, h, shade(col, 18), col, shade(col, -26)); }
+  function wS(c0, c1, rf, h, col) { addBox(c0, rf - 0.08, c1, rf, h, shade(col, 18), shade(col, -26), col); }
+  function wE(cf, r0, r1, h, col) { addBox(cf - 0.08, r0, cf, r1, h, shade(col, 18), col, shade(col, -26)); }
+
+  function screenN(c0, c1, rf, wallH, color, glow) {
+    scene.push({ z: c0 + rf - 0.2, draw() {
+      const f = (u, v) => { const b = gp(c0 + u * (c1 - c0), rf); return { x: b.x, y: b.y - v * wallH }; };
+      ctx.save(); ctx.globalAlpha = 0.55 + 0.45 * glow;
+      poly([f(0.28, 0.34), f(0.72, 0.34), f(0.72, 0.82), f(0.28, 0.82)], color, 'rgba(255,255,255,.25)', 1);
+      ctx.restore();
+      poly([f(0.26, 0.30), f(0.74, 0.30), f(0.74, 0.34), f(0.26, 0.34)], '#11151c');
+    }});
+  }
+  function table(c0, r0, c1, r1) { addBox(c0, r0, c1, r1, 13, '#7a4a2e', '#5c3722', '#4a2c1b'); }
+  function chair(cf, rf) {
+    addBox(cf - 0.16, rf - 0.16, cf + 0.16, rf + 0.16, 9, '#2a2e38', '#20242c', '#181b21');
+    addBox(cf - 0.16, rf - 0.16, cf + 0.16, rf - 0.09, 19, '#23272f', '#191c22', '#141016');
+  }
+  function sitter(cf, rf, shirt) {
+    scene.push({ z: cf + rf + 0.02, draw() {
+      addBox(cf - 0.13, rf - 0.13, cf + 0.13, rf + 0.13, 16, shirt, shade(shirt, -22), shade(shirt, -40));
+      const p = gp(cf, rf);
+      ctx.beginPath(); ctx.fillStyle = '#c98a5e'; ctx.arc(p.x, p.y - 19, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.fillStyle = '#2a2118'; ctx.arc(p.x, p.y - 21, 5, Math.PI, 2 * Math.PI); ctx.fill();
+    }});
+  }
+  const SHIRTS = ['#d8534f', '#3b82f6', '#e0a13a', '#5fa86b', '#9b6dd0', '#cf6f9c'];
+
+  function buildBoardroom(rm, t) {
+    const c0 = rm.c0, c1 = rm.c1 + 1, r0 = 0, r1 = 4, H = 40, col = '#8d99ae';
+    const mid = (c0 + c1) / 2;
+    wN(c0, c1, r0, H, col); wW(c0, r0, r1, H, col); wE(c1, r0, r1, H, col);
+    wS(c0, mid - 0.55, r1, H, col); wS(mid + 0.55, c1, r1, H, col);   // door gap onto hallway
+    screenN(c0 + 0.15, c1 - 0.15, r0, H, '#22c585', 0.5 + 0.5 * Math.sin(t / 600 + rm.c0));
+    table(c0 + 0.7, r0 + 0.85, c1 - 0.7, r1 - 0.95);
+    const tcx = (c0 + c1) / 2, tcy = (r0 + r1) / 2 - 0.05;
+    chair(tcx - 0.55, tcy); chair(tcx + 0.55, tcy);
+    chair(tcx, tcy - 0.6); chair(tcx, tcy + 0.6);
+    sitter(tcx - 0.55, tcy, SHIRTS[rm.c0 % 6]);
+    sitter(tcx + 0.55, tcy, SHIRTS[(rm.c0 + 3) % 6]);
+  }
+
+  function buildHall(t) {
+    const c0 = 2, c1 = 11, r0 = 5, r1 = 9, H = 46, col = '#7c8699';
+    wW(c0, r0, r1, H, col); wE(c1, r0, r1, H, col); wS(c0, c1, r1, H, col);   // open on north (to hallway)
+    screenN(c0 + 1.2, c1 - 1.2, r0, H, '#3b82f6', 0.55 + 0.45 * Math.sin(t / 500));
+    for (let row = 0; row < 3; row++) for (let s = 0; s < 6; s++) {
+      const cf = c0 + 1.3 + s * 1.15, rf = r0 + 1.3 + row * 1.0;
+      chair(cf, rf);
+      if ((row + s) % 2 === 0) sitter(cf, rf - 0.04, SHIRTS[(row + s) % 6]);
+    }
+  }
+
+  function buildReception(t) {
+    const c0 = 0, c1 = 2, r0 = 3, r1 = 6, H = 30, col = '#6f7a74';
+    wW(c0, r0, r1, H, col); wN(c0, c1, r0, H, col);
+    // reception desk (L)
+    addBox(c0 + 0.25, r0 + 1.1, c0 + 1.6, r0 + 1.5, 12, '#6b5a3e', '#52452f', '#403626');
+    addBox(c0 + 1.2, r0 + 1.1, c0 + 1.6, r0 + 2.2, 12, '#6b5a3e', '#52452f', '#403626');
+    sitter(c0 + 0.7, r0 + 0.7, '#5fa86b'); // receptionist
+    // entrance arrow on the west edge
+    scene.push({ z: -99, draw() {
+      const a = gp(c0 + 0.1, r0 + 2.2), b = gp(c0 + 0.9, r0 + 2.2);
+      ctx.strokeStyle = 'rgba(34,197,94,.5)'; ctx.lineWidth = 2; ctx.setLineDash([4, 4]);
+      ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.setLineDash([]);
+    }});
+  }
+
+  // ── walkers: stream in from reception, down the hallway, into a room ──
+  const walkers = [];
+  function newPath() {
+    const start = { cf: 0.3, rf: 4.5 };
+    const enter = { cf: 2.2, rf: 4.5 };
+    const pick = Math.random();
+    let pts;
+    if (pick < 0.7) {                       // to a boardroom
+      const rm = BR[Math.floor(Math.random() * BR.length)];
+      const doorc = (rm.c0 + rm.c1 + 1) / 2;
+      pts = [start, enter, { cf: doorc, rf: 4.4 }, { cf: doorc, rf: 3.6 }, { cf: doorc, rf: 2.3 }];
+    } else {                                 // to the event hall
+      const tc = 4 + Math.random() * 5;
+      pts = [start, enter, { cf: tc, rf: 4.5 }, { cf: tc, rf: 5.5 }, { cf: tc, rf: 6.6 }];
+    }
+    return pts;
+  }
+  function spawnWalker(delay) {
+    walkers.push({ path: newPath(), seg: 0, p: 0, speed: 0.0014 + Math.random() * 0.0009,
+      shirt: SHIRTS[Math.floor(Math.random() * SHIRTS.length)], wait: delay || 0, bob: Math.random() * 6 });
+  }
+  for (let i = 0; i < 6; i++) spawnWalker(i * 900);
+
+  function updateWalkers(dt) {
+    walkers.forEach(w => {
+      if (w.wait > 0) { w.wait -= dt; return; }
+      const a = w.path[w.seg], b = w.path[w.seg + 1];
+      if (!b) { w.path = newPath(); w.seg = 0; w.p = 0; w.wait = 400 + Math.random() * 1200; return; }
+      const dist = Math.hypot(b.cf - a.cf, b.rf - a.rf);
+      w.p += (w.speed * dt) / (dist || 1);
+      if (w.p >= 1) { w.p = 0; w.seg++; }
+    });
+  }
+  function drawWalkers(t) {
+    walkers.forEach(w => {
+      if (w.wait > 0) return;
+      const a = w.path[w.seg], b = w.path[w.seg + 1]; if (!b) return;
+      const cf = a.cf + (b.cf - a.cf) * w.p, rf = a.rf + (b.rf - a.rf) * w.p;
+      const bob = Math.abs(Math.sin(t / 120 + w.bob)) * 1.5;
+      scene.push({ z: cf + rf + 0.05, draw() {
+        const p = gp(cf, rf);
+        addBox(cf - 0.12, rf - 0.12, cf + 0.12, rf + 0.12, 20, w.shirt, shade(w.shirt, -22), shade(w.shirt, -40), bob);
+        ctx.beginPath(); ctx.fillStyle = '#c98a5e'; ctx.arc(p.x, p.y - 23 - bob, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.fillStyle = '#2a2118'; ctx.arc(p.x, p.y - 25 - bob, 5, Math.PI, 2 * Math.PI); ctx.fill();
+      }});
+    });
+  }
+
+  function drawAlerts(t) {
+    const al = [{ c: 3, r: 1, col: '#ef4444' }, { c: 6, r: 1, col: '#EAB308' }, { c: 6, r: 6, col: '#a855f7' }];
+    al.forEach(a => {
+      const p = gp(a.c + 0.5, a.r + 0.5), pulse = 0.5 + 0.5 * Math.sin(t / 300 + a.c), y = p.y - 52 - 4 * Math.sin(t / 400 + a.r);
+      ctx.save(); ctx.globalAlpha = 0.4 + 0.4 * pulse; ctx.strokeStyle = a.col; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(p.x, y, 9 + 3 * pulse, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      ctx.fillStyle = a.col; ctx.beginPath();
+      ctx.moveTo(p.x, y - 8); ctx.lineTo(p.x + 6, y); ctx.lineTo(p.x, y + 8); ctx.lineTo(p.x - 6, y); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#0a0c0b'; ctx.font = 'bold 10px ui-monospace,monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('!', p.x, y);
+    });
+  }
+  function rr(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  function drawLabels() {
+    const ls = [{ c: 3, r: 1.4, t: 'BR-1' }, { c: 6, r: 1.4, t: 'BR-2' }, { c: 9, r: 1.4, t: 'BR-3' },
+      { c: 6, r: 6.5, t: 'LIVE EVENT HALL', col: '#a855f7' }, { c: 0.9, r: 4.4, t: 'RECEPTION', col: '#5fa86b' }];
+    ls.forEach(l => {
+      const p = gp(l.c, l.r), x = p.x, y = p.y - 64;
+      ctx.font = '10px ui-monospace,monospace'; const w = ctx.measureText(l.t).width + 14;
+      ctx.fillStyle = 'rgba(8,10,9,.88)'; rr(x - w / 2, y - 9, w, 18, 4); ctx.fill();
+      ctx.strokeStyle = l.col || '#3a4150'; ctx.lineWidth = 1; rr(x - w / 2, y - 9, w, 18, 4); ctx.stroke();
+      ctx.fillStyle = l.col || '#c9cdd2'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(l.t, x, y);
+    });
+  }
+  function underGlow() {
+    const cx = OX + 30, cy = OY + (COLS + ROWS) * (TH / 2) / 2 + 70;
+    const g = ctx.createRadialGradient(cx, cy, 30, cx, cy, 360);
+    g.addColorStop(0, 'rgba(34,197,94,0.30)'); g.addColorStop(1, 'rgba(34,197,94,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
+  }
+
+  let last = 0, running = true;
+  function frame(t) {
+    const dt = Math.min(t - last, 60); last = t;
+    if (running) {
+      ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
+      underGlow(); drawFloor();
+      scene = [];
+      buildReception(t);
+      BR.forEach(rm => buildBoardroom(rm, t));
+      buildHall(t);
+      updateWalkers(dt); drawWalkers(t);
+      scene.sort((a, b) => a.z - b.z); scene.forEach(o => o.draw());
+      drawAlerts(t); drawLabels();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { running = es[0].isIntersecting; }).observe(cv);
+  }
+  document.addEventListener('visibilitychange', () => { running = !document.hidden; });
+
+  let rt;
+  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script></body></html>

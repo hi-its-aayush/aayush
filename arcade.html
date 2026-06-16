@@ -116,70 +116,45 @@
     <h2 class="section-heading">// Game_Room.exe</h2>
     <p class="text-text-muted text-xs mb-6 font-mono -mt-4">SYSTEM_STATUS: [ONLINE] // USER_AUTH: [GRANTED] // MODULES: [3_LOADED]</p>
 
-
-    <!-- ═══ FLOOR_OPS — boardroom floor day sim ═══ -->
-    <div id="floor-shell" class="fo-shell glass p-5 mt-gutter flex flex-col gap-4">
+    <!-- ═══ FLOOR_OPS — canvas game on the boardroom floor ═══ -->
+    <div class="glass p-5 flex flex-col gap-3">
       <div class="flex flex-wrap justify-between items-center border-b border-border-subtle pb-3 gap-3">
         <div class="flex items-center gap-2">
           <span class="material-symbols-outlined text-primary text-base">meeting_room</span>
           <h3 class="font-bold">Floor Ops</h3>
           <span class="text-[10px] text-text-muted font-mono ml-1 hidden sm:inline">// a day on the boardroom floor &mdash; keep the bosses happy</span>
         </div>
-        <div class="flex items-center gap-3 sm:gap-4 text-xs font-mono flex-wrap">
-          <span class="text-text-muted">CLOCK: <span id="fo-clock" class="text-on-surface font-bold">9:00 AM</span></span>
-          <span class="text-tertiary">SCORE: <span id="fo-score" class="font-bold">0</span></span>
-          <span class="text-text-muted">BEST: <span id="fo-best" class="font-bold">0</span></span>
-          <button id="fo-fullscreen" class="fo-fullscreen-btn px-2 py-1 border border-border-subtle text-text-muted hover:text-primary hover:border-primary transition-colors" title="Bigger screen">
-            <span class="material-symbols-outlined text-sm" id="fo-fs-icon">fullscreen</span>
-            <span class="text-[10px]" id="fo-fs-label">BIGGER</span>
-          </button>
+        <div class="flex items-center gap-4 text-xs font-mono">
+          <span class="text-text-muted">CLOCK: <b id="fo2-clock" class="text-text-primary">9:00 AM</b></span>
+          <span class="text-terminal-green">SCORE: <b id="fo2-score">0</b></span>
+          <span class="text-text-muted">BEST: <b id="fo2-best" class="text-tertiary">0</b></span>
         </div>
       </div>
 
-      <!-- Boss satisfaction meter -->
-      <div class="flex items-center gap-3 -mt-1">
-        <span class="material-symbols-outlined text-sm" id="fo-mood-face">sentiment_satisfied</span>
-        <span class="text-[10px] font-mono text-text-muted whitespace-nowrap">BOSS MOOD</span>
-        <div class="flex-1 h-2.5 bg-surface-container-low border border-border-subtle overflow-hidden">
-          <div id="fo-boss-bar" class="h-full bg-terminal-green transition-all duration-300" style="width:80%"></div>
-        </div>
-        <span class="text-[10px] font-mono"><span id="fo-boss-pct" class="font-bold">80</span>%</span>
+      <div class="flex items-center gap-2 text-[11px] font-mono">
+        <span class="text-text-muted">BOSS</span>
+        <div class="fo2-bar"><i id="fo2-boss" style="width:80%"></i></div>
+        <b id="fo2-bosspct" class="text-text-muted">80%</b>
       </div>
 
-      <div class="fo-rotate-hint">
-        <span class="material-symbols-outlined text-sm">screen_rotation</span>
-        Rotate your phone sideways for a bigger floor
-      </div>
-      <div id="floor-stage" class="floor-stage">
-        <!-- rooms + walking execs injected by JS -->
-
-        <!-- Start overlay -->
-        <div id="floor-start" class="floor-overlay">
-          <div class="text-terminal-green text-[10px] font-mono tracking-widest">FLOOR_OPS.EXE</div>
-          <div class="text-lg font-bold">A Day on the Boardroom Floor</div>
-          <p class="text-[11px] text-text-muted font-mono text-center px-6 max-w-md leading-relaxed">
-            You're the floor analyst. <span class="text-error">AV breaks</span> (red) and
-            <span style="color:#f5d97a">coffee/tea orders</span> (amber) pop up in the board rooms &mdash;
-            tap a room to walk over and sort it. Keep the <span class="text-primary">LIVE EVENT</span> alive too.
-            Saves keep the <span class="text-terminal-green">boss happy</span>; ignored stuff drops the mood.
-            Last till 5 PM.
-          </p>
-          <div class="text-[11px] font-mono text-tertiary">CHALLENGE &rarr; BEAT_THE_ADMIN: <span class="font-bold">600 pts</span></div>
-          <button id="floor-start-btn" class="px-5 py-1.5 bg-surface-variant border border-border-subtle text-xs hover:bg-primary hover:text-on-primary transition-all font-mono mt-1">CLOCK_IN</button>
+      <div id="fo2-stage" class="relative w-full">
+        <canvas id="fo2-canvas" class="fo2-canvas" aria-label="Top-down boardroom floor game. Tap rooms to resolve AV faults, coffee orders and event reconfigs."></canvas>
+        <div class="fo2-ov" id="fo2-start">
+          <h2>Floor Ops</h2>
+          <p>You run the boardroom floor. <span style="color:#ffb4ab">AV breaks</span> (red) and
+          <span style="color:#f5d97a">coffee orders</span> (amber) pop in BR-1/2/3 &mdash; tap a room to walk over and sort it.
+          Keep the <span style="color:#8ab4ff">LIVE EVENT</span> feed alive, and brace for last-minute
+          <span style="color:#d8b4fe">room flips</span> in the hall. Keep the boss happy till 5 PM.</p>
+          <button class="fo2-btn" id="fo2-startBtn">CLOCK_IN</button>
         </div>
-
-        <!-- Game over overlay -->
-        <div id="floor-over" class="floor-overlay hidden">
-          <div id="floor-verdict" class="text-terminal-green text-[10px] font-mono tracking-widest">SHIFT_COMPLETE</div>
-          <div id="floor-over-title" class="text-xl font-bold">End of Day</div>
-          <div class="game-result-time"><span id="floor-final">0</span> pts</div>
-          <div id="floor-flavor" class="text-[11px] font-mono text-tertiary text-center px-6 max-w-sm h-8"></div>
-          <div class="flex gap-3 mt-1">
-            <button class="game-result-btn btn-play-again" id="floor-again">NEW_SHIFT</button>
-            <button class="game-result-btn btn-quit" id="floor-quit">CLOCK_OUT</button>
-          </div>
+        <div class="fo2-ov hidden" id="fo2-over">
+          <h2 id="fo2-verdict">Day Over</h2>
+          <p id="fo2-result"></p>
+          <button class="fo2-btn" id="fo2-againBtn">NEW_SHIFT</button>
         </div>
       </div>
+
+      <div id="fo2-log" class="fo2-log"></div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
@@ -310,5 +285,6 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script src="js/floor-ops.js" defer></script>
 </body>
 </html>

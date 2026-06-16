@@ -728,6 +728,11 @@ initScrollReveals();
     'Iced latte, in this weather', 'Sparkling water, somehow room temp',
     'More pastries, the partners are circling', 'Someone ordered a babyccino (?)',
     'Long black, \u201Cnot too long though\u201D', 'Green tea for the wellness exec',
+    'Oat milk. No \u2014 almond. No \u2014 oat.', '\u201CIs this decaf?\u201D (it is) \u201CTastes off.\u201D',
+    'Coffee for 12. They said 4. It\u2019s 12.', 'Decaf soy flat white, 3/4 full, lukewarm',
+    'Decaf for the exec who\u2019s already had four', 'A \u201Cquick\u201D barista-grade espresso, now',
+    'Herbal tea \u2014 \u201Cwhichever one helps me focus\u201D', 'Still water. Then sparkling. Then still.',
+    'Gluten-free biscuits the partner brought himself', 'Hot chocolate. For the board chair. Sure.',
   ];
   const EVENT_CRISES = [
     'Mic feedback during the CEO\u2019s big line', 'Keynote feed froze on a yawn',
@@ -748,12 +753,27 @@ initScrollReveals();
     'a director just asked if the wifi password \u201Cchanged again\u201D',
     'someone booked BR-3 but went to BR-2, classic',
   ];
+  // Last-minute room layout flips — rare, special, and the funniest part of event AV
+  const CONFIGS = ['Theatre', 'Classroom', 'U-shape', 'Cabaret', 'Boardroom', 'Hollow Square', 'Banquet rounds'];
+  const RECONFIG_FLAVOR = [
+    (c) => `flip the room to ${c} \u2014 guests arrive in 5`,
+    (c) => `client wants ${c} now (we JUST finished setting up)`,
+    (c) => `change to ${c} \u2014 mid-session, room is full`,
+    (c) => `reset to ${c} immediately, keynote overran next door`,
+    (c) => `\u201Ccan we do ${c} instead?\u201D \u2014 asked 3 min before start`,
+  ];
+  const RECONFIG_AGAIN = [
+    (c) => `they changed their mind \u2014 back to ${c}`,
+    (c) => `actually... make it ${c}. Final answer (it won\u2019t be)`,
+    (c) => `the other partner prefers ${c}. Of course they do`,
+  ];
 
   // ── State ──
   let roomEls = {}, faultableIds = [];
   let state = 'idle';
   let dayTime, score, best, eventHealth, boss;
   let faults, eventCrisis, dispatch, spawnTimer, arrivalTimer, occupancy, eventCrisisFx;
+  let reconfigTimer, eventReconfig;
   let lastFrame, raf;
 
   try { best = parseInt(localStorage.getItem('floor_best')||'0',10)||0; } catch(e){ best=0; }
@@ -868,6 +888,36 @@ initScrollReveals();
     logMsg(`floor_ops: <span style="color:#ffb4ab">[BROKE]</span> ${roomLabel(id)} &mdash; ${flavor}`, 'error');
   }
 
+  // Last-minute layout flip lands on the LIVE EVENT HALL (where it actually happens)
+  function spawnReconfig(again, forcedConfig) {
+    if (state!=='playing') return;
+    if (eventReconfig) return;                          // one at a time
+    if (dispatch && dispatch.id === 'event') return;    // hall busy stabilising
+    const p = dayTime/DAY_LENGTH;
+    const max = 10000 - p*2500;                         // big job — a little more time
+    const config = forcedConfig || CONFIGS[Math.floor(Math.random()*CONFIGS.length)];
+    const flavorFn = again
+      ? RECONFIG_AGAIN[Math.floor(Math.random()*RECONFIG_AGAIN.length)]
+      : RECONFIG_FLAVOR[Math.floor(Math.random()*RECONFIG_FLAVOR.length)];
+    const type = flavorFn(config);
+    eventReconfig = { config, t:max, max };
+    const hall = roomEls.event;
+    hall.classList.add('reconfig');
+    if (!hall.querySelector('.fo-ring')) { const r=document.createElement('div'); r.className='fo-ring'; hall.appendChild(r); }
+    let banner = hall.querySelector('.fo-reconfig-banner');
+    if (!banner) { banner=document.createElement('div'); banner.className='fo-fault-text fo-reconfig-banner'; hall.appendChild(banner); }
+    banner.textContent = '\uD83E\uDE91 ' + type;
+    shake();
+    logMsg(`floor_ops: <span style="color:#d8b4fe">[RECONFIG]</span> LIVE EVENT HALL &mdash; ${type}`, 'error');
+  }
+
+  function clearEventReconfigVisuals() {
+    const hall = roomEls.event;
+    hall.classList.remove('reconfig');
+    const r=hall.querySelector('.fo-ring'); if(r)r.remove();
+    const b=hall.querySelector('.fo-reconfig-banner'); if(b)b.remove();
+  }
+
   function spawnFault() {
     if (state!=='playing') return;
     const free = faultableIds.filter(id => !faults[id] && (!dispatch||dispatch.id!==id));
@@ -886,7 +936,7 @@ initScrollReveals();
   }
 
   function triggerEventCrisis() {
-    if (eventCrisis) return;
+    if (eventCrisis || eventReconfig) return;           // don't pile a crisis on a pending flip
     eventCrisis = true;
     eventHealth = Math.max(0, eventHealth-18);
     roomEls.event.classList.add('event-crit');
@@ -923,13 +973,24 @@ initScrollReveals();
   function onRoomClick(id) {
     if (state!=='playing' || dispatch) return;
     if (id==='event') {
-      dispatch = { id, t:DISPATCH_MS, event:true, sprite:dispatchFixer('event') };
+      if (eventReconfig) {
+        // do the room flip (separate from the feed)
+        const config = eventReconfig.config;
+        eventReconfig = null;
+        clearEventReconfigVisuals();
+        dispatch = { id, t:2300, max:2300, eventReconfig:true, config, sprite:dispatchFixer('event') };
+        roomEls.event.classList.add('resolving');
+        addProgress('event');
+        return;
+      }
+      // otherwise stabilise the live feed
+      dispatch = { id, t:DISPATCH_MS, max:DISPATCH_MS, event:true, sprite:dispatchFixer('event') };
       roomEls.event.classList.add('resolving');
       addProgress('event');
       return;
     }
     if (!faults[id]) return;
-    dispatch = { id, t:DISPATCH_MS, kind:faults[id].kind, sprite:dispatchFixer(id) };
+    dispatch = { id, t:DISPATCH_MS, max:DISPATCH_MS, kind:faults[id].kind, sprite:dispatchFixer(id) };
     delete faults[id];
     const el = roomEls[id];
     el.classList.remove('fault','request'); el.classList.add('resolving');
@@ -967,15 +1028,16 @@ initScrollReveals();
       const ring = el.querySelector('.fo-ring');
       if (ring) ring.style.setProperty('--p', Math.max(0, faults[id].t/faults[id].max));
       if (faults[id].t <= 0) {
-        const wasHosp = faults[id].kind === 'hosp';
+        const kind = faults[id].kind;
         delete faults[id];
-        el.classList.remove('fault','request');
+        el.classList.remove('fault','request','reconfig');
         const r=el.querySelector('.fo-ring'); if(r)r.remove();
         const ft=el.querySelector('.fo-fault-text'); if(ft)ft.remove();
         setBoss(boss - BOSS_HIT_IGNORE);
         floatPts(id, '\u2639 boss', true);
         shake();
-        const msg = wasHosp ? `${roomLabel(id)} is still waiting on their order` : `${roomLabel(id)} left broken too long`;
+        const msg = kind === 'hosp' ? `${roomLabel(id)} is still waiting on their order`
+                  : `${roomLabel(id)} left broken too long`;
         logMsg(`floor_ops: <span style="color:#ffb4ab">[GRR]</span> ${msg} &mdash; boss noticed`, 'error');
         if (boss <= 0) return endDay('boss');
       }
@@ -986,12 +1048,21 @@ initScrollReveals();
       dispatch.t -= dt;
       const el = roomEls[dispatch.id];
       const bar = el.querySelector('.fo-progress');
-      if (bar) bar.style.setProperty('--p', (1-dispatch.t/DISPATCH_MS)*100+'%');
+      if (bar) bar.style.setProperty('--p', Math.max(0,(1-dispatch.t/dispatch.max))*100+'%');
       if (dispatch.t <= 0) {
         el.classList.remove('resolving');
         const b=el.querySelector('.fo-progress'); if(b)b.remove();
         if (dispatch.sprite){ dispatch.sprite.style.opacity='0'; const sp=dispatch.sprite; setTimeout(()=>sp.remove(),400); }
-        if (dispatch.event) {
+        if (dispatch.eventReconfig) {
+          score += 22; setBoss(boss + 8);
+          floatPts('event','+22');
+          logMsg(`floor_ops: <span style="color:#d8b4fe">[FLIPPED]</span> hall reset to ${dispatch.config}. For now.`, 'success');
+          // ~35%: they change their mind and want it flipped AGAIN
+          if (Math.random() < 0.35) {
+            const newCfg = CONFIGS.filter(c => c !== dispatch.config)[Math.floor(Math.random()*(CONFIGS.length-1))];
+            setTimeout(() => spawnReconfig(true, newCfg), 1800 + Math.random()*2200);
+          }
+        } else if (dispatch.event) {
           eventHealth = Math.min(100, eventHealth+EVENT_BOOST);
           if (eventCrisis){ eventCrisis=false; clearTimeout(eventCrisisFx); roomEls.event.classList.remove('event-crit'); }
           score += 12; setBoss(boss + BOSS_GAIN_EVENT);
@@ -1028,6 +1099,22 @@ initScrollReveals();
     }
     if (!eventCrisis && Math.random() < (0.0009 + p*0.0016)*(dt/16.7)) triggerEventCrisis();
 
+    // pending event-hall reconfig: tick its timer + ring; boss hit if it's ignored
+    if (eventReconfig && !(dispatch && dispatch.id === 'event')) {
+      eventReconfig.t -= dt;
+      const ring = roomEls.event.querySelector('.fo-ring');
+      if (ring) ring.style.setProperty('--p', Math.max(0, eventReconfig.t/eventReconfig.max));
+      if (eventReconfig.t <= 0) {
+        eventReconfig = null;
+        clearEventReconfigVisuals();
+        setBoss(boss - BOSS_HIT_IGNORE);
+        floatPts('event', '\u2639 boss', true);
+        shake();
+        logMsg('floor_ops: <span style="color:#ffb4ab">[GRR]</span> the hall never got flipped \u2014 the session started in the wrong layout', 'error');
+        if (boss <= 0) return endDay('boss');
+      }
+    }
+
     // spawns (calmer)
     spawnTimer -= dt;
     if (spawnTimer <= 0) {
@@ -1037,6 +1124,13 @@ initScrollReveals();
     arrivalTimer -= dt;
     if (arrivalTimer <= 0){ sendExec(); arrivalTimer = 3200 + Math.random()*3200; }
 
+    // rare, special: a last-minute layout flip on the LIVE EVENT HALL (≈ every 24–38s)
+    reconfigTimer -= dt;
+    if (reconfigTimer <= 0) {
+      if (!eventReconfig) spawnReconfig(false);
+      reconfigTimer = 24000 + Math.random()*14000;
+    }
+
     if (dayTime >= DAY_LENGTH) return endDay('survived');
     raf = requestAnimationFrame(frame);
   }
@@ -1045,15 +1139,15 @@ initScrollReveals();
   function startGame() {
     faultableIds.forEach(id => {
       const el = roomEls[id];
-      el.classList.remove('fault','request','resolving','event-crit');
+      el.classList.remove('fault','request','reconfig','resolving','event-crit');
       el.querySelectorAll('.fo-ring,.fo-fault-text,.fo-progress,.fo-occ').forEach(n=>n.remove());
     });
-    roomEls.event.classList.remove('resolving','event-crit');
-    roomEls.event.querySelectorAll('.fo-progress').forEach(n=>n.remove());
+    roomEls.event.classList.remove('resolving','event-crit','reconfig');
+    roomEls.event.querySelectorAll('.fo-progress,.fo-ring,.fo-reconfig-banner').forEach(n=>n.remove());
     stage.querySelectorAll('.fo-exec').forEach(n=>n.remove());
 
-    dayTime=0; score=0; eventHealth=100; faults={}; eventCrisis=false;
-    dispatch=null; occupancy={}; spawnTimer=2600; arrivalTimer=1400;
+    dayTime=0; score=0; eventHealth=100; faults={}; eventCrisis=false; eventReconfig=null;
+    dispatch=null; occupancy={}; spawnTimer=2600; arrivalTimer=1400; reconfigTimer=16000;
     setBoss(BOSS_START);
     scoreEl.textContent='0'; clockEl.textContent='9:00 AM'; updateEventBar();
     startOv.classList.add('hidden'); overOv.classList.add('hidden');
@@ -1094,6 +1188,7 @@ initScrollReveals();
   function quit() {
     state='idle'; cancelAnimationFrame(raf);
     stage.querySelectorAll('.fo-exec').forEach(n=>n.remove());
+    eventReconfig=null; clearEventReconfigVisuals();
     overOv.classList.add('hidden'); startOv.classList.remove('hidden');
   }
 
@@ -1207,7 +1302,7 @@ initScrollReveals();
         g.fillText('Aa', 60, 178); }),
       // +Y
       faceTexture(g => { g.fillStyle = dim; g.font = '17px "JetBrains Mono",monospace';
-        const rows = [['OS', 'AAYUSH_OS'], ['SHELL', 'zsh'], ['ROLE', 'IT / DevOps'], ['STACK', 'M365·Azure']];
+        const rows = [['OS', 'AAYUSH_OS'], ['SHELL', 'zsh'], ['ROLE', 'AV / IT'], ['STACK', 'M365·Azure']];
         rows.forEach((r, i) => { g.fillStyle = green; g.fillText(r[0], 26, 86 + i * 30);
           g.fillStyle = mut; g.fillText(': ' + r[1], 120, 86 + i * 30); }); }),
       // -Y

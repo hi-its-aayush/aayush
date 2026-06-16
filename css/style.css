@@ -534,6 +534,31 @@ body::after {
 }
 .fo-room.request .fo-fault-text { color: #f5d97a; }
 
+/* reconfig (last-minute room flip) — violet */
+.fo-room.reconfig {
+  --ring: #c084fc;
+  border-color: #c084fc;
+  background: rgba(168,85,247,0.17);
+  color: #d8b4fe;
+  box-shadow: 0 0 0 1px rgba(192,132,252,0.4), 0 0 16px rgba(168,85,247,0.30) inset;
+  animation: fo-reconfig-pulse 1.05s ease-in-out infinite;
+}
+@keyframes fo-reconfig-pulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(192,132,252,0.4), 0 0 16px rgba(168,85,247,0.26) inset; }
+  50%     { box-shadow: 0 0 0 1px rgba(192,132,252,0.85), 0 0 22px rgba(168,85,247,0.5) inset; }
+}
+.fo-room.reconfig .fo-fault-text { color: #e9d5ff; }
+.fo-room.reconfig::before { border-top-color: rgba(216,180,254,0.45); border-left-color: rgba(216,180,254,0.20); }
+/* reconfig banner sits near the top of the big event hall (above the centred label) */
+.fo-reconfig-banner {
+  position: absolute;
+  top: 10px; left: 50%; transform: translateX(-50%);
+  width: 92%;
+  text-align: center;
+  font-size: clamp(7px, 1.2vw, 11px);
+  color: #e9d5ff;
+}
+
 /* dispatch progress bar (bottom of resolving room) */
 .fo-progress {
   position: absolute;
@@ -732,6 +757,19 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fo-room.fault, .fo-room.event-crit, .floor-stage.fo-shake, .fo-float,
+  .fo-room.fault, .fo-room.request, .fo-room.reconfig, .fo-room.event-crit, .floor-stage.fo-shake, .fo-float,
   .fo-exec .fo-leg, .fo-exec .fo-bob { animation: none !important; }
 }
+
+/* ── Floor Ops (canvas game on the boardroom floor) ── */
+.fo2-canvas { display:block; width:100%; border:1px solid var(--border-subtle,#30363D); border-radius:6px; background:#0a0c0b; cursor:pointer; touch-action:manipulation; }
+.fo2-bar { height:12px; flex:1; min-width:120px; background:#1c211e; border:1px solid #2a2f2c; border-radius:3px; overflow:hidden; }
+.fo2-bar > i { display:block; height:100%; background:#22C55E; transition:width .2s, background .3s; }
+.fo2-ov { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px; padding:16px; background:rgba(6,8,7,.86); backdrop-filter:blur(3px); border-radius:6px; }
+.fo2-ov.hidden { display:none; }
+.fo2-ov h2 { margin:0; color:#22C55E; font-size:18px; }
+.fo2-ov p { margin:0; font-size:12px; color:#a8b0b8; max-width:400px; line-height:1.5; }
+.fo2-btn { margin-top:6px; padding:8px 18px; background:#161b18; border:1px solid #2a3f30; color:#ddffee; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:13px; cursor:pointer; border-radius:4px; }
+.fo2-btn:hover { background:#22C55E; color:#063; }
+.fo2-log { height:54px; overflow:hidden; font-size:10px; color:#6f7a72; line-height:1.5; font-family:'JetBrains Mono',ui-monospace,monospace; }
+.fo2-log .ok { color:#7ee2a8; } .fo2-log .err { color:#ffb4ab; } .fo2-log .vio { color:#d8b4fe; }
