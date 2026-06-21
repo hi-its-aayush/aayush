@@ -1302,7 +1302,7 @@ initScrollReveals();
         g.fillText('Aa', 60, 178); }),
       // +Y
       faceTexture(g => { g.fillStyle = dim; g.font = '17px "JetBrains Mono",monospace';
-        const rows = [['OS', 'AAYUSH_OS'], ['SHELL', 'zsh'], ['ROLE', 'AV / IT'], ['STACK', 'M365·Azure']];
+        const rows = [['OS', 'AAYUSH_OS'], ['SHELL', 'zsh'], ['ROLE', 'IT /DevOps'], ['STACK', 'M365·Azure']];
         rows.forEach((r, i) => { g.fillStyle = green; g.fillText(r[0], 26, 86 + i * 30);
           g.fillStyle = mut; g.fillText(': ' + r[1], 120, 86 + i * 30); }); }),
       // -Y
